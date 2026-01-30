@@ -7,10 +7,11 @@ public class HammerAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponentInParent<Enemy>();
+        if (enemy == null) return;
 
-        if (enemy != null)
-        {
-            enemy.HandleHit(damage);
-        }
+        // Closest hit point on the collider we struck (useful for debugging / VFX later)
+        Vector3 hitPoint = other.ClosestPoint(transform.position);
+
+        enemy.HandleHit(damage, transform.position, hitPoint);
     }
 }
