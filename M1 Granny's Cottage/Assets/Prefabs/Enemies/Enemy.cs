@@ -46,14 +46,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // New signature used by HammerAttack
+    // New used by HammerAttack
     public void HandleHit(float damage, Vector3 attackerPosition, Vector3 hitPoint)
     {
         if (isDead) return;
 
         currentHealth -= damage;
 
-        // Knockback (tuned in inspector)
+        // New Knockback (tuned in inspector)
         if (knockbackDistance > 0f && knockbackDuration > 0f)
         {
             Vector3 dir = (transform.position - attackerPosition);
@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
             Die();
     }
 
-    // Keep old signature in case something else still calls it
+    // old is still in case something else still calls it
     public void HandleHit(float damage)
     {
         HandleHit(damage, transform.position - transform.forward, transform.position);
@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour
     {
         isKnockedBack = true;
 
-        // Stop NavMesh steering so it doesn’t instantly counter-move
+        // New Stop NavMesh steering so it doesn’t instantly counter-move
         bool agentWasEnabled = navMeshAgent != null && navMeshAgent.enabled;
         if (agentWasEnabled)
         {
@@ -100,7 +100,7 @@ public class Enemy : MonoBehaviour
         Vector3 start = transform.position;
         Vector3 target = start + direction * distance;
 
-        // Optional: try to keep the target on the NavMesh to reduce wall/edge weirdness
+        // New try to keep the target on the NavMesh to reduce wall/edge weirdness
         if (NavMesh.SamplePosition(target, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
             target = hit.position;
 
@@ -146,7 +146,7 @@ public class Enemy : MonoBehaviour
         isDead = false;
         currentHealth = maxHealth;
 
-        // Reset knockback state for pooled enemies
+        // New Reset knockback state for pooled enemies
         if (knockbackRoutine != null)
         {
             StopCoroutine(knockbackRoutine);
