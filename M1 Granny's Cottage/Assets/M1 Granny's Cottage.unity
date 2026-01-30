@@ -215,9 +215,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5416935970330074667, guid: ea32783f402f50f43b0d0ca7cb76d9a7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6694505512792254467, guid: ea32783f402f50f43b0d0ca7cb76d9a7, type: 3}
       propertyPath: m_Height
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694505512792254467, guid: ea32783f402f50f43b0d0ca7cb76d9a7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7861872228914248195, guid: ea32783f402f50f43b0d0ca7cb76d9a7, type: 3}
       propertyPath: player
@@ -844,13 +852,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hammer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6797946429246616365, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
+    - {fileID: 6847679136918305345, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
+    - {fileID: 9087023998405221236, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
+    - {fileID: 1768663690758564142, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4797956649623966716, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1715063569}
+    - targetCorrespondingSourceObject: {fileID: 4797956649623966716, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1715063570}
   m_SourcePrefab: {fileID: 100100000, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
 --- !u!4 &1715063567 stripped
 Transform:
@@ -875,6 +890,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HammerAttack
   damage: 10
+  attackDuration: 0.2
+--- !u!136 &1715063570
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1715063568}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &1981693856
 GameObject:
   m_ObjectHideFlags: 0

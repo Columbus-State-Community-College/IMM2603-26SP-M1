@@ -46,32 +46,32 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // New used by HammerAttack
+    // New Used by HammerAttack
     public void HandleHit(float damage, Vector3 attackerPosition, Vector3 hitPoint)
+{
+    if (isDead) return;
+
+    Debug.Log("[ENEMY] Took damage");
+
+    currentHealth -= damage;
+
+    // New: confirm knockback trigger
+    if (knockbackDistance > 0f && knockbackDuration > 0f)
     {
-        if (isDead) return;
+        Debug.Log("[ENEMY] Knockback triggered");
 
-        currentHealth -= damage;
+        Vector3 dir = (transform.position - attackerPosition);
+        dir.y = 0f;
+        dir.Normalize();
 
-        // New Knockback (tuned in inspector)
-        if (knockbackDistance > 0f && knockbackDuration > 0f)
-        {
-            Vector3 dir = (transform.position - attackerPosition);
-            dir.y = 0f;
-
-            // Fallback if attackerPosition is basically the same point
-            if (dir.sqrMagnitude < 0.0001f)
-                dir = -transform.forward;
-
-            dir.Normalize();
-            StartKnockback(dir, knockbackDistance, knockbackDuration);
-        }
-
-        if (currentHealth <= 0f)
-            Die();
+        StartKnockback(dir, knockbackDistance, knockbackDuration);
     }
 
-    // old is still in case something else still calls it
+    if (currentHealth <= 0f)
+        Die();
+}
+
+    // Old overload kept for safety
     public void HandleHit(float damage)
     {
         HandleHit(damage, transform.position - transform.forward, transform.position);
@@ -89,7 +89,6 @@ public class Enemy : MonoBehaviour
     {
         isKnockedBack = true;
 
-        // New Stop NavMesh steering so it doesn’t instantly counter-move
         bool agentWasEnabled = navMeshAgent != null && navMeshAgent.enabled;
         if (agentWasEnabled)
         {
@@ -100,7 +99,6 @@ public class Enemy : MonoBehaviour
         Vector3 start = transform.position;
         Vector3 target = start + direction * distance;
 
-        // New try to keep the target on the NavMesh to reduce wall/edge weirdness
         if (NavMesh.SamplePosition(target, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
             target = hit.position;
 
@@ -108,8 +106,7 @@ public class Enemy : MonoBehaviour
         while (t < duration)
         {
             t += Time.deltaTime;
-            float lerp = Mathf.Clamp01(t / duration);
-            transform.position = Vector3.Lerp(start, target, lerp);
+            transform.position = Vector3.Lerp(start, target, t / duration);
             yield return null;
         }
 
@@ -118,16 +115,21 @@ public class Enemy : MonoBehaviour
 
         isKnockedBack = false;
         knockbackRoutine = null;
+
+        // New log CONFIRM knockback finished
+        Debug.Log("[ENEMY] Knockback END");
     }
 
     void Die()
     {
         isDead = true;
 
+        // New log enemy died
+        Debug.Log("[ENEMY] DIED");
+
         if (Spawner.Instance != null)
             Spawner.Instance.aliveEnemies--;
 
-        // Stop knockback if we die mid-knockback
         if (knockbackRoutine != null)
         {
             StopCoroutine(knockbackRoutine);
@@ -146,7 +148,6 @@ public class Enemy : MonoBehaviour
         isDead = false;
         currentHealth = maxHealth;
 
-        // New Reset knockback state for pooled enemies
         if (knockbackRoutine != null)
         {
             StopCoroutine(knockbackRoutine);
