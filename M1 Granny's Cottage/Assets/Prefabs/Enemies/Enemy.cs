@@ -8,8 +8,8 @@ public class Enemy : MonoBehaviour
     public Transform player;
     private NavMeshAgent navMeshAgent;
 
-    [SerializeField] float maxHealth = 30f;
-    float currentHealth;
+    [SerializeField] private float maxHealth = 100f;
+    private float currentHealth;
 
     public float damage = 10f;
 
@@ -20,7 +20,6 @@ public class Enemy : MonoBehaviour
     private IObjectPool<Enemy> enemyPool;
     private bool isDead = false;
 
-    // Knockback state
     private Coroutine knockbackRoutine;
     private bool isKnockedBack = false;
 
@@ -29,16 +28,19 @@ public class Enemy : MonoBehaviour
         enemyPool = pool;
     }
 
-    void Start()
+    private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+    }
+
+    private void Start()
+    {
         currentHealth = maxHealth;
     }
 
-    void Update()
+    private void Update()
     {
-        if (isDead) return;
-        if (isKnockedBack) return;
+        if (isDead || isKnockedBack) return;
 
         if (player != null)
         {
@@ -46,42 +48,61 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // New Used by HammerAttack
+    // Called by HammerAttack
     public void HandleHit(float damage, Vector3 attackerPosition, Vector3 hitPoint)
-{
-    if (isDead) return;
-
-    Debug.Log("[ENEMY] Took damage");
-
-    currentHealth -= damage;
-
-    // New: confirm knockback trigger
-    if (knockbackDistance > 0f && knockbackDuration > 0f)
     {
-        Debug.Log("[ENEMY] Knockback triggered");
+        if (isDead) return;
 
-        Vector3 dir = (transform.position - attackerPosition);
-        dir.y = 0f;
-        dir.Normalize();
+        Debug.Log("[ENEMY] Took HIT");
 
-        StartKnockback(dir, knockbackDistance, knockbackDuration);
-    }
+        currentHealth -= damage;
+        Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
 
-    if (currentHealth <= 0f)
-        Die();
+        // --- Knockback ---
+        if (knockbackDistance > 0f && knockbackDuration > 0f)
+        {
+            Debug.Log("[ENEMY] Knockback SHOULD trigger");
+
+            // NEW: use hit point for accurate knockback direction
+            Vector3 dir = (transform.position - hitPoint); // NEW
+            dir.y = 0f;                                   // NEW
+            dir.Normalize();                              // NEW
+
+            StartKnockback(dir, knockbackDistance, knockbackDuration);
+        }
+
+        // --- Death handling AFTER knockback ---
+        if (currentHealth <= 0f)
+        {
+            if (isKnockedBack) // NEW
+            {
+                StartCoroutine(DieAfterKnockback()); // NEW
+            }
+            else
+            {
+                Die();
+            }
+        }
 }
 
-    // Old overload kept for safety
-    public void HandleHit(float damage)
+
+    private IEnumerator DieAfterKnockback() // NEW
     {
-        HandleHit(damage, transform.position - transform.forward, transform.position);
+        Debug.Log("[ENEMY] Waiting for knockback to finish before dying"); // NEW
+
+        while (isKnockedBack)
+            yield return null;
+
+        Die();
     }
+
 
     private void StartKnockback(Vector3 direction, float distance, float duration)
     {
         if (knockbackRoutine != null)
             StopCoroutine(knockbackRoutine);
 
+        Debug.Log("[ENEMY] Knockback START"); // NEW
         knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction, distance, duration));
     }
 
@@ -89,18 +110,17 @@ public class Enemy : MonoBehaviour
     {
         isKnockedBack = true;
 
-        bool agentWasEnabled = navMeshAgent != null && navMeshAgent.enabled;
-        if (agentWasEnabled)
-        {
-            navMeshAgent.isStopped = true;
-            navMeshAgent.ResetPath();
-        }
+        navMeshAgent.isStopped = true;
+        navMeshAgent.ResetPath();
 
         Vector3 start = transform.position;
         Vector3 target = start + direction * distance;
 
+        // NEW: snap target to NavMesh
         if (NavMesh.SamplePosition(target, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+        {
             target = hit.position;
+        }
 
         float t = 0f;
         while (t < duration)
@@ -110,22 +130,17 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
 
-        if (agentWasEnabled)
-            navMeshAgent.isStopped = false;
-
+        navMeshAgent.isStopped = false;
         isKnockedBack = false;
         knockbackRoutine = null;
 
-        // New log CONFIRM knockback finished
-        Debug.Log("[ENEMY] Knockback END");
+        Debug.Log("[ENEMY] Knockback END"); // NEW
     }
 
-    void Die()
+    private void Die()
     {
         isDead = true;
-
-        // New log enemy died
-        Debug.Log("[ENEMY] DIED");
+        Debug.Log("[ENEMY] DIED"); // NEW
 
         if (Spawner.Instance != null)
             Spawner.Instance.aliveEnemies--;
@@ -135,6 +150,7 @@ public class Enemy : MonoBehaviour
             StopCoroutine(knockbackRoutine);
             knockbackRoutine = null;
         }
+
         isKnockedBack = false;
 
         if (enemyPool != null)
@@ -153,6 +169,7 @@ public class Enemy : MonoBehaviour
             StopCoroutine(knockbackRoutine);
             knockbackRoutine = null;
         }
+
         isKnockedBack = false;
     }
 }

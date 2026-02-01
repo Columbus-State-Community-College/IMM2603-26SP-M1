@@ -7,11 +7,20 @@ public class PlayerHealth : MonoBehaviour
 
     public PlayerHitbox hitbox;
 
-    void Start()
+   void Start()
+{
+    currentHealth = maxHealth;
+
+    if (hitbox != null) // NEW
     {
-        currentHealth = maxHealth;
-        hitbox.SetMaxHealth(maxHealth);
+        hitbox.SetMaxHealth(maxHealth); // NEW
     }
+    else
+    {
+        Debug.LogWarning("[PLAYER] No PlayerHitbox assigned"); // NEW
+    }
+}
+
 
     public void TakeDamage(float amount)
     {

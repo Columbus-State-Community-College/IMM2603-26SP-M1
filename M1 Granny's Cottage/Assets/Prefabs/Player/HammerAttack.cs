@@ -3,30 +3,37 @@ using System.Collections;
 
 public class HammerAttack : MonoBehaviour
 {
+    [Header("Attack Settings")]
     public float damage = 10f;
     public float attackDuration = 0.2f;
 
     private bool attackActive = false;
     private Collider hitbox;
 
-    void Awake()
+    private void Awake()
     {
         hitbox = GetComponent<Collider>();
-        hitbox.enabled = false; // OFF by default
+
+        if (hitbox == null)
+        {
+            Debug.LogError("[HAMMER] No collider found on Hammer!");
+            return;
+        }
+
+        hitbox.enabled = false;
     }
 
-    void Update()
+    // Called by PlayerController
+    public void StartAttack()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(AttackRoutine());
-        }
+        if (attackActive) return;
+
+        Debug.Log("[HAMMER] Attack START"); // NEW
+        StartCoroutine(AttackRoutine());
     }
 
     private IEnumerator AttackRoutine()
     {
-        Debug.Log("[HAMMER] Attack started");
-
         attackActive = true;
         hitbox.enabled = true;
 
@@ -35,7 +42,7 @@ public class HammerAttack : MonoBehaviour
         hitbox.enabled = false;
         attackActive = false;
 
-        Debug.Log("[HAMMER] Attack ended");
+        Debug.Log("[HAMMER] Attack END"); // NEW
     }
 
     private void OnTriggerEnter(Collider other)
@@ -45,8 +52,12 @@ public class HammerAttack : MonoBehaviour
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy == null) return;
 
-        Debug.Log("[HAMMER] Enemy hit");
+        Debug.Log("[HAMMER] Enemy HIT"); // NEW
 
-        enemy.HandleHit(damage, transform.position, other.ClosestPoint(transform.position));
+        enemy.HandleHit(
+            damage,
+            transform.position,
+            other.ClosestPoint(transform.position)
+        );
     }
 }
