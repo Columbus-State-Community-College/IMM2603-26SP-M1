@@ -37,6 +37,6 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Granny died");
+        //Debug.Log("Granny died");
     }
 }

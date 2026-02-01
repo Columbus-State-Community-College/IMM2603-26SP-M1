@@ -18,7 +18,7 @@ public class HammerAttack : MonoBehaviour
 
         if (hitbox == null)
         {
-            Debug.LogError("[HAMMER] No collider found on Hammer!");
+            //Debug.LogError("[HAMMER] No collider found on Hammer!");
             return;
         }
 
@@ -37,7 +37,7 @@ public class HammerAttack : MonoBehaviour
     {
         if (attackActive) return;
 
-        Debug.Log("[HAMMER] Attack START"); // NEW
+        //Debug.Log("[HAMMER] Attack START"); // NEW
         StartCoroutine(AttackRoutine());
     }
 
@@ -51,7 +51,7 @@ public class HammerAttack : MonoBehaviour
         hitbox.enabled = false;
         attackActive = false;
 
-        Debug.Log("[HAMMER] Attack END"); // NEW
+        //Debug.Log("[HAMMER] Attack END"); // NEW
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,7 +61,7 @@ public class HammerAttack : MonoBehaviour
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy == null) return;
 
-        Debug.Log("[HAMMER] Enemy HIT"); // NEW
+        //Debug.Log("[HAMMER] Enemy HIT"); // NEW
 
         enemy.HandleHit(
             damage,

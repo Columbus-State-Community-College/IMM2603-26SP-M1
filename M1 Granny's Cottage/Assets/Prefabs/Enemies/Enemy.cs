@@ -53,15 +53,15 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-        Debug.Log("[ENEMY] Took HIT");
+        //Debug.Log("[ENEMY] Took HIT");
 
         currentHealth -= damage;
-        Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
+        //Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
 
         // --- Knockback ---
         if (knockbackDistance > 0f && knockbackDuration > 0f)
         {
-            Debug.Log("[ENEMY] Knockback SHOULD trigger");
+            //Debug.Log("[ENEMY] Knockback SHOULD trigger");
 
             // NEW: use hit point for accurate knockback direction
             Vector3 dir = (transform.position - hitPoint); // NEW
@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator DieAfterKnockback() // NEW
     {
-        Debug.Log("[ENEMY] Waiting for knockback to finish before dying"); // NEW
+        //Debug.Log("[ENEMY] Waiting for knockback to finish before dying"); // NEW
 
         while (isKnockedBack)
             yield return null;
@@ -102,7 +102,7 @@ public class Enemy : MonoBehaviour
         if (knockbackRoutine != null)
             StopCoroutine(knockbackRoutine);
 
-        Debug.Log("[ENEMY] Knockback START"); // NEW
+        //Debug.Log("[ENEMY] Knockback START"); // NEW
         knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction, distance, duration));
     }
 
@@ -134,13 +134,13 @@ public class Enemy : MonoBehaviour
         isKnockedBack = false;
         knockbackRoutine = null;
 
-        Debug.Log("[ENEMY] Knockback END"); // NEW
+        //Debug.Log("[ENEMY] Knockback END"); // NEW
     }
 
     private void Die()
     {
         isDead = true;
-        Debug.Log("[ENEMY] DIED"); // NEW
+        //Debug.Log("[ENEMY] DIED"); // NEW
 
         if (Spawner.Instance != null)
             Spawner.Instance.aliveEnemies--;
