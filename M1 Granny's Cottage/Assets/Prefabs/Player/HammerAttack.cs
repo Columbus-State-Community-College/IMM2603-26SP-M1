@@ -7,6 +7,8 @@ public class HammerAttack : MonoBehaviour
     public float damage = 10f;
     public float attackDuration = 0.2f;
 
+    [SerializeField] private PlayerController playerController;
+
     private bool attackActive = false;
     private Collider hitbox;
 
@@ -21,6 +23,13 @@ public class HammerAttack : MonoBehaviour
         }
 
         hitbox.enabled = false;
+    }
+
+    // this ensures to hook in the hammerAttack to the PlayerController
+    void OnEnable()
+    {
+        playerController = FindFirstObjectByType<PlayerController>();
+        playerController.hammerAttack = this;
     }
 
     // Called by PlayerController

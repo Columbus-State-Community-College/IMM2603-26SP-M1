@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerCameraScript _playerCameraScript;
 
     [Header("Combat")]
-    [SerializeField] private HammerAttack hammerAttack; // NEW
+    [SerializeField] public HammerAttack hammerAttack; // NEW
 
     [Header("Player Status")]
     public float playerHealth = 100f;

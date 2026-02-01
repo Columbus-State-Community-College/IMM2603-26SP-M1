@@ -198,6 +198,7 @@ MonoBehaviour:
   _verticalVelocity: 0
   _playerCamera: {fileID: 0}
   _playerCameraScript: {fileID: 0}
+  hammerAttack: {fileID: 0}
   playerHealth: 100
   isJumping: 0
 --- !u!114 &71386917
