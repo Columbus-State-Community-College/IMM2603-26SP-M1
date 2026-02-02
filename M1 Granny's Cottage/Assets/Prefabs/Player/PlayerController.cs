@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float turnSpeed = 1080f;
 
     [Header("Gravity")]
-    private float _gravity = -30f; // NEW was -9.81f
-    [SerializeField] private float _gravityMultiplier = 1.0f; // NEW was 36.0f
+    private float _gravity = -9.81f;
+    [SerializeField] private float _gravityMultiplier = 36.0f;
     [SerializeField] private float _verticalVelocity;
 
     private InputSystem_Actions _playerInputActions;
@@ -29,12 +29,6 @@ public class PlayerController : MonoBehaviour
     [Header("Player Status")]
     public float playerHealth = 100f;
     [SerializeField] private bool isJumping = false;
-
-    [Header("Jumping")] // NEW
-    [SerializeField] private float jumpHeight = 5f;// NEW
-    private bool isGrounded;// NEW
-    private bool lastGroundedState;// NEW
-    private bool jumpRequested; // NEW
 
     private void Awake()
     {
@@ -67,25 +61,14 @@ public class PlayerController : MonoBehaviour
         GatherInput();
 
         Look();
-        Jump();          // NEW moved before gravity
-        ApplyGravity();  // NEW
         Move();
-
-        isGrounded = _characterController.isGrounded; // NEW moved AFTER Move
-        jumpRequested = false; // NEW clear jump protection AFTER Move
-
-        // NEW slow down for debug logging
-        if (isGrounded != lastGroundedState)
-        {
-            Debug.Log($"Grounded changed → {isGrounded}");
-            lastGroundedState = isGrounded;
-        }
+        Jump();
     }
 
     private void GatherInput()
     {
         Vector2 moveInput = _playerInputActions.Player.Move.ReadValue<Vector2>();
-        _moveInput = new Vector3(moveInput.x, 0f, moveInput.y); // NEW change to _verticalVelocity to 0f
+        _moveInput = new Vector3(moveInput.x, _verticalVelocity, moveInput.y);
     }
 
     // NEW Attack callback (Pure New Input System)
@@ -115,38 +98,43 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector3 moveDirection =
-            (transform.forward * runSpeed * _moveInput.magnitude)
-            + Vector3.up * _verticalVelocity; // NEW change Time.deltaTime to + Vector3.up * _verticalVelocity
+            transform.forward * runSpeed * _moveInput.magnitude * Time.deltaTime;
 
-        _characterController.Move(moveDirection * Time.deltaTime); // NEW add * Time.deltaTime
+        _characterController.Move(moveDirection);
     }
 
     private void ApplyGravity()
     {
-        if (isGrounded && _verticalVelocity < 0f && !jumpRequested) // NEW protect jump frame
-        {
-            _verticalVelocity = -5f; // NEW
-        }
-        else
-        {
-            _verticalVelocity += _gravity * _gravityMultiplier * Time.deltaTime; // NEW change = to +=
-        }
+        _verticalVelocity = _gravity * _gravityMultiplier * Time.deltaTime;
     }
 
     private void Jump()
     {
-        if (_playerInputActions.Player.Jump.WasPressedThisFrame() && isGrounded) // NEW add  && isGrounded
+        if (_playerInputActions.Player.Jump.WasPressedThisFrame())
         {
-            _verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * _gravity); // NEW
-            jumpRequested = true; // NEW
             isJumping = true;
             _playerCameraScript?.EnableJumpCamera(true);
         }
 
-        if (isGrounded && isJumping) // NEW
+        if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
         {
             isJumping = false;
             _playerCameraScript?.EnableJumpCamera(false);
+        }
+
+        if (isJumping)
+        {
+            if (transform.position.y < 7)
+                _verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
+            else
+                _verticalVelocity = 0;
+        }
+        else
+        {
+            if (transform.position.y > 1.8f)
+                ApplyGravity();
+            else
+                _verticalVelocity = 0;
         }
     }
 
