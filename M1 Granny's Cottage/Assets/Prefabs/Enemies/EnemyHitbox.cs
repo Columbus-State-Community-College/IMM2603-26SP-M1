@@ -9,13 +9,15 @@ public class EnemyHitbox : MonoBehaviour
         enemy = GetComponentInParent<Enemy>();
     }
 
+    // Simply calls player health script to decrement health
     private void OnTriggerEnter(Collider other)
     {
-        PlayerController player = other.GetComponentInParent<PlayerController>();
+        PlayerHealth player = other.GetComponentInParent<PlayerHealth>();
 
         if (player != null)
         {
             player.TakeDamage(enemy.damage);
         }
+
     }
 }

@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public HammerAttack hammerAttack; // NEW
 
     [Header("Player Status")]
-    public float playerHealth = 100f;
     [SerializeField] private bool isJumping = false;
 
     [Header("Player Action Sounds")]
@@ -145,10 +144,5 @@ public class PlayerController : MonoBehaviour
             else
                 _verticalVelocity = 0;
         }
-    }
-
-    public void TakeDamage(float damage)
-    {
-        playerHealth -= damage;
     }
 }

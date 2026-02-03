@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
-    float currentHealth;
+    public float currentHealth;
 
     public PlayerHitbox hitbox;
 
