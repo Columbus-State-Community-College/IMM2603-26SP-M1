@@ -162,7 +162,7 @@ MonoBehaviour:
   player: {fileID: 0}
   maxHealth: 100
   damage: 10
-  knockbackDistance: 1.5
+  knockbackDistance: 4.5
   knockbackDuration: 0.12
 --- !u!65 &8381160669612720715
 BoxCollider:

@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     public float damage = 10f;
 
     [Header("Knockback (Tuning)")]
-    [SerializeField] private float knockbackDistance = 1.5f;
+    [SerializeField] private float knockbackDistance = 4.5f;
     [SerializeField] private float knockbackDuration = 0.12f;
 
     private IObjectPool<Enemy> enemyPool;
