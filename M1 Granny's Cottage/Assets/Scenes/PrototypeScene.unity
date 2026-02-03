@@ -4390,26 +4390,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3589016758212183544, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
-      propertyPath: DefaultVelocity.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3589016758212183544, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
-      propertyPath: UseImpactDirection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3589016758212183544, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
-      propertyPath: ScaleImpactWithMass
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3589016758212183544, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
-      propertyPath: ImpulseDefinition.ImpulseShape
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3589016758212183544, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
-      propertyPath: ImpulseDefinition.DissipationRate
-      value: 0.095
-      objectReference: {fileID: 0}
     - target: {fileID: 4797956649623966716, guid: 76c341a4cf16c9147a87fff8609b8568, type: 3}
       propertyPath: m_Name
       value: Hammer
