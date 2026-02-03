@@ -6,6 +6,8 @@ using UnityEngine.VFX;
 
 public class Enemy : MonoBehaviour
 {
+    // NOTE: do not remove rigidbody from enemy, or else the triggers for colliders will not fire
+
     public Transform player;
     private NavMeshAgent navMeshAgent;
 
