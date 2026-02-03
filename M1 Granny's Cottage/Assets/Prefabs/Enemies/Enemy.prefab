@@ -165,6 +165,7 @@ MonoBehaviour:
   damage: 10
   knockbackDistance: 4.5
   knockbackDuration: 0.12
+  hitVFX: {fileID: 4452503011363193251, guid: 8916ecc4842078846b31a3502647801f, type: 3}
 --- !u!65 &8381160669612720715
 BoxCollider:
   m_ObjectHideFlags: 0

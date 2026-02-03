@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
+using UnityEngine.VFX;
 
 public class Enemy : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class Enemy : MonoBehaviour
     [Header("Knockback (Tuning)")]
     [SerializeField] private float knockbackDistance = 4.5f;
     [SerializeField] private float knockbackDuration = 0.12f;
+
+    [Header("VFX")]
+    public VisualEffect hitVFX;
 
     private IObjectPool<Enemy> enemyPool;
     private bool isDead = false;
@@ -55,7 +59,12 @@ public class Enemy : MonoBehaviour
 
         //Debug.Log("[ENEMY] Took HIT");
 
+        VisualEffect vfx = Instantiate(hitVFX, hitPoint, Quaternion.identity);
+        vfx.Play();
+        Destroy(vfx.gameObject, 2f);
+        
         currentHealth -= damage;
+
         //Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
 
         // --- Knockback ---
