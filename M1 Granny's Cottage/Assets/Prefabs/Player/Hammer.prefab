@@ -142,6 +142,8 @@ MonoBehaviour:
   damage: 10
   attackDuration: 0.2
   playerController: {fileID: 0}
+  animator: {fileID: 0}
+  trail: {fileID: 0}
 --- !u!136 &4683858198494493465
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -199,7 +201,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4797956649623966716}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd438dd108a0f284aa931a2da434f1d3, type: 3}
   m_Name: 
