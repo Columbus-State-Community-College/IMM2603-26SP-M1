@@ -23,6 +23,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Enemy enemyPrefab;
     private IObjectPool<Enemy> enemyPool;
 
+    [Header("Sound Effect for Spawning Enemies")]
+    public AudioSource audioSource;
+    public AudioClip spawnSound;
+    public float volume = 0.5f;
+
     private void Awake()
     {
         enemyPool = new ObjectPool<Enemy>(CreateEnemy, OnGet, OnRelease);
@@ -56,6 +61,7 @@ public class Spawner : MonoBehaviour
         enemy.transform.position = randomSpawnPoint.position;
         enemy.player = GameObject.FindGameObjectWithTag("Player").transform;
         enemy.ResetEnemy();
+        audioSource.PlayOneShot(spawnSound, volume);
     }
 
     // Inactive when "dead"

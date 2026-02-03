@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviour
     public float playerHealth = 100f;
     [SerializeField] private bool isJumping = false;
 
+    [Header("Player Action Sounds")]
+    public AudioSource audioSource;
+    public AudioClip jumpingSound;
+    public AudioClip hammerSwingSound;
+    public float volume = 0.5f;
+
     private void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
@@ -77,6 +83,7 @@ public class PlayerController : MonoBehaviour
         if (hammerAttack != null)
         {
             hammerAttack.StartAttack();
+            audioSource.PlayOneShot(hammerSwingSound, volume);
         }
     }
 
@@ -114,6 +121,8 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = true;
             _playerCameraScript?.EnableJumpCamera(true);
+
+            audioSource.PlayOneShot(jumpingSound, volume);
         }
 
         if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
