@@ -175,7 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior
   player: {fileID: 0}
-  maxHealth: 100
+  maxHealth: 20
   damage: 10
   knockbackDistance: 4.5
   knockbackDuration: 0.12
