@@ -23,7 +23,7 @@ const username = "cscc-game-projects";
 
 // ATTENTION BUILD MANAGER: YOU MAY NEED TO MODIFY THESE LINES FOR YOUR GAME
 // ESPECIALLY IF YOU CHANGE THE GAME URL ON itch.io
-const gamename = "game-url-stub-goes-here";
+const gamename = "2026sp-grannys-cottage";
 const butler_command_file = "./butler/versions/15.24.0/win/butler.exe";
 // END OF ATTENTION BLOCK
 
