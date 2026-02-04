@@ -5,7 +5,13 @@ public class PlayerHealth : MonoBehaviour
     public float maxHealth = 100f;
     public float currentHealth;
 
+    [Header("Health UI and Audio Elements")]
+
     public PlayerHitbox hitbox;
+    public GameObject GameOverScreen;
+    public AudioSource audioSource;
+    public AudioClip ScreamSound;
+    private float volume = 1f;
 
    void Start()
 {
@@ -37,6 +43,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        //Debug.Log("Granny died");
+        GameOverScreen.gameObject.SetActive(true);
+        audioSource.PlayOneShot(ScreamSound, volume);
+        Time.timeScale = 0;
     }
 }
