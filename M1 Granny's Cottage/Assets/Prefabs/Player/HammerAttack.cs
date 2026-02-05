@@ -39,7 +39,7 @@ public class HammerAttack : MonoBehaviour
     {
         if (attackActive) return;
 
-        //Debug.Log("[HAMMER] Attack START"); // NEW
+        //Debug.Log("[HAMMER] Attack START");
         StartCoroutine(AttackRoutine());
     }
 
@@ -60,7 +60,7 @@ public class HammerAttack : MonoBehaviour
         hitbox.enabled = false;
         attackActive = false;
 
-        //Debug.Log("[HAMMER] Attack END"); // NEW
+        //Debug.Log("[HAMMER] Attack END");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -72,7 +72,7 @@ public class HammerAttack : MonoBehaviour
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy == null) return;
 
-        //Debug.Log("[HAMMER] Enemy HIT"); // NEW
+        //Debug.Log("[HAMMER] Enemy HIT");
         Debug.Log("Enemy hit: " + enemy.name);
         enemy.HandleHit(
             damage,

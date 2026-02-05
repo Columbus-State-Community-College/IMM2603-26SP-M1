@@ -74,10 +74,10 @@ public class Enemy : MonoBehaviour
         {
             //Debug.Log("[ENEMY] Knockback SHOULD trigger");
 
-            // NEW: use hit point for accurate knockback direction
-            Vector3 dir = (transform.position - hitPoint); // NEW
-            dir.y = 0f;                                   // NEW
-            dir.Normalize();                              // NEW
+            // use hit point for accurate knockback direction
+            Vector3 dir = (transform.position - hitPoint);
+            dir.y = 0f;
+            dir.Normalize();
 
             StartKnockback(dir, knockbackDistance, knockbackDuration);
         }
@@ -85,9 +85,9 @@ public class Enemy : MonoBehaviour
         // --- Death handling AFTER knockback ---
         if (currentHealth <= 0f)
         {
-            if (isKnockedBack) // NEW
+            if (isKnockedBack)
             {
-                StartCoroutine(DieAfterKnockback()); // NEW
+                StartCoroutine(DieAfterKnockback());
             }
             else
             {
@@ -97,9 +97,9 @@ public class Enemy : MonoBehaviour
 }
 
 
-    private IEnumerator DieAfterKnockback() // NEW
+    private IEnumerator DieAfterKnockback()
     {
-        //Debug.Log("[ENEMY] Waiting for knockback to finish before dying"); // NEW
+        //Debug.Log("[ENEMY] Waiting for knockback to finish before dying");
 
         while (isKnockedBack)
             yield return null;
@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour
         if (knockbackRoutine != null)
             StopCoroutine(knockbackRoutine);
 
-        //Debug.Log("[ENEMY] Knockback START"); // NEW
+        //Debug.Log("[ENEMY] Knockback START");
         knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction, distance, duration));
     }
 
@@ -127,7 +127,7 @@ public class Enemy : MonoBehaviour
         Vector3 start = transform.position;
         Vector3 target = start + direction * distance;
 
-        // NEW: snap target to NavMesh
+        // snap target to NavMesh
         if (NavMesh.SamplePosition(target, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
         {
             target = hit.position;
@@ -145,13 +145,13 @@ public class Enemy : MonoBehaviour
         isKnockedBack = false;
         knockbackRoutine = null;
 
-        //Debug.Log("[ENEMY] Knockback END"); // NEW
+        //Debug.Log("[ENEMY] Knockback END");
     }
 
     private void Die()
     {
         isDead = true;
-        //Debug.Log("[ENEMY] DIED"); // NEW
+        //Debug.Log("[ENEMY] DIED");
 
         if (Spawner.Instance != null)
             Spawner.Instance.aliveEnemies--;
