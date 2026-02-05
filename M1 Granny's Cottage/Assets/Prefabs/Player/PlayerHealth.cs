@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject GameOverScreen;
     public AudioSource audioSource;
     public AudioClip ScreamSound;
+    public AudioClip HPLostSound;
     private float volume = 1f;
 
    void Start()
@@ -34,6 +35,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
         hitbox.SetHealth(currentHealth);
+        audioSource.PlayOneShot(HPLostSound, volume = 0.4f);
 
         if (currentHealth <= 0)
         {
