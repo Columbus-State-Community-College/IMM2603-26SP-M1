@@ -1327,6 +1327,9 @@ MonoBehaviour:
   _playerCameraScript: {fileID: 0}
   hammerAttack: {fileID: 0}
   isJumping: 0
+  maxHoverTime: 2
+  knockbackDistance: 3.5
+  knockbackDuration: 0.15
   audioSource: {fileID: 349363251}
   jumpingSound: {fileID: 8300000, guid: 01c41e01064db3c248ed61046437f0f6, type: 3}
   hammerSwingSound: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
