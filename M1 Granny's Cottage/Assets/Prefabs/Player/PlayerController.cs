@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -29,13 +30,19 @@ public class PlayerController : MonoBehaviour
     [Header("Player Status")]
     [SerializeField] private bool isJumping = false;
 
-    [Header("Hover Settings")] // NEW
-    [SerializeField] private float maxHoverTime = 2f; // NEW (upgrade modifies this)
-    private float currentHoverTime; // NEW
-    private bool isHovering; // NEW
+    [Header("Hover Settings")] // NEW – HOVER (time-limited hover / slam charge)
+    [SerializeField] private float maxHoverTime = 2f; // NEW – HOVER (upgrade-modifiable hover duration)
+    private float currentHoverTime; // NEW – HOVER (runtime hover timer)
+    private bool isHovering; // NEW – HOVER (tracks active hover state)
 
-    private float hoverLogTimer = 0f; // DEBUG
-    private const float hoverLogInterval = 0.25f; // DEBUG
+    private float hoverLogTimer = 0f; // NEW – HOVER (throttles hover debug logging)
+    private const float hoverLogInterval = 0.25f; // NEW – HOVER (log interval)
+
+    [Header("Knockback Settings")] // NEW – KNOCKBACK (player hit reaction)
+    [SerializeField] private float knockbackDistance = 3.5f; // NEW – KNOCKBACK (push distance)
+    [SerializeField] private float knockbackDuration = 0.15f; // NEW – KNOCKBACK (push duration)
+    private bool isKnockedBack = false; // NEW – KNOCKBACK (locks player control)
+    private Coroutine knockbackRoutine; // NEW – KNOCKBACK (knockback coroutine handle)
 
     [Header("Player Action Sounds")]
     public AudioSource audioSource;
@@ -54,7 +61,7 @@ public class PlayerController : MonoBehaviour
         if (_playerCamera != null)
             _playerCameraScript = _playerCamera.GetComponent<PlayerCameraScript>();
 
-        currentHoverTime = maxHoverTime; // NEW
+        currentHoverTime = maxHoverTime; // NEW – HOVER (initialize hover timer)
         //Debug.Log($"[HOVER] Initialized hover time: {currentHoverTime}"); // DEBUG
     }
 
@@ -74,6 +81,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (isKnockedBack) return; // NEW – KNOCKBACK (disable control during knockback)
+
         GatherInput();
 
         Look();
@@ -131,7 +140,7 @@ public class PlayerController : MonoBehaviour
         if (_playerInputActions.Player.Jump.WasPressedThisFrame())
         {
             isJumping = true;
-            isHovering = true; // NEW
+            isHovering = true; // NEW – HOVER (start hover)
 
             Debug.Log("[HOVER] Jump pressed — hover started"); // DEBUG
 
@@ -143,7 +152,7 @@ public class PlayerController : MonoBehaviour
         if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
         {
             isJumping = false;
-            isHovering = false; // NEW
+            isHovering = false; // NEW – HOVER (manual cancel)
 
             Debug.Log("[HOVER] Jump released — hover manually ended"); // DEBUG
 
@@ -151,9 +160,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Hover logic with time limit
-        if (isHovering && currentHoverTime > 0f) // NEW
+        if (isHovering && currentHoverTime > 0f) // NEW – HOVER
         {
-            // Maintain hover height but DO NOT pause timer
             if (transform.position.y < 7f)
             {
                 _verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
@@ -163,14 +171,13 @@ public class PlayerController : MonoBehaviour
                 _verticalVelocity = 0;
             }
 
-            // ALWAYS drain hover time while hovering
-            currentHoverTime -= Time.deltaTime; // NEW
+            currentHoverTime -= Time.deltaTime; // NEW – HOVER
 
-            // Throttled logging
+            // slowed logging
             hoverLogTimer += Time.deltaTime; // DEBUG
             if (hoverLogTimer >= hoverLogInterval) // DEBUG
             {
-                //Debug.Log($"[HOVER] Active — Time left: {currentHoverTime:F2} | Y: {transform.position.y:F2}");
+                //Debug.Log($"[HOVER] Active — Time left: {currentHoverTime:F2}");
                 hoverLogTimer = 0f; // DEBUG
             }
         }
@@ -180,8 +187,8 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("[HOVER] Hover time expired — auto-ending hover"); // DEBUG
             }
-
-            isHovering = false; // NEW
+            
+            isHovering = false; // NEW – HOVER
         }
 
         // Gravity when not hovering
@@ -194,9 +201,52 @@ public class PlayerController : MonoBehaviour
             else
             {
                 _verticalVelocity = 0;
-                currentHoverTime = maxHoverTime; // NEW
-                hoverLogTimer = 0f; // DEBUG
+                currentHoverTime = maxHoverTime; // NEW – HOVER
+                hoverLogTimer = 0f; // NEW – HOVER
             }
         }
+    }
+
+    // PLAYER KNOCKBACK
+    public void TakeHit(Vector3 hitSourcePosition, float damage) // NEW – KNOCKBACK (called by enemy)
+    {
+        if (isKnockedBack)
+        {
+            Debug.Log("[KNOCKBACK] Hit ignored — already in knockback"); // DEBUG
+            return;
+        }
+
+        Debug.Log("[KNOCKBACK] Player hit — knockback started"); // DEBUG
+
+        Vector3 direction = transform.position - hitSourcePosition; // NEW – KNOCKBACK
+        direction.y = 0f;
+        direction.Normalize();
+
+        if (knockbackRoutine != null)
+            StopCoroutine(knockbackRoutine); // NEW – KNOCKBACK
+
+        knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction)); // NEW – KNOCKBACK
+    }
+
+    private IEnumerator KnockbackCoroutine(Vector3 direction) // NEW – KNOCKBACK
+    {
+        isKnockedBack = true; // NEW – KNOCKBACK
+
+        float elapsed = 0f;
+        Vector3 start = transform.position;
+        Vector3 target = start + direction * knockbackDistance; // NEW – KNOCKBACK
+
+        while (elapsed < knockbackDuration)
+        {
+            elapsed += Time.deltaTime;
+            Vector3 nextPos = Vector3.Lerp(start, target, elapsed / knockbackDuration);
+            _characterController.Move(nextPos - transform.position);
+            yield return null;
+        }
+
+        isKnockedBack = false; // NEW – KNOCKBACK
+        knockbackRoutine = null; // NEW – KNOCKBACK
+
+        Debug.Log("[KNOCKBACK] Knockback ended — control restored"); // DEBUG
     }
 }

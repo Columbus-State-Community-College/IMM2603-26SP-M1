@@ -54,6 +54,24 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // PLAYER DAMAGE + KNOCKBACK
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isDead) return;
+
+        if (other.CompareTag("Player"))
+        {
+            PlayerController playerController = other.GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                Debug.Log("[ENEMY] Player hit — calling TakeHit"); // DEBUG
+                playerController.TakeHit(transform.position, damage);
+            }
+        }
+    }
+
+    // ENEMY TAKES DAMAGE (FROM PLAYER)
+
     // Called by HammerAttack
     public void HandleHit(float damage, Vector3 attackerPosition, Vector3 hitPoint)
     {
@@ -64,12 +82,12 @@ public class Enemy : MonoBehaviour
         VisualEffect vfx = Instantiate(hitVFX, hitPoint, Quaternion.identity);
         vfx.Play();
         Destroy(vfx.gameObject, 2f);
-        
+
         currentHealth -= damage;
 
         //Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
 
-        // --- Knockback ---
+        // Knockback
         if (knockbackDistance > 0f && knockbackDuration > 0f)
         {
             //Debug.Log("[ENEMY] Knockback SHOULD trigger");
@@ -82,7 +100,7 @@ public class Enemy : MonoBehaviour
             StartKnockback(dir, knockbackDistance, knockbackDuration);
         }
 
-        // --- Death handling AFTER knockback ---
+        // Death handling AFTER knockback
         if (currentHealth <= 0f)
         {
             if (isKnockedBack)
@@ -94,19 +112,16 @@ public class Enemy : MonoBehaviour
                 Die();
             }
         }
-}
-
+    }
 
     private IEnumerator DieAfterKnockback()
     {
         //Debug.Log("[ENEMY] Waiting for knockback to finish before dying");
-
         while (isKnockedBack)
             yield return null;
 
         Die();
     }
-
 
     private void StartKnockback(Vector3 direction, float distance, float duration)
     {
