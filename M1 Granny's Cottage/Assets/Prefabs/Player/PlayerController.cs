@@ -86,8 +86,8 @@ public class PlayerController : MonoBehaviour
         GatherInput();
 
         Look();
-        Move();
         Jump();
+        Move();
     }
 
     private void GatherInput()
@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Turns the player towards the horizontal direction they are moving in.
     private void Look()
     {
         if (_moveInput == Vector3.zero) return;
@@ -114,6 +115,10 @@ public class PlayerController : MonoBehaviour
         Vector3 lookInput = isometricMatrix.MultiplyPoint3x4(_moveInput);
 
         Quaternion rotation = Quaternion.LookRotation(lookInput, Vector3.up);
+
+        // IMPORTANT: This line locks the playerParent rotation to the horizontal plane only. 
+        rotation.Set(0.0f, rotation.y, 0.0f, rotation.w);
+
         transform.rotation = Quaternion.RotateTowards(
             transform.rotation,
             rotation,
@@ -123,9 +128,15 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        // These two lines prepare the jump velocity to be added to the player's movement velocity
+        Vector3 jumpVelocity = new Vector3(0.0f, _verticalVelocity, 0.0f );
+        jumpVelocity.Normalize();
+
         Vector3 moveDirection =
             transform.forward * runSpeed * _moveInput.magnitude * Time.deltaTime;
 
+        // this line adds the normalized jump velocity to the player's movement
+        moveDirection.y = jumpVelocity.y;
         _characterController.Move(moveDirection);
     }
 
@@ -136,13 +147,14 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+
         // Jump pressed
         if (_playerInputActions.Player.Jump.WasPressedThisFrame())
         {
             isJumping = true;
             isHovering = true; // NEW – HOVER (start hover)
 
-            Debug.Log("[HOVER] Jump pressed — hover started"); // DEBUG
+            //Debug.Log("[HOVER] Jump pressed — hover started"); // DEBUG
 
             //_playerCameraScript?.EnableJumpCamera(true);
             audioSource.PlayOneShot(jumpingSound, volume);
@@ -154,7 +166,7 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
             isHovering = false; // NEW – HOVER (manual cancel)
 
-            Debug.Log("[HOVER] Jump released — hover manually ended"); // DEBUG
+            //Debug.Log("[HOVER] Jump released — hover manually ended"); // DEBUG
 
             //_playerCameraScript?.EnableJumpCamera(false);
         }
