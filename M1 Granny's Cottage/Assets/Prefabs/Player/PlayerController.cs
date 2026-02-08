@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("[HOVER] Jump pressed — hover started"); // DEBUG
 
-            _playerCameraScript?.EnableJumpCamera(true);
+            //_playerCameraScript?.EnableJumpCamera(true);
             audioSource.PlayOneShot(jumpingSound, volume);
         }
 
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("[HOVER] Jump released — hover manually ended"); // DEBUG
 
-            _playerCameraScript?.EnableJumpCamera(false);
+            //_playerCameraScript?.EnableJumpCamera(false);
         }
 
         // Hover logic with time limit
