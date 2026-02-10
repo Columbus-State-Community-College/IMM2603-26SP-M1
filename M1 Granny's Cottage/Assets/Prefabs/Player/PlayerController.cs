@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     private bool isKnockedBack = false; // NEW – KNOCKBACK (locks player control)
     private Coroutine knockbackRoutine; // NEW – KNOCKBACK (knockback coroutine handle)
 
+    [Header("Ground Attack")] // NEW – GROUND ATTACK
+    [SerializeField] private GroundAttack groundAttack; // NEW – GROUND ATTACK
+
     [Header("Player Action Sounds")]
     public AudioSource audioSource;
     public AudioClip jumpingSound;
@@ -129,7 +132,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         // These two lines prepare the jump velocity to be added to the player's movement velocity
-        Vector3 jumpVelocity = new Vector3(0.0f, _verticalVelocity, 0.0f );
+        Vector3 jumpVelocity = new Vector3(0.0f, _verticalVelocity, 0.0f);
         jumpVelocity.Normalize();
 
         Vector3 moveDirection =
@@ -147,12 +150,13 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-
         // Jump pressed
         if (_playerInputActions.Player.Jump.WasPressedThisFrame())
         {
             isJumping = true;
             isHovering = true; // NEW – HOVER (start hover)
+
+            groundAttack?.StartCharge(transform.position, maxHoverTime); // NEW – GROUND ATTACK
 
             //Debug.Log("[HOVER] Jump pressed — hover started"); // DEBUG
 
@@ -165,6 +169,8 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
             isHovering = false; // NEW – HOVER (manual cancel)
+
+            groundAttack?.StopCharge(); // NEW – GROUND ATTACK
 
             //Debug.Log("[HOVER] Jump released — hover manually ended"); // DEBUG
 
@@ -185,6 +191,8 @@ public class PlayerController : MonoBehaviour
 
             currentHoverTime -= Time.deltaTime; // NEW – HOVER
 
+            groundAttack?.UpdateCharge(transform.position); // NEW – GROUND ATTACK
+
             // slowed logging
             hoverLogTimer += Time.deltaTime; // DEBUG
             if (hoverLogTimer >= hoverLogInterval) // DEBUG
@@ -199,8 +207,9 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("[HOVER] Hover time expired — auto-ending hover"); // DEBUG
             }
-            
+
             isHovering = false; // NEW – HOVER
+            groundAttack?.StopCharge(); // NEW – GROUND ATTACK
         }
 
         // Gravity when not hovering
@@ -215,6 +224,8 @@ public class PlayerController : MonoBehaviour
                 _verticalVelocity = 0;
                 currentHoverTime = maxHoverTime; // NEW – HOVER
                 hoverLogTimer = 0f; // NEW – HOVER
+
+                groundAttack?.StopCharge(); // NEW – GROUND ATTACK (safety)
             }
         }
     }
