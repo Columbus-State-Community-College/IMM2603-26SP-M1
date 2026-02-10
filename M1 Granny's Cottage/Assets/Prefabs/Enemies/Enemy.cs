@@ -138,7 +138,7 @@ public class Enemy : MonoBehaviour
 
         VisualEffect vfx = Instantiate(hitVFX, hitPoint, Quaternion.identity);
         vfx.Play();
-        Destroy(vfx.gameObject, 2f);
+        Destroy(vfx.gameObject, 1f);
 
         currentHealth -= damage;
 
