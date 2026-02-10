@@ -12,6 +12,13 @@ public class GroundAttack : MonoBehaviour
     private float currentChargeTime; // runtime charge timer
     private bool isCharging; // indicator active flag
 
+    private CharacterController characterController;
+
+    private void Awake()
+    {
+        characterController = GetComponent<CharacterController>();
+    }
+
     // Called when player hover begins
     public void StartCharge(Vector3 playerPosition, float hoverMaxTime)
     {
@@ -27,7 +34,12 @@ public class GroundAttack : MonoBehaviour
         currentChargeTime = 0f;
         isCharging = true;
 
-        Vector3 spawnPos = new Vector3(playerPosition.x, groundY, playerPosition.z);
+        Vector3 spawnPos = new Vector3(
+            playerPosition.x,
+            GetGroundY(playerPosition),
+            playerPosition.z
+        );
+
         activeIndicator = Instantiate(indicatorPrefab, spawnPos, Quaternion.identity);
 
         // Ensure indicator is visible on spawn
@@ -43,7 +55,6 @@ public class GroundAttack : MonoBehaviour
         if (!isCharging || activeIndicator == null)
             return;
 
-        // Debug proof that UpdateCharge is running
         Debug.Log("[GROUND ATTACK] UpdateCharge running", activeIndicator);
 
         currentChargeTime += Time.deltaTime;
@@ -56,7 +67,11 @@ public class GroundAttack : MonoBehaviour
 
         // Keep indicator positioned under player
         activeIndicator.transform.position =
-            new Vector3(playerPosition.x, groundY, playerPosition.z);
+            new Vector3(
+                playerPosition.x,
+                GetGroundY(playerPosition),
+                playerPosition.z
+            );
 
         activeIndicator.transform.localScale =
             new Vector3(radius * 2f, 0.02f, radius * 2f);
@@ -84,5 +99,15 @@ public class GroundAttack : MonoBehaviour
         }
 
         Debug.Log("[GROUND ATTACK] Charge ended — indicator removed");
+    }
+
+    private float GetGroundY(Vector3 playerPosition)
+    {
+        if (characterController != null)
+        {
+            return playerPosition.y - (characterController.height * 0.5f);
+        }
+
+        return groundY;
     }
 }
