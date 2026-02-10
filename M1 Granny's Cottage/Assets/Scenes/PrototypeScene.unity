@@ -1260,6 +1260,7 @@ GameObject:
   - component: {fileID: 71386917}
   - component: {fileID: 71386918}
   - component: {fileID: 71386919}
+  - component: {fileID: 71386920}
   m_Layer: 0
   m_Name: PlayerParent
   m_TagString: Player
@@ -1332,6 +1333,7 @@ MonoBehaviour:
   maxHoverTime: 2
   knockbackDistance: 3.5
   knockbackDuration: 0.15
+  groundAttack: {fileID: 71386920}
   audioSource: {fileID: 349363251}
   jumpingSound: {fileID: 8300000, guid: 01c41e01064db3c248ed61046437f0f6, type: 3}
   hammerSwingSound: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
@@ -1380,6 +1382,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   GroundPointTransform: {fileID: 1132042995}
+--- !u!114 &71386920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71386913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64238340f86e98a45b6c6883545d7d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundAttack
+  indicatorPrefab: {fileID: 7636873798645113123, guid: 74a7a64ceea946444a708d915774b84e, type: 3}
+  maxRadius: 5
+  groundY: 0
 --- !u!1001 &76895194
 PrefabInstance:
   m_ObjectHideFlags: 0
