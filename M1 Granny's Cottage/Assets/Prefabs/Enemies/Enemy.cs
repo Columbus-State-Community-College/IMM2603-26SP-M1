@@ -4,6 +4,16 @@ using UnityEngine.AI;
 using UnityEngine.Pool;
 using UnityEngine.VFX;
 
+// Class to hold the info for each different demon type
+[System.Serializable]
+public class DemonType
+{
+    public string name;
+    public GameObject mesh;
+    public float damage;
+    public float moveSpeed;
+}
+
 public class Enemy : MonoBehaviour
 {
     // NOTE: do not remove rigidbody from enemy, or else the triggers for colliders will not fire
@@ -29,6 +39,20 @@ public class Enemy : MonoBehaviour
     private Coroutine knockbackRoutine;
     private bool isKnockedBack = false;
 
+    // Enemy types
+    [Header("Day Persona (Businessmen)")]
+    [SerializeField] private GameObject dayMesh;
+    [SerializeField] private float dayDamage = 10f;
+    [SerializeField] private float daySpeed = 4f;
+
+    [Header("Night Demon Types")]
+    [SerializeField] private DemonType[] nightDemons;
+
+    private DemonType activeDemonType;
+    private DayNightCycle.TimeOfDay currentTime;
+
+
+
     public void SetPool(IObjectPool<Enemy> pool)
     {
         enemyPool = pool;
@@ -51,6 +75,39 @@ public class Enemy : MonoBehaviour
         if (player != null)
         {
             navMeshAgent.SetDestination(player.position);
+        }
+    }
+
+    // Controls switching the enemies from businessmen to demons
+    private void OnEnable()
+    {
+        DayNightCycle.OnTimeChanged += OnTimeChanged;
+
+        currentTime = DayNightCycle.Current.currentTime;
+    }
+
+    private void OnDisable()
+    {
+        DayNightCycle.OnTimeChanged -= OnTimeChanged;
+    }
+
+    // When time is changed (references day/night cycle), track
+    // time and call functions that control the switch
+    private void OnTimeChanged(DayNightCycle.TimeOfDay time)
+    {
+        currentTime = time;
+
+        if (!gameObject.activeInHierarchy || isDead)
+            return;
+
+        if (currentTime == DayNightCycle.TimeOfDay.Night)
+        {
+            ChooseDemonType();
+            ApplyDemonType();
+        }
+        else
+        {
+            ApplyDayPersona();
         }
     }
 
@@ -163,6 +220,53 @@ public class Enemy : MonoBehaviour
         //Debug.Log("[ENEMY] Knockback END");
     }
 
+    // Chooses random type for each enemy
+    private void ChooseDemonType()
+    {
+        if (nightDemons == null || nightDemons.Length == 0)
+            return;
+
+        activeDemonType = nightDemons[Random.Range(0, nightDemons.Length)];
+    }
+
+    // Applies businessman persona, more changes can be made down the line
+    // As of now, just mesh and damage
+    private void ApplyDayPersona()
+    {
+        foreach (var demon in nightDemons)
+        {
+            if (demon.mesh != null)
+                demon.mesh.SetActive(false);
+        }
+
+        if (dayMesh != null)
+            dayMesh.SetActive(true);
+
+        damage = dayDamage;
+        navMeshAgent.speed = daySpeed;
+    }
+
+    // "Switches" the mesh and damage to the demon type it is assigned
+    private void ApplyDemonType()
+    {
+        if (dayMesh != null)
+            dayMesh.SetActive(false);
+
+        foreach (var demon in nightDemons)
+        {
+            if (demon.mesh != null)
+                demon.mesh.SetActive(false);
+        }
+
+        if (activeDemonType != null && activeDemonType.mesh != null)
+        {
+            activeDemonType.mesh.SetActive(true);
+            damage = activeDemonType.damage;
+            navMeshAgent.speed = activeDemonType.moveSpeed;
+
+        }
+    }
+
     private void Die()
     {
         isDead = true;
@@ -197,5 +301,17 @@ public class Enemy : MonoBehaviour
         }
 
         isKnockedBack = false;
+
+        // Forces enemies to have the right mesh on spawn
+
+        if (currentTime == DayNightCycle.TimeOfDay.Night)
+        {
+            ChooseDemonType();
+            ApplyDemonType();
+        }
+        else
+        {
+            ApplyDayPersona();
+        }
     }
 }

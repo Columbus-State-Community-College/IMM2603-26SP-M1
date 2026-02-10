@@ -14,6 +14,13 @@ public class DayNightCycle : MonoBehaviour
 
     public static event Action<TimeOfDay> OnTimeChanged;
 
+    public static DayNightCycle Current { get; private set; }
+
+    void Awake()
+    {
+        Current = this;
+    }
+
     // Calculates and switches the time of day
 
     void Start()
