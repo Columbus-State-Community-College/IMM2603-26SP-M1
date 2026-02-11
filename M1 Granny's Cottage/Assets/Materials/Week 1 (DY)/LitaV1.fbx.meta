@@ -3,7 +3,27 @@ guid: 135cbd6b5a7f34a4083f11cd1b4c09ff
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lita_Character_0007_EyebrowTextu
+    second: {fileID: 2100000, guid: fea0cb26cea21294a892ef479eae9415, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lita_Character_0007_GlassesTextu
+    second: {fileID: 2100000, guid: 433e1bb397ae433448cc9dd16877e707, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lita_Character_0007_HeadTextu
+    second: {fileID: 2100000, guid: 5f5089817c7f52e47b1742ad8f96d450, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lita_Character_0007_LitaBodyTextu
+    second: {fileID: 2100000, guid: ad202f3cab4223644af36b779345cfd4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
