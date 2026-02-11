@@ -136,10 +136,6 @@ public class Enemy : MonoBehaviour
 
         //Debug.Log("[ENEMY] Took HIT");
 
-        VisualEffect vfx = Instantiate(hitVFX, hitPoint, Quaternion.identity);
-        vfx.Play();
-        Destroy(vfx.gameObject, 1f);
-
         currentHealth -= damage;
 
         //Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
