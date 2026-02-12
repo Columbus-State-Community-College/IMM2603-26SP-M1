@@ -30,6 +30,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float knockbackDistance = 4.5f;
     [SerializeField] private float knockbackDuration = 0.12f;
 
+    // NEW
+    [Header("Stun (Tuning)")] // NEW
+    [SerializeField] private bool canBeStunned = true; // NEW
+    private bool isStunned = false; // NEW
+    private Coroutine stunRoutine; // NEW
+
     [Header("VFX")]
     public VisualEffect hitVFX;
 
@@ -51,8 +57,6 @@ public class Enemy : MonoBehaviour
     private DemonType activeDemonType;
     private DayNightCycle.TimeOfDay currentTime;
 
-
-
     public void SetPool(IObjectPool<Enemy> pool)
     {
         enemyPool = pool;
@@ -70,7 +74,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (isDead || isKnockedBack) return;
+        if (isDead || isKnockedBack || isStunned) return; // NEW add || isStunned
 
         if (player != null)
         {
@@ -82,7 +86,6 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         DayNightCycle.OnTimeChanged += OnTimeChanged;
-
         currentTime = DayNightCycle.Current.currentTime;
     }
 
@@ -128,7 +131,6 @@ public class Enemy : MonoBehaviour
     }
 
     // ENEMY TAKES DAMAGE (FROM PLAYER)
-
     // Called by HammerAttack
     public void HandleHit(float damage, Vector3 attackerPosition, Vector3 hitPoint)
     {
@@ -152,7 +154,7 @@ public class Enemy : MonoBehaviour
 
             StartKnockback(dir, knockbackDistance, knockbackDuration);
         }
-
+        
         // Death handling AFTER knockback
         if (currentHealth <= 0f)
         {
@@ -216,6 +218,33 @@ public class Enemy : MonoBehaviour
         //Debug.Log("[ENEMY] Knockback END");
     }
 
+    // NEW
+    public void ApplyStun(float duration) // NEW
+    {
+        if (!canBeStunned || isDead || isStunned)
+            return;
+
+        if (stunRoutine != null)
+            StopCoroutine(stunRoutine);
+
+        stunRoutine = StartCoroutine(StunCoroutine(duration));
+    }
+
+    // NEW
+    private IEnumerator StunCoroutine(float duration) // NEW
+    {
+        isStunned = true;
+
+        navMeshAgent.isStopped = true;
+        navMeshAgent.ResetPath();
+
+        yield return new WaitForSeconds(duration);
+
+        navMeshAgent.isStopped = false;
+        isStunned = false;
+        stunRoutine = null;
+    }
+
     // Chooses random type for each enemy
     private void ChooseDemonType()
     {
@@ -259,7 +288,6 @@ public class Enemy : MonoBehaviour
             activeDemonType.mesh.SetActive(true);
             damage = activeDemonType.damage;
             navMeshAgent.speed = activeDemonType.moveSpeed;
-
         }
     }
 
@@ -276,6 +304,9 @@ public class Enemy : MonoBehaviour
             StopCoroutine(knockbackRoutine);
             knockbackRoutine = null;
         }
+
+        if (stunRoutine != null) StopCoroutine(stunRoutine); // NEW
+        isStunned = false; // NEW
 
         isKnockedBack = false;
 
@@ -295,6 +326,9 @@ public class Enemy : MonoBehaviour
             StopCoroutine(knockbackRoutine);
             knockbackRoutine = null;
         }
+
+        if (stunRoutine != null) StopCoroutine(stunRoutine); // NEW
+        isStunned = false; // NEW
 
         isKnockedBack = false;
 

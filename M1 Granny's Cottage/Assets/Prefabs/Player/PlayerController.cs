@@ -30,22 +30,22 @@ public class PlayerController : MonoBehaviour
     [Header("Player Status")]
     [SerializeField] private bool isJumping = false;
 
-    [Header("Hover Settings")] // NEW – HOVER (time-limited hover / slam charge)
-    [SerializeField] private float maxHoverTime = 2f; // NEW – HOVER (upgrade-modifiable hover duration)
-    private float currentHoverTime; // NEW – HOVER (runtime hover timer)
-    private bool isHovering; // NEW – HOVER (tracks active hover state)
+    [Header("Hover Settings")] // HOVER (time-limited hover / slam charge)
+    [SerializeField] private float maxHoverTime = 2f; // HOVER (upgrade-modifiable hover duration)
+    private float currentHoverTime; // HOVER (runtime hover timer)
+    private bool isHovering; // HOVER (tracks active hover state)
 
-    private float hoverLogTimer = 0f; // NEW – HOVER (throttles hover debug logging)
-    private const float hoverLogInterval = 0.25f; // NEW – HOVER (log interval)
+    private float hoverLogTimer = 0f; // HOVER (throttles hover debug logging)
+    private const float hoverLogInterval = 0.25f; // HOVER (log interval)
 
-    [Header("Knockback Settings")] // NEW – KNOCKBACK (player hit reaction)
-    [SerializeField] private float knockbackDistance = 3.5f; // NEW – KNOCKBACK (push distance)
-    [SerializeField] private float knockbackDuration = 0.15f; // NEW – KNOCKBACK (push duration)
-    private bool isKnockedBack = false; // NEW – KNOCKBACK (locks player control)
-    private Coroutine knockbackRoutine; // NEW – KNOCKBACK (knockback coroutine handle)
+    [Header("Knockback Settings")] // KNOCKBACK (player hit reaction)
+    [SerializeField] private float knockbackDistance = 3.5f; // KNOCKBACK (push distance)
+    [SerializeField] private float knockbackDuration = 0.15f; // KNOCKBACK (push duration)
+    private bool isKnockedBack = false; // KNOCKBACK (locks player control)
+    private Coroutine knockbackRoutine; // KNOCKBACK (knockback coroutine handle)
 
-    [Header("Ground Attack")] // NEW – GROUND ATTACK
-    [SerializeField] private GroundAttack groundAttack; // NEW – GROUND ATTACK
+    [Header("Ground Attack")] // GROUND ATTACK
+    [SerializeField] private GroundAttack groundAttack; // GROUND ATTACK
 
     [Header("Player Action Sounds")]
     public AudioSource audioSource;
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         if (_playerCamera != null)
             _playerCameraScript = _playerCamera.GetComponent<PlayerCameraScript>();
 
-        currentHoverTime = maxHoverTime; // NEW – HOVER (initialize hover timer)
+        currentHoverTime = maxHoverTime; // HOVER (initialize hover timer)
         //Debug.Log($"[HOVER] Initialized hover time: {currentHoverTime}"); // DEBUG
     }
 
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (isKnockedBack) return; // NEW – KNOCKBACK (disable control during knockback)
+        if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         GatherInput();
 
@@ -154,9 +154,9 @@ public class PlayerController : MonoBehaviour
         if (_playerInputActions.Player.Jump.WasPressedThisFrame())
         {
             isJumping = true;
-            isHovering = true; // NEW – HOVER (start hover)
+            isHovering = true; // HOVER (start hover)
 
-            groundAttack?.StartCharge(transform.position, maxHoverTime); // NEW – GROUND ATTACK
+            groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
 
             //Debug.Log("[HOVER] Jump pressed — hover started"); // DEBUG
 
@@ -168,9 +168,9 @@ public class PlayerController : MonoBehaviour
         if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
         {
             isJumping = false;
-            isHovering = false; // NEW – HOVER (manual cancel)
+            isHovering = false; // HOVER (manual cancel)
 
-            groundAttack?.StopCharge(); // NEW – GROUND ATTACK
+            groundAttack?.StopCharge(); // GROUND ATTACK
 
             //Debug.Log("[HOVER] Jump released — hover manually ended"); // DEBUG
 
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Hover logic with time limit
-        if (isHovering && currentHoverTime > 0f) // NEW – HOVER
+        if (isHovering && currentHoverTime > 0f) // HOVER
         {
             if (transform.position.y < 7f)
             {
@@ -189,9 +189,9 @@ public class PlayerController : MonoBehaviour
                 _verticalVelocity = 0;
             }
 
-            currentHoverTime -= Time.deltaTime; // NEW – HOVER
+            currentHoverTime -= Time.deltaTime; // HOVER
 
-            groundAttack?.UpdateCharge(transform.position); // NEW – GROUND ATTACK
+            groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
 
             // slowed logging
             hoverLogTimer += Time.deltaTime; // DEBUG
@@ -208,8 +208,8 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("[HOVER] Hover time expired — auto-ending hover"); // DEBUG
             }
 
-            isHovering = false; // NEW – HOVER
-            groundAttack?.StopCharge(); // NEW – GROUND ATTACK
+            isHovering = false; // HOVER
+            groundAttack?.StopCharge(); // GROUND ATTACK
         }
 
         // Gravity when not hovering
@@ -222,16 +222,16 @@ public class PlayerController : MonoBehaviour
             else
             {
                 _verticalVelocity = 0;
-                currentHoverTime = maxHoverTime; // NEW – HOVER
-                hoverLogTimer = 0f; // NEW – HOVER
+                currentHoverTime = maxHoverTime; // HOVER
+                hoverLogTimer = 0f; // HOVER
 
-                groundAttack?.StopCharge(); // NEW – GROUND ATTACK (safety)
+                groundAttack?.StopCharge(); // GROUND ATTACK (safety)
             }
         }
     }
 
     // PLAYER KNOCKBACK
-    public void TakeHit(Vector3 hitSourcePosition, float damage) // NEW – KNOCKBACK (called by enemy)
+    public void TakeHit(Vector3 hitSourcePosition, float damage) // KNOCKBACK (called by enemy)
     {
         if (isKnockedBack)
         {
@@ -241,23 +241,23 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("[KNOCKBACK] Player hit — knockback started"); // DEBUG
 
-        Vector3 direction = transform.position - hitSourcePosition; // NEW – KNOCKBACK
+        Vector3 direction = transform.position - hitSourcePosition; // KNOCKBACK
         direction.y = 0f;
         direction.Normalize();
 
         if (knockbackRoutine != null)
-            StopCoroutine(knockbackRoutine); // NEW – KNOCKBACK
+            StopCoroutine(knockbackRoutine); // KNOCKBACK
 
-        knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction)); // NEW – KNOCKBACK
+        knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction)); // KNOCKBACK
     }
 
-    private IEnumerator KnockbackCoroutine(Vector3 direction) // NEW – KNOCKBACK
+    private IEnumerator KnockbackCoroutine(Vector3 direction) // KNOCKBACK
     {
-        isKnockedBack = true; // NEW – KNOCKBACK
+        isKnockedBack = true; // KNOCKBACK
 
         float elapsed = 0f;
         Vector3 start = transform.position;
-        Vector3 target = start + direction * knockbackDistance; // NEW – KNOCKBACK
+        Vector3 target = start + direction * knockbackDistance; // KNOCKBACK
 
         while (elapsed < knockbackDuration)
         {
@@ -267,8 +267,8 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        isKnockedBack = false; // NEW – KNOCKBACK
-        knockbackRoutine = null; // NEW – KNOCKBACK
+        isKnockedBack = false; // KNOCKBACK
+        knockbackRoutine = null; // KNOCKBACK
 
         Debug.Log("[KNOCKBACK] Knockback ended — control restored"); // DEBUG
     }

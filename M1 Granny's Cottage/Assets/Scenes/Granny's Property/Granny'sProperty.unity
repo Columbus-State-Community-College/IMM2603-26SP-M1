@@ -1400,8 +1400,7 @@ MonoBehaviour:
   maxRadius: 5
   raycastHeight: 20
   raycastDistance: 50
-  hitboxPrefab: {fileID: 0}
-  enableLogs: 1
+  hitboxPrefab: {fileID: 4317177190620310435, guid: b7457578de4448349b4989ee14b3ef5c, type: 3}
 --- !u!114 &71386921
 MonoBehaviour:
   m_ObjectHideFlags: 0
