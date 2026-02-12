@@ -1262,7 +1262,7 @@ GameObject:
   - component: {fileID: 71386919}
   - component: {fileID: 71386920}
   - component: {fileID: 71386921}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerParent
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1398,7 +1398,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GroundAttack
   indicatorPrefab: {fileID: 7636873798645113123, guid: 74a7a64ceea946444a708d915774b84e, type: 3}
   maxRadius: 5
-  groundY: 0
+  raycastHeight: 20
+  raycastDistance: 50
+  hitboxPrefab: {fileID: 0}
+  enableLogs: 1
 --- !u!114 &71386921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25947,7 +25950,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1132042995}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundBelowPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51142,7 +51145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8341317160245552270}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Foot_Joint_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51158,7 +51161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1889590943640784412}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handle_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51174,7 +51177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 458494471282463596}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Thumb_Joint_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51273,7 +51276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4622061883799340605}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handle_middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51289,7 +51292,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1373817680020352776}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Thumb_Joint_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51308,7 +51311,7 @@ GameObject:
   - component: {fileID: 516815731}
   - component: {fileID: 516815730}
   - component: {fileID: 516815732}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LitaV1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51324,7 +51327,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7518934260667513771}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Knee_Joint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51355,7 +51358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6436604035163265704}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Foot_Joint_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51401,7 +51404,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5624120163829939384}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handle_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51451,7 +51454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6032186757138836474}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Eyebrow_Joint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51467,7 +51470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1027847743628764474}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Thumb_CTRL_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51501,6 +51504,10 @@ PrefabInstance:
     - target: {fileID: 2233075728892771767, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: m_Name
       value: Hammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233075728892771767, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4472379138281265617, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: m_RootBone
@@ -51588,7 +51595,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1408847204526410813}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Center_Joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51634,7 +51641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1691131006153134796}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Elbow_Joint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51680,7 +51687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 295298411741908722}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handle_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51697,7 +51704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2120822425175568705}
   - component: {fileID: 6068180473083566110}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Lita_mesh_combine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51763,7 +51770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7950180955347943023}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Shoulder_Joint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51779,7 +51786,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3187867621466129466}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Hand_Joint_R1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51795,7 +51802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2914008499594857944}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Wrist_Joint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51811,7 +51818,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9167403420539015159}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Hand_Joint_R2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51842,7 +51849,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8333376909239987902}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: hammer_rig_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51858,7 +51865,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1484354316391764725}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Elbow_Joint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51874,7 +51881,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2332631041954716059}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: squash1Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51906,7 +51913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8026711432701437771}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Hand_Joint_L1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51922,7 +51929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3112698588894652457}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Master_Ctrl_Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51938,7 +51945,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9018798247042036190}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Knee_Joint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51970,7 +51977,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5078619464001972936}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Thumb_Joint_R1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51986,7 +51993,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 554746889824994242}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Bun_Joint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52039,7 +52046,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1269844659401374946}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Head_Top_Joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52055,7 +52062,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 664524949893327145}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Foot_Joint_R1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52071,7 +52078,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6325363783807777230}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Bun_Joint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52279,7 +52286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8946880682126223159}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Thumb_Joint_R2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52300,7 +52307,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8040167365862761885}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Eyebrow_Joint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52316,7 +52323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9016357160390770339}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Wrist_Joint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52364,7 +52371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6380414355246028756}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Neck_Joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52396,7 +52403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6758221988161047372}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Hip_Joint_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52443,7 +52450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9144844061778518011}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Shoulder_Joint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52459,7 +52466,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1855540168910908849}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Foot_Joint_R2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52475,7 +52482,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3760186891238649878}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Hand_Joint_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52491,7 +52498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4959764669642771696}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Chest_Joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52539,7 +52546,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4130067000495549099}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lita_Character_0007:Hip_Joint_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52555,7 +52562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7659434778065664722}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: handle_start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52646,10 +52653,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 410087041}
+  - {fileID: 1357847712}
   - {fileID: 832575519}
   - {fileID: 71386914}
   - {fileID: 1900764182}
-  - {fileID: 1357847712}
   - {fileID: 982332702}
   - {fileID: 589043041}
   - {fileID: 930989215}

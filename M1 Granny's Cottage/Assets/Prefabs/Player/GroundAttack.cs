@@ -3,50 +3,47 @@ using UnityEngine;
 public class GroundAttack : MonoBehaviour
 {
     [Header("Indicator Settings")]
-    [SerializeField] private GameObject indicatorPrefab; // visual-only flat cylinder
-    [SerializeField] private float maxRadius = 5f; // maximum AOE preview size
-    [SerializeField] private float groundY = 0f; // ground height to place indicator
+    [SerializeField] private GameObject indicatorPrefab;   // Visual preview
+    [SerializeField] private float maxRadius = 5f;         // Max AOE size
+    [SerializeField] private float raycastHeight = 20f;    // Height above player to cast from
+    [SerializeField] private float raycastDistance = 50f;  // How far downward to check
 
-    private GameObject activeIndicator; // currently spawned indicator
-    private float maxChargeTime; // hover duration passed in
-    private float currentChargeTime; // runtime charge timer
-    private bool isCharging; // indicator active flag
+    [Header("Hitbox Settings")]
+    [SerializeField] private GameObject hitboxPrefab;      // AOE trigger prefab
 
-    private CharacterController characterController;
+    [Header("Debug")]
+    [SerializeField] private bool enableLogs = true;
 
-    private void Awake()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
+    private GameObject activeIndicator;
+    private float maxChargeTime;
+    private float currentChargeTime;
+    private bool isCharging;
 
-    // Called when player hover begins
+    // Called when hover begins
     public void StartCharge(Vector3 playerPosition, float hoverMaxTime)
     {
         if (indicatorPrefab == null)
         {
-            Debug.LogWarning("[GROUND ATTACK] No indicator prefab assigned");
+            Debug.LogWarning("GroundAttack: No indicator prefab assigned.");
             return;
         }
 
-        StopCharge(); // safety cleanup
+        StopCharge(); // Safety cleanup
 
         maxChargeTime = hoverMaxTime;
         currentChargeTime = 0f;
         isCharging = true;
 
-        Vector3 spawnPos = new Vector3(
-            playerPosition.x,
-            GetGroundY(playerPosition),
-            playerPosition.z
-        );
+        Vector3 groundPos = GetGroundPosition(playerPosition);
 
-        activeIndicator = Instantiate(indicatorPrefab, spawnPos, Quaternion.identity);
+        activeIndicator = Instantiate(indicatorPrefab, groundPos, Quaternion.identity);
 
-        // Ensure indicator is visible on spawn
+        // Start small
         activeIndicator.transform.localScale =
-            new Vector3(0.5f, 0.02f, 0.5f);
+            new Vector3(1f, 0.02f, 1f);
 
-        Debug.Log("[GROUND ATTACK] Charge started — indicator spawned", activeIndicator);
+        if (enableLogs)
+            Debug.Log("GroundAttack: Charge started.");
     }
 
     // Called every frame while hovering
@@ -55,36 +52,34 @@ public class GroundAttack : MonoBehaviour
         if (!isCharging || activeIndicator == null)
             return;
 
-        Debug.Log("[GROUND ATTACK] UpdateCharge running", activeIndicator);
-
         currentChargeTime += Time.deltaTime;
 
-        // Normalize charge progress based on hover duration
+        // Normalize progress
         float t = Mathf.Clamp01(currentChargeTime / maxChargeTime);
 
-        // Expand indicator over time
+        // Calculate current radius
         float radius = Mathf.Lerp(0.5f, maxRadius, t);
 
-        // Keep indicator positioned under player
-        activeIndicator.transform.position =
-            new Vector3(
-                playerPosition.x,
-                GetGroundY(playerPosition),
-                playerPosition.z
-            );
+        // Update ground position
+        Vector3 groundPos = GetGroundPosition(playerPosition);
+        activeIndicator.transform.position = groundPos;
 
+        // Scale visual (scale uses diameter, so radius * 2)
         activeIndicator.transform.localScale =
             new Vector3(radius * 2f, 0.02f, radius * 2f);
 
-        // Auto-stop if hover timer completes
+        if (enableLogs)
+            Debug.Log("GroundAttack: Charging... Radius = " + radius);
+
+        // Auto execute if fully charged
         if (currentChargeTime >= maxChargeTime)
         {
-            Debug.Log("[GROUND ATTACK] Max charge reached — auto-ending charge");
+            ExecuteGroundAttack(groundPos, radius);
             StopCharge();
         }
     }
 
-    // Called when hover ends or is cancelled
+    // Called when hover ends
     public void StopCharge()
     {
         if (!isCharging)
@@ -98,16 +93,54 @@ public class GroundAttack : MonoBehaviour
             activeIndicator = null;
         }
 
-        Debug.Log("[GROUND ATTACK] Charge ended — indicator removed");
+        if (enableLogs)
+            Debug.Log("GroundAttack: Charge ended.");
     }
 
-    private float GetGroundY(Vector3 playerPosition)
+    // Spawns the AOE hitbox
+    private void ExecuteGroundAttack(Vector3 center, float radius)
     {
-        if (characterController != null)
+        if (hitboxPrefab == null)
         {
-            return playerPosition.y - (characterController.height * 0.5f);
+            Debug.LogWarning("GroundAttack: No hitbox prefab assigned.");
+            return;
         }
 
-        return groundY;
+        GameObject hitbox = Instantiate(hitboxPrefab, center, Quaternion.identity);
+
+        SphereCollider sphere = hitbox.GetComponent<SphereCollider>();
+
+        if (sphere != null)
+        {
+            sphere.radius = radius; // Must match indicator radius
+        }
+
+        if (enableLogs)
+        {
+            Debug.Log("GroundAttack: AOE executed.");
+            Debug.Log("GroundAttack: Final Radius = " + radius);
+        }
+    }
+
+    // Raycast downward ignoring Player layer
+    private Vector3 GetGroundPosition(Vector3 playerPosition)
+    {
+        Vector3 rayStart = new Vector3(
+            playerPosition.x,
+            playerPosition.y + raycastHeight,
+            playerPosition.z
+        );
+
+        // Ignore Player layer
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int layerMask = ~(1 << playerLayer);
+
+        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, raycastDistance, layerMask))
+        {
+            return hit.point;
+        }
+
+        // Fallback if ray misses
+        return playerPosition;
     }
 }
