@@ -71,7 +71,7 @@ public class HammerAttack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log("Hammer hit: " + other.name);
+        //Debug.Log("Hammer hit: " + other.name);
         if (!attackActive) return;
 
         Enemy enemy = other.GetComponentInParent<Enemy>();
@@ -92,7 +92,7 @@ public class HammerAttack : MonoBehaviour
         }
 
         //Debug.Log("[HAMMER] Enemy HIT");
-        Debug.Log("Enemy hit: " + enemy.name);
+        //Debug.Log("Enemy hit: " + enemy.name);
         enemy.HandleHit(
             damage,
             transform.position,

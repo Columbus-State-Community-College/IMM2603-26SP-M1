@@ -31,7 +31,7 @@ public class GroundAttack : MonoBehaviour
     {
         if (indicatorPrefab == null)
         {
-            Debug.LogWarning("[GROUND ATTACK] No indicator prefab assigned");
+            //Debug.LogWarning("[GROUND ATTACK] No indicator prefab assigned");
             return;
         }
 
@@ -49,7 +49,7 @@ public class GroundAttack : MonoBehaviour
         activeIndicator.transform.localScale =
             new Vector3(0.5f, 0.02f, 0.5f);
 
-        Debug.Log("[GROUND ATTACK] Charge started — indicator spawned", activeIndicator);
+        //Debug.Log("[GROUND ATTACK] Charge started — indicator spawned", activeIndicator);
     }
 
     // Called every frame while hovering
@@ -58,7 +58,7 @@ public class GroundAttack : MonoBehaviour
         if (!isCharging || activeIndicator == null)
             return;
 
-        Debug.Log("[GROUND ATTACK] UpdateCharge running", activeIndicator);
+        //Debug.Log("[GROUND ATTACK] UpdateCharge running", activeIndicator);
 
         currentChargeTime += Time.deltaTime;
 
@@ -75,7 +75,7 @@ public class GroundAttack : MonoBehaviour
 
         if (currentChargeTime >= maxChargeTime)
         {
-            Debug.Log("[GROUND ATTACK] Max charge reached — auto-ending charge");
+            //Debug.Log("[GROUND ATTACK] Max charge reached — auto-ending charge");
 
             ExecuteGroundAttack(activeIndicator.transform.position, radius); // NEW
             StopCharge();
@@ -96,7 +96,7 @@ public class GroundAttack : MonoBehaviour
             activeIndicator = null;
         }
 
-        Debug.Log("[GROUND ATTACK] Charge ended — indicator removed");
+        //Debug.Log("[GROUND ATTACK] Charge ended — indicator removed");
     }
 
     // NEW Raycast downward ignoring Player layer
@@ -126,7 +126,7 @@ public class GroundAttack : MonoBehaviour
     {
         if (hitboxPrefab == null)
         {
-            Debug.LogWarning("[GROUND ATTACK] No hitbox prefab assigned");
+            //Debug.LogWarning("[GROUND ATTACK] No hitbox prefab assigned");
             return;
         }
 
@@ -139,6 +139,6 @@ public class GroundAttack : MonoBehaviour
             sphere.radius = radius; // match indicator radius
         }
 
-        Debug.Log("[GROUND ATTACK] AOE executed with radius: " + radius);
+        //Debug.Log("[GROUND ATTACK] AOE executed with radius: " + radius);
     }
 }

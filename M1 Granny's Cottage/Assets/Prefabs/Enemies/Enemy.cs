@@ -124,7 +124,7 @@ public class Enemy : MonoBehaviour
             PlayerController playerController = other.GetComponent<PlayerController>();
             if (playerController != null)
             {
-                Debug.Log("[ENEMY] Player hit — calling TakeHit"); // DEBUG
+                //Debug.Log("[ENEMY] Player hit — calling TakeHit"); // DEBUG
                 playerController.TakeHit(transform.position, damage);
             }
         }

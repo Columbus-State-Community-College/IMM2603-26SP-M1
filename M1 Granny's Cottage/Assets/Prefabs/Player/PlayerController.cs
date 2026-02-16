@@ -244,11 +244,11 @@ public class PlayerController : MonoBehaviour
     {
         if (isKnockedBack)
         {
-            Debug.Log("[KNOCKBACK] Hit ignored — already in knockback"); // DEBUG
+            //Debug.Log("[KNOCKBACK] Hit ignored — already in knockback"); // DEBUG
             return;
         }
 
-        Debug.Log("[KNOCKBACK] Player hit — knockback started"); // DEBUG
+        //Debug.Log("[KNOCKBACK] Player hit — knockback started"); // DEBUG
 
         Vector3 direction = transform.position - hitSourcePosition; // KNOCKBACK
         direction.y = 0f;
@@ -279,6 +279,6 @@ public class PlayerController : MonoBehaviour
         isKnockedBack = false; // KNOCKBACK
         knockbackRoutine = null; // KNOCKBACK
 
-        Debug.Log("[KNOCKBACK] Knockback ended — control restored"); // DEBUG
+        //Debug.Log("[KNOCKBACK] Knockback ended — control restored"); // DEBUG
     }
 }

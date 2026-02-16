@@ -24,11 +24,11 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[PLAYER] No PlayerHitbox assigned");
+            //Debug.LogWarning("[PLAYER] No PlayerHitbox assigned");
         }
 
         // NEW Log starting health
-        Debug.Log("[PLAYER] Starting Health: " + currentHealth);
+        //Debug.Log("[PLAYER] Starting Health: " + currentHealth);
     }
 
     public void TakeDamage(float amount)
@@ -45,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
 
         audioSource.PlayOneShot(HPLostSound, volume = 0.4f);
 
-        Debug.Log("[PLAYER] Current Health After Damage: " + currentHealth);
+        //Debug.Log("[PLAYER] Current Health After Damage: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -56,7 +56,7 @@ public class PlayerHealth : MonoBehaviour
     // NEW Heal function for health pickups
     public void Heal(float amount)
     {
-        Debug.Log("[PLAYER] Attempting Heal: " + amount);
+        //Debug.Log("[PLAYER] Attempting Heal: " + amount);
 
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
@@ -66,12 +66,12 @@ public class PlayerHealth : MonoBehaviour
             hitbox.SetHealth(currentHealth);
         }
 
-        Debug.Log("[PLAYER] Current Health After Heal: " + currentHealth);
+        //Debug.Log("[PLAYER] Current Health After Heal: " + currentHealth);
     }
 
     void Die()
     {
-        Debug.Log("[PLAYER] Player Died");
+        //Debug.Log("[PLAYER] Player Died");
 
         GameOverScreen.gameObject.SetActive(true);
         audioSource.PlayOneShot(ScreamSound, volume);

@@ -30,7 +30,7 @@ public class GroundAttackHitbox : MonoBehaviour
                 enemy.HandleHit(damageAmount, transform.position, transform.position);
             }
 
-            Debug.Log("GroundAttackHitbox: Enemy affected.");
+            //Debug.Log("GroundAttackHitbox: Enemy affected.");
         }
     }
 }
