@@ -53,14 +53,21 @@ public class PlayerController : MonoBehaviour
     public AudioClip hammerSwingSound;
     public float volume = 0.5f;
 
+    
+
     private void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
+        _playerInputActions.UI.Disable();
         _characterController = GetComponent<CharacterController>();
+        
     }
 
     private void Start()
     {
+        // this manages
+        
+
         if (_playerCamera != null)
             _playerCameraScript = _playerCamera.GetComponent<PlayerCameraScript>();
 
@@ -86,11 +93,10 @@ public class PlayerController : MonoBehaviour
     {
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
-        GatherInput();
 
-        Look();
+        ApplyRotation();
         Jump();
-        Move();
+        ApplyMovement();
     }
 
     private void GatherInput()
@@ -110,7 +116,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Turns the player towards the horizontal direction they are moving in.
-    private void Look()
+    private void ApplyRotation()
     {
         if (_moveInput == Vector3.zero) return;
 
@@ -129,7 +135,14 @@ public class PlayerController : MonoBehaviour
         );
     }
 
-    private void Move()
+    public void Move(InputAction.CallbackContext callbackContext)
+    {
+        Vector2 moveInput = callbackContext.ReadValue<Vector2>();
+        _moveInput = new Vector3(moveInput.x, _verticalVelocity, moveInput.y);
+        
+    }
+
+    private void ApplyMovement()
     {
         // These two lines prepare the jump velocity to be added to the player's movement velocity
         Vector3 jumpVelocity = new Vector3(0.0f, _verticalVelocity, 0.0f);
@@ -158,9 +171,7 @@ public class PlayerController : MonoBehaviour
 
             groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
 
-            //Debug.Log("[HOVER] Jump pressed — hover started"); // DEBUG
-
-            //_playerCameraScript?.EnableJumpCamera(true);
+            
             audioSource.PlayOneShot(jumpingSound, volume);
         }
 
@@ -172,9 +183,7 @@ public class PlayerController : MonoBehaviour
 
             groundAttack?.StopCharge(); // GROUND ATTACK
 
-            //Debug.Log("[HOVER] Jump released — hover manually ended"); // DEBUG
-
-            //_playerCameraScript?.EnableJumpCamera(false);
+            
         }
 
         // Hover logic with time limit
