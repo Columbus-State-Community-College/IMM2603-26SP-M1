@@ -1256,13 +1256,14 @@ GameObject:
   m_Component:
   - component: {fileID: 71386914}
   - component: {fileID: 71386915}
+  - component: {fileID: 71386922}
   - component: {fileID: 71386916}
   - component: {fileID: 71386917}
   - component: {fileID: 71386918}
   - component: {fileID: 71386919}
   - component: {fileID: 71386920}
   - component: {fileID: 71386921}
-  - component: {fileID: 71386922}
+  - component: {fileID: 71386923}
   m_Layer: 9
   m_Name: PlayerParent
   m_TagString: Player
@@ -1332,6 +1333,7 @@ MonoBehaviour:
   _playerCameraScript: {fileID: 0}
   hammerAttack: {fileID: 0}
   isJumping: 0
+  isGrounded: 1
   maxHoverTime: 2
   knockbackDistance: 3.5
   knockbackDuration: 0.15
@@ -1385,6 +1387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   GroundPointTransform: {fileID: 1132042995}
+  groundedState: 0
 --- !u!114 &71386920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1534,6 +1537,18 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &71386923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71386913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ac1abe6e102404db05e63eeb732690, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1001 &76895194
 PrefabInstance:
   m_ObjectHideFlags: 0

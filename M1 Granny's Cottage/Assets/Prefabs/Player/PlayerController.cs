@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Status")]
     [SerializeField] private bool isJumping = false;
+    private GroundPosition _groundPosition;
+    public bool isGrounded = true;
 
     [Header("Hover Settings")] // HOVER (time-limited hover / slam charge)
     [SerializeField] private float maxHoverTime = 2f; // HOVER (upgrade-modifiable hover duration)
@@ -60,6 +62,8 @@ public class PlayerController : MonoBehaviour
         _playerInputActions = new InputSystem_Actions();
         _playerInputActions.UI.Disable();
         _characterController = GetComponent<CharacterController>();
+        _groundPosition = GetComponent<GroundPosition>();
+        
         
     }
 
@@ -91,19 +95,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        isGrounded = _groundPosition.groundedState;
+        //Debug.Log(isGrounded ? "GROUNDED" : "NOT GROUNDED");
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
-
 
         ApplyRotation();
         Jump();
         ApplyMovement();
+        
     }
 
-    private void GatherInput()
-    {
-        Vector2 moveInput = _playerInputActions.Player.Move.ReadValue<Vector2>();
-        _moveInput = new Vector3(moveInput.x, _verticalVelocity, moveInput.y);
-    }
 
     // Attack callback (Pure New Input System)
     private void OnAttack(InputAction.CallbackContext context)
