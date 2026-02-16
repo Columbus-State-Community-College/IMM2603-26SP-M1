@@ -12185,6 +12185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitbox
   slider: {fileID: 2089426900}
+  meshRenderer: {fileID: 6068180473083566110}
+  flashDuration: 0.25
 --- !u!136 &516815731
 CapsuleCollider:
   m_ObjectHideFlags: 0
