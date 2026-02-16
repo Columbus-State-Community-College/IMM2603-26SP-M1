@@ -8,9 +8,10 @@ public class HammerAttack : MonoBehaviour
     public float damage = 10f;
     public float attackDuration = 0.5f;
 
-    [Header("Hit VFX")]
-    [SerializeField] private VisualEffect hitVFXPrefab;
-    [SerializeField] private float vfxLifetime = 1f;
+    [Header("Particle VFX")]
+    [SerializeField] private ParticleSystem slashParticles;
+    [SerializeField] private ParticleSystem hitParticlesPrefab;
+    [SerializeField] private float hitParticlesLifetime = 1f;
 
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Animator animator;
@@ -55,6 +56,11 @@ public class HammerAttack : MonoBehaviour
 
         if (trail != null) trail.enabled = true;
 
+        if (slashParticles != null)
+        {
+            slashParticles.Play();
+        }
+
         animator.ResetTrigger("isSwinging");
         animator.SetTrigger("isSwinging");
 
@@ -79,16 +85,16 @@ public class HammerAttack : MonoBehaviour
 
         Vector3 contactPoint = other.ClosestPoint(hitbox.bounds.center);
 
-        if (hitVFXPrefab != null)
+        if (hitParticlesPrefab != null)
         {
-            VisualEffect vfx = Instantiate(
-                hitVFXPrefab,
+            ParticleSystem hitVFX = Instantiate(
+                hitParticlesPrefab,
                 contactPoint,
                 Quaternion.identity
             );
 
-            vfx.Play();
-            Destroy(vfx.gameObject, vfxLifetime);
+            hitVFX.Play();
+            Destroy(hitVFX.gameObject, hitParticlesLifetime);
         }
 
         //Debug.Log("[HAMMER] Enemy HIT");
