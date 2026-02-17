@@ -51575,13 +51575,27 @@ GameObject:
   - component: {fileID: 516815731}
   - component: {fileID: 516815730}
   - component: {fileID: 516815732}
+  - component: {fileID: 919132149430154438}
   m_Layer: 9
   m_Name: LitaV1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132149430154438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149430154437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484cad81b93b02a479dc18f7a2783549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HammerEventReciever
+  hammerAttack: {fileID: 5043109357810266411}
 --- !u!1 &994483196072270608
 GameObject:
   m_ObjectHideFlags: 0
@@ -51771,7 +51785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2233075728892771767, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4472379138281265617, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: m_RootBone
@@ -51838,21 +51852,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
+      propertyPath: volume
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 516815732}
     - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
-      propertyPath: hitVFXPrefab
+      propertyPath: swingSound
       value: 
-      objectReference: {fileID: 4452503011363193251, guid: 8916ecc4842078846b31a3502647801f, type: 3}
+      objectReference: {fileID: 349363251}
     - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: slashParticles
       value: 
       objectReference: {fileID: 401898226}
     - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
-      propertyPath: hitParticlesPrefab
+      propertyPath: hammerSwingSound
       value: 
-      objectReference: {fileID: 8448741907919744343, guid: 2454fc33572d35f45b17bdfcd8ce79fc, type: 3}
+      objectReference: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -52415,6 +52433,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4541771433953269745, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
   m_PrefabInstance: {fileID: 1773798081081590716}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5043109357810266411 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
+  m_PrefabInstance: {fileID: 1773798081081590716}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b6f25fc0ca3aa244967457a9ae17e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HammerAttack
 --- !u!4 &5078619464001972936
 Transform:
   m_ObjectHideFlags: 0

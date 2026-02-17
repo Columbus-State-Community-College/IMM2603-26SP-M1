@@ -59,6 +59,7 @@ public class PlayerHitbox : MonoBehaviour
         slider.value = health;
     }
 
+    // function to call the flash routine
     public void FlashRed()
     {
         if (flashRoutine != null)
@@ -67,6 +68,7 @@ public class PlayerHitbox : MonoBehaviour
         flashRoutine = StartCoroutine(FlashRoutine());
     }
 
+    // loops through and adds granny materials to a list in order to chnage color
     private IEnumerator FlashRoutine()
     {
         if (materials == null) yield break;

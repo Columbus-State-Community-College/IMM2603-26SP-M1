@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7886742969001354801}
   - component: {fileID: 8695354432963544540}
   - component: {fileID: 1970908053814520858}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2233075728892771767}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05922918, y: 0.29264742, z: 0.8733903, w: 0.3847582}
+  m_LocalRotation: {x: 0.05922795, y: 0.29264796, z: 0.8733899, w: 0.3847587}
   m_LocalPosition: {x: 0.04629422, y: 0.12832443, z: 0.046621233}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -27.75, y: 21.8, z: 127.003}
 --- !u!137 &4472379138281265617
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -141,6 +141,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HammerAttack
   damage: 10
   attackDuration: 0.2
+  slashParticles: {fileID: 0}
+  hitParticlesPrefab: {fileID: 8448741907919744343, guid: 2454fc33572d35f45b17bdfcd8ce79fc, type: 3}
+  hitParticlesLifetime: 1
   playerController: {fileID: 0}
   animator: {fileID: 0}
   trail: {fileID: 0}
@@ -163,7 +166,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.04816155
-  m_Height: 0.11849905
+  m_Radius: 0.064004615
+  m_Height: 0.12800932
   m_Direction: 1
-  m_Center: {x: -0.07084845, y: 0.101456285, z: -0.14009292}
+  m_Center: {x: -0.055005234, y: 0.101456285, z: -0.14009292}
