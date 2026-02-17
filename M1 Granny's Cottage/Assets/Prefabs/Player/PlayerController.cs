@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
         if (hammerAttack != null)
         {
             hammerAttack.StartAttack();
-            audioSource.PlayOneShot(hammerSwingSound, volume);
+            //audioSource.PlayOneShot(hammerSwingSound, volume);
         }
     }
 

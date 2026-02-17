@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.VFX;
 
 public class HammerAttack : MonoBehaviour
@@ -12,6 +13,10 @@ public class HammerAttack : MonoBehaviour
     [SerializeField] private ParticleSystem slashParticles;
     [SerializeField] private ParticleSystem hitParticlesPrefab;
     [SerializeField] private float hitParticlesLifetime = 1f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip hammerSwingSound;
+    [SerializeField] private float volume = 1f;
 
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Animator animator;
@@ -49,29 +54,42 @@ public class HammerAttack : MonoBehaviour
         StartCoroutine(AttackRoutine());
     }
 
-    private IEnumerator AttackRoutine()
+    // the next 3 functions are called from anmation events on the swing
+    public void EnableHitbox()
     {
-        attackActive = true;
         hitbox.enabled = true;
 
-        if (trail != null) trail.enabled = true;
+        if (trail != null)
+            trail.enabled = true;
 
         if (slashParticles != null)
-        {
             slashParticles.Play();
-        }
 
+        attackActive = true;
+    }
+
+    public void DisableHitbox()
+    {
+        hitbox.enabled = false;
+
+        if (trail != null)
+            trail.enabled = false;
+
+        attackActive = false;
+    }
+
+    public void PlaySwooshSound()
+    {
+        playerController.audioSource.PlayOneShot(hammerSwingSound, volume);
+    }
+
+    private IEnumerator AttackRoutine()
+    {
         animator.ResetTrigger("isSwinging");
         animator.SetTrigger("isSwinging");
 
+        // fixes taking input before animation is finished
         yield return new WaitForSeconds(attackDuration);
-
-        if (trail != null) trail.enabled = false;
-
-        hitbox.enabled = false;
-        attackActive = false;
-
-        //Debug.Log("[HAMMER] Attack END");
     }
 
     private void OnTriggerEnter(Collider other)
