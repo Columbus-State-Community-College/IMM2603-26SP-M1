@@ -1753,6 +1753,7 @@ MonoBehaviour:
   jumpingSound: {fileID: 8300000, guid: 01c41e01064db3c248ed61046437f0f6, type: 3}
   hammerSwingSound: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
   volume: 1
+  animator: {fileID: 516815732}
 --- !u!114 &71386917
 MonoBehaviour:
   m_ObjectHideFlags: 0

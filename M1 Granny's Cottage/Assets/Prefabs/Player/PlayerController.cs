@@ -55,7 +55,11 @@ public class PlayerController : MonoBehaviour
     public AudioClip hammerSwingSound;
     public float volume = 0.5f;
 
-    
+    [Header("Animation")]
+    [SerializeField] public Animator animator;
+
+
+
 
     private void Awake()
     {
@@ -102,7 +106,8 @@ public class PlayerController : MonoBehaviour
         ApplyRotation();
         Jump();
         ApplyMovement();
-        
+        UpdateAnimation();
+
     }
 
 
@@ -238,6 +243,16 @@ public class PlayerController : MonoBehaviour
                 groundAttack?.StopCharge(); // GROUND ATTACK (safety)
             }
         }
+    }
+
+    private void UpdateAnimation()
+    {
+        if (animator == null) return;
+
+        Vector3 horizontalMove = new Vector3(_moveInput.x, 0f, _moveInput.z);
+        float speed = horizontalMove.magnitude;
+
+        animator.SetFloat("Speed", speed);
     }
 
     // PLAYER KNOCKBACK
