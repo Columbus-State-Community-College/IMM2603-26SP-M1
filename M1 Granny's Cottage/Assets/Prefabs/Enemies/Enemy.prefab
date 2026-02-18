@@ -388,9 +388,11 @@ MonoBehaviour:
   damage: 10
   knockbackDistance: 4.5
   knockbackDuration: 0.12
+  canBeStunned: 1
   hitVFX: {fileID: 4452503011363193251, guid: 8916ecc4842078846b31a3502647801f, type: 3}
-  dayMesh: {fileID: 53315902936099555}
+  dayMesh: {fileID: 7131929200842561938, guid: 767bc60c5b3226e4d8a41a3226aa29f8, type: 3}
   dayDamage: 10
+  daySpeed: 4
   nightDemons:
   - name: Imp
     mesh: {fileID: 1042497297427913165}
