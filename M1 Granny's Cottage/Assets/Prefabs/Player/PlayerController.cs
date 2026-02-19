@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         ApplyRotation();
-        Jump();
+        
         ApplyMovement();
         UpdateAnimation();
 
@@ -167,82 +167,133 @@ public class PlayerController : MonoBehaviour
         _verticalVelocity = _gravity * _gravityMultiplier * Time.deltaTime;
     }
 
-    private void Jump()
+    public void Jump(InputAction.CallbackContext callbackContext)
     {
-        // Jump pressed
-        if (_playerInputActions.Player.Jump.WasPressedThisFrame())
+
+       /*  float ascentDuration = 0.5f;
+        float dropDuration = 0.35f;
+
+        Vector3 jumpZenith = new Vector3(transform.position.x, 7.0f, transform.position.z);
+        Vector3 landingPosition = _groundPosition.GroundPointTransform.position; */
+
+        if (callbackContext.action.WasPressedThisFrame())
         {
-            isJumping = true;
-            isHovering = true; // HOVER (start hover)
-
-            groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
-
             
-            audioSource.PlayOneShot(jumpingSound, volume);
+            BeginJump();
+           
+            //VerticalMotion(ascentDuration, jumpZenith);
+        }
+        else if ((callbackContext.action.IsInProgress() || callbackContext.action.IsPressed()) && transform.position.y < 7.0f && currentHoverTime > 0f)
+        {
+            JumpRise();
+        }
+        else if ((callbackContext.action.IsInProgress() || callbackContext.action.IsPressed()) && transform.position.y >= 7.0f && currentHoverTime > 0f)
+        {
+            JumpFloat();
+        }
+        else if (callbackContext.action.WasReleasedThisFrame()|| !callbackContext.action.IsPressed() || currentHoverTime <= 0f)
+        {
+            JumpFalling();
         }
 
-        // Jump released
-        if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
-        {
-            isJumping = false;
-            isHovering = false; // HOVER (manual cancel)
-
-            groundAttack?.StopCharge(); // GROUND ATTACK
-
-            
-        }
-
+        
         // Hover logic with time limit
-        if (isHovering && currentHoverTime > 0f) // HOVER
-        {
-            if (transform.position.y < 7f)
+        /*if (isHovering && currentHoverTime > 0f) // HOVER
+        {*/
+            /*
             {
-                _verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
+                if (transform.position.y < 7f)
+                {
+                    //_verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
+                }
+                else
+                {
+                    //_verticalVelocity = 0;
+                }
             }
-            else
-            {
-                _verticalVelocity = 0;
-            }
+            */
 
-            currentHoverTime -= Time.deltaTime; // HOVER
+            //currentHoverTime -= Time.deltaTime; // HOVER
 
-            groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
+            //groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
 
             // slowed logging
-            hoverLogTimer += Time.deltaTime; // DEBUG
+            /*hoverLogTimer += Time.deltaTime; // DEBUG
             if (hoverLogTimer >= hoverLogInterval) // DEBUG
             {
                 //Debug.Log($"[HOVER] Active — Time left: {currentHoverTime:F2}");
                 hoverLogTimer = 0f; // DEBUG
-            }
-        }
+            }*/
+        /*}
         else
         {
-            if (isHovering)
+            /*if (isHovering)
             {
                 Debug.Log("[HOVER] Hover time expired — auto-ending hover"); // DEBUG
-            }
+            }*/
 
-            isHovering = false; // HOVER
-            groundAttack?.StopCharge(); // GROUND ATTACK
-        }
+            //isHovering = false; // HOVER
+            //groundAttack?.StopCharge(); // GROUND ATTACK
+       // }
 
-        // Gravity when not hovering
+        /*// Gravity when not hovering
         if (!isHovering)
         {
-            if (transform.position.y > 1.8f)
+            if (transform.position.y > 1.7f)
             {
-                ApplyGravity();
+                //ApplyGravity();
+                VerticalMotion(dropDuration, landingPosition);
             }
             else
             {
-                _verticalVelocity = 0;
+                //_verticalVelocity = 0;
                 currentHoverTime = maxHoverTime; // HOVER
                 hoverLogTimer = 0f; // HOVER
 
                 groundAttack?.StopCharge(); // GROUND ATTACK (safety)
             }
-        }
+        } */
+    }
+
+    private void BeginJump()
+    {
+        Debug.Log("Jump Begun");
+        isHovering = true; // HOVER (start hover)
+        groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
+        audioSource.PlayOneShot(jumpingSound, volume);
+    }
+
+    private void JumpRise()
+    {
+        _verticalVelocity = 0.5f;
+        currentHoverTime -= Time.deltaTime; // HOVER
+
+        groundAttack?.UpdateCharge(transform.position);
+
+    }
+
+    private void JumpFloat()
+    {
+        _verticalVelocity = 0.0f;
+        currentHoverTime -= Time.deltaTime; // HOVER
+        groundAttack?.UpdateCharge(transform.position);
+    }
+
+    private void JumpFalling()
+    {
+        _verticalVelocity = -0.5f;
+        isHovering = false; // HOVER (manual cancel)
+
+        groundAttack?.StopCharge(); // GROUND ATTACK
+    }
+
+    private void JumpLand()
+    {
+        int stub = 1;
+    }
+    void VerticalMotion(float moveDuration, Vector3 destination)
+    {
+        Vector3.SmoothDamp(transform.position, destination, ref _moveInput, moveDuration);
     }
 
     private void UpdateAnimation()
