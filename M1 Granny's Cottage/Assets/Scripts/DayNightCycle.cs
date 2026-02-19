@@ -10,6 +10,11 @@ public class DayNightCycle : MonoBehaviour
     public float dayDuration = 120f;
     public float nightDuration = 90f;
 
+    [Header("Sound Effect")]
+    public AudioSource audioSource;
+    public AudioClip CycleSwitch;
+    private float volume = 1f;
+
     float timer;
 
     public static event Action<TimeOfDay> OnTimeChanged;
@@ -36,6 +41,7 @@ public class DayNightCycle : MonoBehaviour
 
         if (timer < 0) 
         {
+            audioSource.PlayOneShot(CycleSwitch, volume);
             SwitchTime();
         }
     }

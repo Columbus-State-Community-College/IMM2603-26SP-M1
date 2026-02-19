@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject GameOverScreen;
     public AudioSource audioSource;
     public AudioClip ScreamSound;
+    public AudioClip HPGainSound;
     public AudioClip HPLostSound;
     private float volume = 1f;
 
@@ -65,6 +66,8 @@ public class PlayerHealth : MonoBehaviour
         {
             hitbox.SetHealth(currentHealth);
         }
+
+        audioSource.PlayOneShot(HPGainSound, volume);
 
         //Debug.Log("[PLAYER] Current Health After Heal: " + currentHealth);
     }
