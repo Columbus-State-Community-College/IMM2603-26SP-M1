@@ -114,12 +114,20 @@ public class PlayerController : MonoBehaviour
     // Attack callback (Pure New Input System)
     private void OnAttack(InputAction.CallbackContext context)
     {
+        // Prevent hammer attack while hovering or not grounded
+        if (!isGrounded || isHovering)
+        {
+            Debug.Log("[COMBAT] Hammer attack blocked — player airborne or hovering");
+            return;
+        }
+
         if (hammerAttack != null)
         {
             hammerAttack.StartAttack();
             //audioSource.PlayOneShot(hammerSwingSound, volume);
         }
     }
+
 
     // Turns the player towards the horizontal direction they are moving in.
     private void ApplyRotation()
