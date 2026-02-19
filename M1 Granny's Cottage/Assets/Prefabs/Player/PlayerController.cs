@@ -49,6 +49,18 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Attack")] // GROUND ATTACK
     [SerializeField] private GroundAttack groundAttack; // GROUND ATTACK
 
+    //NEW
+    [Header("Ground Attack Cooldown")] //NEW
+    [SerializeField] private float slamCooldownDuration = 7f; //NEW (adjustable in Inspector)
+    private float slamCooldownTimer = 0f; //NEW
+    private bool slamOnCooldown = false; //NEW
+    private bool slamStarted = false; //NEW (tracks if a slam was actually initiated)
+
+    //NEW
+    [SerializeField] private bool showSlamCooldownDebug = true; //NEW (toggle in Inspector)
+    private float slamLogTimer = 0f; //NEW (throttle timer)
+    private const float slamLogInterval = 1f; //NEW (log once per second)
+
     [Header("Player Action Sounds")]
     public AudioSource audioSource;
     public AudioClip jumpingSound;
@@ -58,24 +70,16 @@ public class PlayerController : MonoBehaviour
     [Header("Animation")]
     [SerializeField] public Animator animator;
 
-
-
-
     private void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
         _playerInputActions.UI.Disable();
         _characterController = GetComponent<CharacterController>();
         _groundPosition = GetComponent<GroundPosition>();
-        
-        
     }
 
     private void Start()
     {
-        // this manages
-        
-
         if (_playerCamera != null)
             _playerCameraScript = _playerCamera.GetComponent<PlayerCameraScript>();
 
@@ -101,15 +105,41 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = _groundPosition.groundedState;
         //Debug.Log(isGrounded ? "GROUNDED" : "NOT GROUNDED");
+
+        //NEW
+        if (slamOnCooldown) //NEW
+        {
+            slamCooldownTimer -= Time.deltaTime; //NEW
+
+            //NEW
+            if (showSlamCooldownDebug) //NEW
+            {
+                slamLogTimer += Time.deltaTime; //NEW
+                if (slamLogTimer >= slamLogInterval) //NEW
+                {
+                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
+                    slamLogTimer = 0f; //NEW
+                }
+            }
+
+            if (slamCooldownTimer <= 0f) //NEW
+            {
+                slamOnCooldown = false; //NEW
+                slamCooldownTimer = 0f; //NEW
+                slamLogTimer = 0f; //NEW
+                //NEW
+                if (showSlamCooldownDebug) //NEW
+                    Debug.Log("[SLAM] Cooldown finished"); //NEW
+            }
+        }
+
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         ApplyRotation();
         Jump();
         ApplyMovement();
         UpdateAnimation();
-
     }
-
 
     // Attack callback (Pure New Input System)
     private void OnAttack(InputAction.CallbackContext context)
@@ -127,7 +157,6 @@ public class PlayerController : MonoBehaviour
             //audioSource.PlayOneShot(hammerSwingSound, volume);
         }
     }
-
 
     // Turns the player towards the horizontal direction they are moving in.
     private void ApplyRotation()
@@ -153,7 +182,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveInput = callbackContext.ReadValue<Vector2>();
         _moveInput = new Vector3(moveInput.x, _verticalVelocity, moveInput.y);
-        
     }
 
     private void ApplyMovement()
@@ -177,27 +205,24 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        // Jump pressed
         if (_playerInputActions.Player.Jump.WasPressedThisFrame())
         {
+            if (slamOnCooldown) return; //NEW
+
             isJumping = true;
-            isHovering = true; // HOVER (start hover)
+            isHovering = true;
+
+            slamStarted = true; //NEW
 
             groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
-
-            
             audioSource.PlayOneShot(jumpingSound, volume);
         }
 
-        // Jump released
         if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
         {
             isJumping = false;
             isHovering = false; // HOVER (manual cancel)
-
             groundAttack?.StopCharge(); // GROUND ATTACK
-
-            
         }
 
         // Hover logic with time limit
@@ -213,7 +238,6 @@ public class PlayerController : MonoBehaviour
             }
 
             currentHoverTime -= Time.deltaTime; // HOVER
-
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
 
             // slowed logging
@@ -249,6 +273,18 @@ public class PlayerController : MonoBehaviour
                 hoverLogTimer = 0f; // HOVER
 
                 groundAttack?.StopCharge(); // GROUND ATTACK (safety)
+
+                //NEW
+                if (slamStarted && !slamOnCooldown) //NEW
+                {
+                    slamOnCooldown = true; //NEW
+                    slamCooldownTimer = slamCooldownDuration; //NEW
+                    slamStarted = false; //NEW
+                    slamLogTimer = 0f; //NEW
+
+                    if (showSlamCooldownDebug) //NEW
+                        Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
+                }
             }
         }
     }
@@ -273,7 +309,6 @@ public class PlayerController : MonoBehaviour
         }
 
         //Debug.Log("[KNOCKBACK] Player hit — knockback started"); // DEBUG
-
         Vector3 direction = transform.position - hitSourcePosition; // KNOCKBACK
         direction.y = 0f;
         direction.Normalize();
