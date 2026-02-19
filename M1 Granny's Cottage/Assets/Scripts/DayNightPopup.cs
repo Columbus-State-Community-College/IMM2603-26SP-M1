@@ -21,6 +21,10 @@ public class DayNightPopup : MonoBehaviour
         "Speed Boost", "Double Jump", "Dash", "Extra Health", "Area Smash", "Quick Swing"
     };
 
+    [Header("Select Sound Effect")]
+    public AudioSource audioSource;
+    public AudioClip SelectSound;
+
     private void OnEnable()
     {
         DayNightCycle.OnTimeChanged += ShowPopup;
@@ -60,6 +64,7 @@ public class DayNightPopup : MonoBehaviour
         Debug.Log("Player chose: " + powerup);
 
         ApplyPowerup(powerup);
+        audioSource.PlayOneShot(SelectSound);
 
         popupPanel.SetActive(false);
         Time.timeScale = 1f;

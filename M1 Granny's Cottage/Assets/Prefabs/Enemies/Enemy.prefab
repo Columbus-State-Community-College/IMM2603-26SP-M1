@@ -287,6 +287,7 @@ MonoBehaviour:
   knockbackDuration: 0.12
   canBeStunned: 1
   hitVFX: {fileID: 4452503011363193251, guid: 8916ecc4842078846b31a3502647801f, type: 3}
+  dieSound: {fileID: 8300000, guid: 69e4b50c14409e029a1d450ce7cba191, type: 3}
   dayMesh: {fileID: 7329718667263292795}
   dayDamage: 10
   daySpeed: 4
