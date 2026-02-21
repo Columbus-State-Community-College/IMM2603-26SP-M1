@@ -32,7 +32,7 @@ public class SceneLoader : MonoBehaviour
         HowToPlayScreen.gameObject.SetActive(true);
         HowToPlayButton.onClick.AddListener(HowToPlayMenuClose);
         HowToPlayButton.onClick.RemoveListener(HowToPlay);
-        HowToPlayButtonText.text = "BACK";
+        HowToPlayButtonText.text = "Back";
     }
 
     public void HowToPlayMenuClose()
@@ -40,7 +40,7 @@ public class SceneLoader : MonoBehaviour
         HowToPlayScreen.gameObject.SetActive(false);
         HowToPlayButton.onClick.RemoveListener(HowToPlayMenuClose);
         HowToPlayButton.onClick.AddListener(HowToPlay);
-        HowToPlayButtonText.text = "HOW TO PLAY";
+        HowToPlayButtonText.text = "How to Play";
     }
 
     public void QuitGame()
