@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
     private bool isJumpHovering = false; // JUMP (tracks jump hovering state)
     private bool isJumpFalling = false; // JUMP (tracks jump falling state)
 
+    private Coroutine _jumpAbilityRiseCoroutine;
+    private Coroutine _jumpAbilityHoverCoroutine;
+    private Coroutine _jumpAbilityFallSlamCoroutine;
 
     private float hoverLogTimer = 0f; // HOVER (throttles hover debug logging)
     private const float hoverLogInterval = 0.25f; // HOVER (log interval)
@@ -221,14 +224,13 @@ public class PlayerController : MonoBehaviour
 
         if (callbackContext.action.WasPressedThisFrame() && JumpingPermitted())
         {
-            StartCoroutine(JumpAbilityRise());
+            _jumpAbilityRiseCoroutine = StartCoroutine(JumpAbilityRise());
         }
 
 
         if (callbackContext.action.WasReleasedThisFrame() && !isGrounded)
-        {
-            
-            StartCoroutine(JumpAbilityFallSlam());
+        {        
+            _jumpAbilityFallSlamCoroutine = StartCoroutine(JumpAbilityFallSlam());
         }
 
     }
@@ -247,7 +249,8 @@ public class PlayerController : MonoBehaviour
     // this coroutine handles the start of the jump and rising jump state
     private IEnumerator JumpAbilityRise()
     {
-        Debug.Log("Rise Coroutine begun.");
+        Debug.Log("Jump Rise Coroutine begun.");
+        //Debug.Break();
         isJumpAscending = true;
         slamStarted = true; //NEW
 
@@ -265,13 +268,16 @@ public class PlayerController : MonoBehaviour
 
         isJumpAscending = false;
         // starts the floating coroutine
+        Debug.Log("Jump Rise Coroutine finished.");
         yield return StartCoroutine(JumpAbilityHover());
+        
 
     }
 
+    // this coroutine handles the hovering jump state
     private IEnumerator JumpAbilityHover()
     {
-        Debug.Log("Hover Coroutine begun.");
+        Debug.Log("Jump Hover Coroutine begun.");
         isJumpHovering = true;
         while (currentJumpTime > 0.0f)
         {
@@ -279,18 +285,20 @@ public class PlayerController : MonoBehaviour
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
             yield return null;
         }
-        
+
+        Debug.Log("Jump Hover Coroutine finished.");
         yield return StartCoroutine(JumpAbilityFallSlam());
 
     }
 
+    // This coroutine handles the fall and slam state of the jump ability.
     private IEnumerator JumpAbilityFallSlam()
     {
-        Debug.Log("FallSlam Coroutine begun.");
+        Debug.Log("Jump Fall Slam Coroutine begun.");
         // this code block ensures the fall state occurs cleanly
         {
-            StopCoroutine(JumpAbilityRise());
-            StopCoroutine(JumpAbilityHover());
+            StopCoroutine(_jumpAbilityRiseCoroutine);
+            StopCoroutine(_jumpAbilityHoverCoroutine);
             isJumpAscending = false;
             isJumpHovering = false;
             groundAttack?.StopCharge(); // GROUND ATTACK
@@ -319,6 +327,10 @@ public class PlayerController : MonoBehaviour
                 Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
             */
         }
+
+        Debug.Log("Jump Fall Slam Coroutine Finished.");
+        StopCoroutine(_jumpAbilityFallSlamCoroutine);
+
         
     }
 
