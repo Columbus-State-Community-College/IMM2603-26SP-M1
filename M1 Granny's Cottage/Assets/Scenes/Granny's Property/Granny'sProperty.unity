@@ -2298,9 +2298,8 @@ MonoBehaviour:
   _playerCamera: {fileID: 0}
   _playerCameraScript: {fileID: 0}
   hammerAttack: {fileID: 0}
-  isJumping: 0
   isGrounded: 1
-  maxHoverTime: 2
+  maxJumpTime: 2
   knockbackDistance: 3.5
   knockbackDuration: 0.15
   groundAttack: {fileID: 71386920}
@@ -2460,7 +2459,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 71386916}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: Jump
+        m_MethodName: OnJumpInputEvent
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16817,6 +16816,7 @@ MonoBehaviour:
   slider: {fileID: 2089426900}
   meshRenderer: {fileID: 6068180473083566110}
   flashDuration: 0.25
+  damageCooldown: 0.3
 --- !u!136 &516815731
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -28974,6 +28974,7 @@ MonoBehaviour:
   - Quick Swing
   audioSource: {fileID: 349363251}
   SelectSound: {fileID: 8300000, guid: 85b73fe2e59dcdc9d96eae5331a63ecd, type: 3}
+  playerController: {fileID: 0}
 --- !u!4 &931524522 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5701676887763904231, guid: 32579238d7ce7374cbf44c80eb000e12, type: 3}

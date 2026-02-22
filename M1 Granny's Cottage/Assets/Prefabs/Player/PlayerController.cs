@@ -28,14 +28,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public HammerAttack hammerAttack;
 
     [Header("Player Status")]
-    [SerializeField] private bool isJumping = false;
     private GroundPosition _groundPosition;
     public bool isGrounded = true;
 
-    [Header("Hover Settings")] // HOVER (time-limited hover / slam charge)
-    [SerializeField] private float maxHoverTime = 2f; // HOVER (upgrade-modifiable hover duration)
-    private float currentHoverTime; // HOVER (runtime hover timer)
-    private bool isHovering; // HOVER (tracks active hover state)
+    [Header("Jump Settings")] // Jump (time-limited hover / slam charge)
+    [SerializeField] private float maxJumpTime = 2f; // JUMP (upgrade-modifiable jump duration)
+    private float currentJumpTime; // JUMP (runtime jump timer)
+    private bool isJumpAscending = false; // JUMP (tracks jump ascending state)
+    private bool isJumpHovering = false; // JUMP (tracks jump hovering state)
+    private bool isJumpFalling = false; // JUMP (tracks jump falling state)
+
 
     private float hoverLogTimer = 0f; // HOVER (throttles hover debug logging)
     private const float hoverLogInterval = 0.25f; // HOVER (log interval)
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour
         if (_playerCamera != null)
             _playerCameraScript = _playerCamera.GetComponent<PlayerCameraScript>();
 
-        currentHoverTime = maxHoverTime; // HOVER (initialize hover timer)
+        currentJumpTime = maxJumpTime; // HOVER (initialize hover timer)
         //Debug.Log($"[HOVER] Initialized hover time: {currentHoverTime}"); // DEBUG
     }
 
@@ -106,37 +108,12 @@ public class PlayerController : MonoBehaviour
         isGrounded = _groundPosition.groundedState;
         //Debug.Log(isGrounded ? "GROUNDED" : "NOT GROUNDED");
 
-        //NEW
-        if (slamOnCooldown) //NEW
-        {
-            slamCooldownTimer -= Time.deltaTime; //NEW
-
-            //NEW
-            if (showSlamCooldownDebug) //NEW
-            {
-                slamLogTimer += Time.deltaTime; //NEW
-                if (slamLogTimer >= slamLogInterval) //NEW
-                {
-                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
-                    slamLogTimer = 0f; //NEW
-                }
-            }
-
-            if (slamCooldownTimer <= 0f) //NEW
-            {
-                slamOnCooldown = false; //NEW
-                slamCooldownTimer = 0f; //NEW
-                slamLogTimer = 0f; //NEW
-                //NEW
-                if (showSlamCooldownDebug) //NEW
-                    Debug.Log("[SLAM] Cooldown finished"); //NEW
-            }
-        }
+        JumpSlamCooldownManager();
 
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         ApplyRotation();
-        Jump();
+        //Jump();
         ApplyMovement();
         UpdateAnimation();
     }
@@ -145,7 +122,7 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         // Prevent hammer attack while hovering or not grounded
-        if (!isGrounded || isHovering)
+        if (!isGrounded || isJumpHovering)
         {
             Debug.Log("[COMBAT] Hammer attack blocked — player airborne or hovering");
             return;
@@ -239,85 +216,145 @@ public class PlayerController : MonoBehaviour
         knockbackRoutine = null;
     }
 
-    private void Jump()
+    public void OnJumpInputEvent(InputAction.CallbackContext callbackContext)
     {
-        if (_playerInputActions.Player.Jump.WasPressedThisFrame())
+
+        if (callbackContext.action.WasPressedThisFrame() && JumpingPermitted())
         {
-            if (slamOnCooldown) return; //NEW
-
-            isJumping = true;
-            isHovering = true;
-            slamStarted = true; //NEW
-
-            groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
-            audioSource.PlayOneShot(jumpingSound, volume);
+            StartCoroutine(JumpAbilityRise());
         }
 
-        if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
+
+        if (callbackContext.action.WasReleasedThisFrame() && !isGrounded)
         {
-            isJumping = false;
-            isHovering = false; // HOVER (manual cancel)
-            groundAttack?.StopCharge(); // GROUND ATTACK
+            
+            StartCoroutine(JumpAbilityFallSlam());
         }
 
-        // Hover logic with time limit
-        if (isHovering && currentHoverTime > 0f) // HOVER
-        {
-            if (transform.position.y < 7f)
-            {
-                _verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
-            }
-            else
-            {
-                _verticalVelocity = 0;
-            }
+    }
 
-            currentHoverTime -= Time.deltaTime; // HOVER
+    // This function checks whether the player can start the jump ability
+    private bool JumpingPermitted()
+    {
+        bool canPlayerStartJumping;
+        canPlayerStartJumping = (isGrounded && !slamOnCooldown) ? true : false;
+        
+        return canPlayerStartJumping;
+    }
+
+    //private bool 
+    
+    // this coroutine handles the start of the jump and rising jump state
+    private IEnumerator JumpAbilityRise()
+    {
+        Debug.Log("Rise Coroutine begun.");
+        isJumpAscending = true;
+        slamStarted = true; //NEW
+
+        groundAttack?.StartCharge(transform.position, maxJumpTime); // GROUND ATTACK
+        audioSource.PlayOneShot(jumpingSound, volume);
+
+
+        while (transform.position.y != (_groundPosition.GroundPointTransform.position.y + 5.0f))
+        {
+            Mathf.SmoothDamp(transform.position.y, (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, 0.5f);
+            currentJumpTime -= Time.deltaTime; // HOVER
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
-
-            // slowed logging
-            hoverLogTimer += Time.deltaTime; // DEBUG
-            if (hoverLogTimer >= hoverLogInterval) // DEBUG
-            {
-                //Debug.Log($"[HOVER] Active — Time left: {currentHoverTime:F2}");
-                hoverLogTimer = 0f; // DEBUG
-            }
+            yield return null;
         }
-        else
-        {
-            if (isHovering)
-            {
-                Debug.Log("[HOVER] Hover time expired — auto-ending hover"); // DEBUG
-            }
 
-            isHovering = false; // HOVER
+        isJumpAscending = false;
+        // starts the floating coroutine
+        yield return StartCoroutine(JumpAbilityHover());
+
+    }
+
+    private IEnumerator JumpAbilityHover()
+    {
+        Debug.Log("Hover Coroutine begun.");
+        isJumpHovering = true;
+        while (currentJumpTime > 0.0f)
+        {
+            currentJumpTime -= Time.deltaTime; // HOVER
+            groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
+            yield return null;
+        }
+        
+        yield return StartCoroutine(JumpAbilityFallSlam());
+
+    }
+
+    private IEnumerator JumpAbilityFallSlam()
+    {
+        Debug.Log("FallSlam Coroutine begun.");
+        // this code block ensures the fall state occurs cleanly
+        {
+            StopCoroutine(JumpAbilityRise());
+            StopCoroutine(JumpAbilityHover());
+            isJumpAscending = false;
+            isJumpHovering = false;
             groundAttack?.StopCharge(); // GROUND ATTACK
         }
 
-        // Gravity when not hovering
-        if (!isHovering)
+        isJumpFalling = true;
+
+        while (!isGrounded)
         {
-            if (transform.position.y > 1.8f)
-            {
-                ApplyGravity();
-            }
-            else
-            {
-                _verticalVelocity = 0;
-                currentHoverTime = maxHoverTime; // HOVER
-                groundAttack?.StopCharge(); // GROUND ATTACK (safety)
+            Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, 0.5f);
+            yield return null;
+        }
 
-                //NEW
-                if (slamStarted && !slamOnCooldown) //NEW
+        isJumpFalling = false;
+        currentJumpTime = maxJumpTime; // HOVER
+        //NEW
+        if (slamStarted && !slamOnCooldown) //NEW
+        {
+            slamOnCooldown = true; //NEW
+            slamCooldownTimer = slamCooldownDuration; //NEW
+            slamStarted = false; //NEW
+            slamLogTimer = 0f; //NEW
+
+            /* debug
+            if (showSlamCooldownDebug) //NEW
+                Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
+            */
+        }
+        
+    }
+
+    // This function manages the cooldown for the jump slam
+    private void JumpSlamCooldownManager()
+    {
+        //NEW
+        if (slamOnCooldown) //NEW
+        {
+            slamCooldownTimer -= Time.deltaTime; //NEW
+
+            //NEW
+            if (showSlamCooldownDebug) //NEW
+            {
+                slamLogTimer += Time.deltaTime; //NEW
+                
+                if (slamLogTimer >= slamLogInterval) //NEW
                 {
-                    slamOnCooldown = true; //NEW
-                    slamCooldownTimer = slamCooldownDuration; //NEW
-                    slamStarted = false; //NEW
+                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
                     slamLogTimer = 0f; //NEW
-
-                    if (showSlamCooldownDebug) //NEW
-                        Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
                 }
+            }
+
+            if (slamCooldownTimer <= 0f) //NEW
+            {
+                slamOnCooldown = false; //NEW
+                slamCooldownTimer = 0f; //NEW
+                slamLogTimer = 0f; //NEW
+
+                
+                //NEW
+                if (showSlamCooldownDebug)
+                {
+                    //NEW
+                    Debug.Log("[SLAM] Cooldown finished"); //NEW
+                } 
             }
         }
     }
