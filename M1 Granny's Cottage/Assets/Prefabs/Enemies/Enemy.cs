@@ -114,7 +114,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // PLAYER DAMAGE + KNOCKBACK
+    //NEW REMOVED - Player damage + knockback now handled in PlayerHitbox
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (isDead) return;
@@ -129,7 +130,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
+    */
     // ENEMY TAKES DAMAGE (FROM PLAYER)
     // Called by HammerAttack
     public void HandleHit(float damage, Vector3 attackerPosition, Vector3 hitPoint)
@@ -214,11 +215,9 @@ public class Enemy : MonoBehaviour
         navMeshAgent.isStopped = false;
         isKnockedBack = false;
         knockbackRoutine = null;
-
-        //Debug.Log("[ENEMY] Knockback END");
+        //Debug.Log("[ENEMY] Knockback END");   
     }
 
-    // NEW
     public void ApplyStun(float duration) // NEW
     {
         if (!canBeStunned || isDead || isStunned)
@@ -230,7 +229,6 @@ public class Enemy : MonoBehaviour
         stunRoutine = StartCoroutine(StunCoroutine(duration));
     }
 
-    // NEW
     private IEnumerator StunCoroutine(float duration) // NEW
     {
         isStunned = true;

@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerHitbox : MonoBehaviour
 {
     PlayerHealth playerHealth;
+    PlayerController playerController; //NEW
 
     public Slider slider;
 
@@ -16,15 +17,18 @@ public class PlayerHitbox : MonoBehaviour
     private Color[] originalColors;
     private Coroutine flashRoutine;
 
+    [Header("Damage Cooldown")] //NEW
+    [SerializeField] private float damageCooldown = 0.3f; //NEW
+    private float damageCooldownTimer = 0f; //NEW
 
     private void Awake()
     {
         playerHealth = GetComponentInParent<PlayerHealth>();
+        playerController = GetComponentInParent<PlayerController>(); //NEW
 
         if (meshRenderer != null)
         {
             materials = meshRenderer.materials;
-
             originalColors = new Color[materials.Length];
 
             for (int i = 0; i < materials.Length; i++)
@@ -37,13 +41,28 @@ public class PlayerHitbox : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void Update() //NEW
     {
+        if (damageCooldownTimer > 0f)
+            damageCooldownTimer -= Time.deltaTime;
+    }
+
+    //NEW CHANGED from OnTriggerStay to OnTriggerEnter
+    private void OnTriggerEnter(Collider other) //NEW
+    {
+        if (damageCooldownTimer > 0f) return;
+
         Enemy enemy = other.GetComponentInParent<Enemy>();
 
         if (enemy != null)
         {
+            damageCooldownTimer = damageCooldown;
+
             playerHealth.TakeDamage(enemy.damage);
+
+            if (playerController != null)
+                playerController.TakeHit(enemy.transform.position, enemy.damage);
+
             FlashRed();
         }
     }
@@ -90,6 +109,5 @@ public class PlayerHitbox : MonoBehaviour
             else
                 materials[i].color = originalColors[i];
         }
-
     }
 }
