@@ -18,12 +18,16 @@ public class DayNightPopup : MonoBehaviour
     [Header("Settings")]
     public List<string> allPowerups = new List<string>
     {
-        "Speed Boost", "Double Jump", "Dash", "Extra Health", "Area Smash", "Quick Swing"
+        "Speed Boost", "Dash", "Extra Health", "Ground Smash", "Quick Swing" //NEW removed Double Jump + renamed Area Smash
     };
 
     [Header("Select Sound Effect")]
     public AudioSource audioSource;
     public AudioClip SelectSound;
+
+    //NEW
+    [Header("Player Reference")]
+    [SerializeField] private PlayerController playerController; //NEW
 
     private void OnEnable()
     {
@@ -53,11 +57,9 @@ public class DayNightPopup : MonoBehaviour
             powerupButtons[i].gameObject.SetActive(true);
 
             powerupButtons[i].onClick.RemoveAllListeners();
-
             powerupButtons[i].onClick.AddListener(() => SelectPowerup(powerup));
         }
     }
-
 
     void SelectPowerup(string powerup)
     {
@@ -73,19 +75,28 @@ public class DayNightPopup : MonoBehaviour
     void ApplyPowerup(string powerup)
     {
         // Will add to these if game is chosen
+        if (playerController == null) return; //NEW
+
         switch (powerup)
         {
             case "Speed Boost":
+                playerController.ApplySpeedBoost(); //NEW
                 break;
-            case "Double Jump":
-                break;
+
             case "Dash":
+                playerController.ApplyDashUpgrade(); //NEW
                 break;
+
             case "Extra Health":
+                playerController.ApplyExtraHealth(); //NEW
                 break;
-            case "Area Smash":
+
+            case "Ground Smash": //NEW renamed
+                playerController.ApplyGroundSmashUpgrade(); //NEW
                 break;
+
             case "Quick Swing":
+                playerController.ApplyQuickSwing(); //NEW
                 break;
         }
     }

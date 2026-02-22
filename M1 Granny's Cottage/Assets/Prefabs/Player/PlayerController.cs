@@ -49,6 +49,18 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Attack")] // GROUND ATTACK
     [SerializeField] private GroundAttack groundAttack; // GROUND ATTACK
 
+    //NEW
+    [Header("Ground Attack Cooldown")] //NEW
+    [SerializeField] private float slamCooldownDuration = 7f; //NEW (adjustable in Inspector)
+    private float slamCooldownTimer = 0f; //NEW
+    private bool slamOnCooldown = false; //NEW
+    private bool slamStarted = false; //NEW (tracks if a slam was actually initiated)
+
+    //NEW
+    [SerializeField] private bool showSlamCooldownDebug = true; //NEW (toggle in Inspector)
+    private float slamLogTimer = 0f; //NEW (throttle timer)
+    private const float slamLogInterval = 1f; //NEW (log once per second)
+
     [Header("Player Action Sounds")]
     public AudioSource audioSource;
     public AudioClip jumpingSound;
@@ -58,24 +70,16 @@ public class PlayerController : MonoBehaviour
     [Header("Animation")]
     [SerializeField] public Animator animator;
 
-
-
-
     private void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
         _playerInputActions.UI.Disable();
         _characterController = GetComponent<CharacterController>();
         _groundPosition = GetComponent<GroundPosition>();
-        
-        
     }
 
     private void Start()
     {
-        // this manages
-        
-
         if (_playerCamera != null)
             _playerCameraScript = _playerCamera.GetComponent<PlayerCameraScript>();
 
@@ -101,23 +105,56 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = _groundPosition.groundedState;
         //Debug.Log(isGrounded ? "GROUNDED" : "NOT GROUNDED");
+
+        //NEW
+        if (slamOnCooldown) //NEW
+        {
+            slamCooldownTimer -= Time.deltaTime; //NEW
+
+            //NEW
+            if (showSlamCooldownDebug) //NEW
+            {
+                slamLogTimer += Time.deltaTime; //NEW
+                if (slamLogTimer >= slamLogInterval) //NEW
+                {
+                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
+                    slamLogTimer = 0f; //NEW
+                }
+            }
+
+            if (slamCooldownTimer <= 0f) //NEW
+            {
+                slamOnCooldown = false; //NEW
+                slamCooldownTimer = 0f; //NEW
+                slamLogTimer = 0f; //NEW
+                //NEW
+                if (showSlamCooldownDebug) //NEW
+                    Debug.Log("[SLAM] Cooldown finished"); //NEW
+            }
+        }
+
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         ApplyRotation();
-        
+        Jump();
         ApplyMovement();
         UpdateAnimation();
-
     }
-
 
     // Attack callback (Pure New Input System)
     private void OnAttack(InputAction.CallbackContext context)
     {
+        // Prevent hammer attack while hovering or not grounded
+        if (!isGrounded || isHovering)
+        {
+            Debug.Log("[COMBAT] Hammer attack blocked — player airborne or hovering");
+            return;
+        }
+
         if (hammerAttack != null)
         {
             hammerAttack.StartAttack();
-            //audioSource.PlayOneShot(hammerSwingSound, volume);
+        // Prevent hammer attack while hovering or not grounded
         }
     }
 
@@ -145,7 +182,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveInput = callbackContext.ReadValue<Vector2>();
         _moveInput = new Vector3(moveInput.x, _verticalVelocity, moveInput.y);
-        
     }
 
     private void ApplyMovement()
@@ -167,133 +203,123 @@ public class PlayerController : MonoBehaviour
         _verticalVelocity = _gravity * _gravityMultiplier * Time.deltaTime;
     }
 
-    public void Jump(InputAction.CallbackContext callbackContext)
+    // KNOCKBACK (restored only — no changes to your system)
+    public void TakeHit(Vector3 hitSourcePosition, float damage)
     {
+        if (isKnockedBack)
+            return;
 
-       /*  float ascentDuration = 0.5f;
-        float dropDuration = 0.35f;
+        Vector3 direction = transform.position - hitSourcePosition;
+        direction.y = 0f;
+        direction.Normalize();
 
-        Vector3 jumpZenith = new Vector3(transform.position.x, 7.0f, transform.position.z);
-        Vector3 landingPosition = _groundPosition.GroundPointTransform.position; */
+        if (knockbackRoutine != null)
+            StopCoroutine(knockbackRoutine);
 
-        if (callbackContext.action.WasPressedThisFrame())
+        knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction));
+    }
+
+    private IEnumerator KnockbackCoroutine(Vector3 direction)
+    {
+        isKnockedBack = true;
+
+        float elapsed = 0f;
+        Vector3 start = transform.position;
+        Vector3 target = start + direction * knockbackDistance;
+
+        while (elapsed < knockbackDuration)
         {
-            
-            BeginJump();
-           
-            //VerticalMotion(ascentDuration, jumpZenith);
-        }
-        else if ((callbackContext.action.IsInProgress() || callbackContext.action.IsPressed()) && transform.position.y < 7.0f && currentHoverTime > 0f)
-        {
-            JumpRise();
-        }
-        else if ((callbackContext.action.IsInProgress() || callbackContext.action.IsPressed()) && transform.position.y >= 7.0f && currentHoverTime > 0f)
-        {
-            JumpFloat();
-        }
-        else if (callbackContext.action.WasReleasedThisFrame()|| !callbackContext.action.IsPressed() || currentHoverTime <= 0f)
-        {
-            JumpFalling();
+            elapsed += Time.deltaTime;
+            Vector3 nextPos = Vector3.Lerp(start, target, elapsed / knockbackDuration);
+            _characterController.Move(nextPos - transform.position);
+            yield return null;
         }
 
-        
+        isKnockedBack = false;
+        knockbackRoutine = null;
+    }
+
+    private void Jump()
+    {
+        if (_playerInputActions.Player.Jump.WasPressedThisFrame())
+        {
+            if (slamOnCooldown) return; //NEW
+
+            isJumping = true;
+            isHovering = true;
+            slamStarted = true; //NEW
+
+            groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
+            audioSource.PlayOneShot(jumpingSound, volume);
+        }
+
+        if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
+        {
+            isJumping = false;
+            isHovering = false; // HOVER (manual cancel)
+            groundAttack?.StopCharge(); // GROUND ATTACK
+        }
+
         // Hover logic with time limit
-        /*if (isHovering && currentHoverTime > 0f) // HOVER
-        {*/
-            /*
+        if (isHovering && currentHoverTime > 0f) // HOVER
+        {
+            if (transform.position.y < 7f)
             {
-                if (transform.position.y < 7f)
-                {
-                    //_verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
-                }
-                else
-                {
-                    //_verticalVelocity = 0;
-                }
+                _verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
             }
-            */
+            else
+            {
+                _verticalVelocity = 0;
+            }
 
-            //currentHoverTime -= Time.deltaTime; // HOVER
-
-            //groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
+            currentHoverTime -= Time.deltaTime; // HOVER
+            groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
 
             // slowed logging
-            /*hoverLogTimer += Time.deltaTime; // DEBUG
+            hoverLogTimer += Time.deltaTime; // DEBUG
             if (hoverLogTimer >= hoverLogInterval) // DEBUG
             {
                 //Debug.Log($"[HOVER] Active — Time left: {currentHoverTime:F2}");
                 hoverLogTimer = 0f; // DEBUG
-            }*/
-        /*}
+            }
+        }
         else
         {
-            /*if (isHovering)
+            if (isHovering)
             {
                 Debug.Log("[HOVER] Hover time expired — auto-ending hover"); // DEBUG
-            }*/
+            }
 
-            //isHovering = false; // HOVER
-            //groundAttack?.StopCharge(); // GROUND ATTACK
-       // }
+            isHovering = false; // HOVER
+            groundAttack?.StopCharge(); // GROUND ATTACK
+        }
 
-        /*// Gravity when not hovering
+        // Gravity when not hovering
         if (!isHovering)
         {
-            if (transform.position.y > 1.7f)
+            if (transform.position.y > 1.8f)
             {
-                //ApplyGravity();
-                VerticalMotion(dropDuration, landingPosition);
+                ApplyGravity();
             }
             else
             {
-                //_verticalVelocity = 0;
+                _verticalVelocity = 0;
                 currentHoverTime = maxHoverTime; // HOVER
-                hoverLogTimer = 0f; // HOVER
-
                 groundAttack?.StopCharge(); // GROUND ATTACK (safety)
+
+                //NEW
+                if (slamStarted && !slamOnCooldown) //NEW
+                {
+                    slamOnCooldown = true; //NEW
+                    slamCooldownTimer = slamCooldownDuration; //NEW
+                    slamStarted = false; //NEW
+                    slamLogTimer = 0f; //NEW
+
+                    if (showSlamCooldownDebug) //NEW
+                        Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
+                }
             }
-        } */
-    }
-
-    private void BeginJump()
-    {
-        Debug.Log("Jump Begun");
-        isHovering = true; // HOVER (start hover)
-        groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
-        audioSource.PlayOneShot(jumpingSound, volume);
-    }
-
-    private void JumpRise()
-    {
-        _verticalVelocity = 0.5f;
-        currentHoverTime -= Time.deltaTime; // HOVER
-
-        groundAttack?.UpdateCharge(transform.position);
-
-    }
-
-    private void JumpFloat()
-    {
-        _verticalVelocity = 0.0f;
-        currentHoverTime -= Time.deltaTime; // HOVER
-        groundAttack?.UpdateCharge(transform.position);
-    }
-
-    private void JumpFalling()
-    {
-        _verticalVelocity = -0.5f;
-        isHovering = false; // HOVER (manual cancel)
-
-        groundAttack?.StopCharge(); // GROUND ATTACK
-    }
-
-    private void JumpLand()
-    {
-        int stub = 1;
-    }
-    void VerticalMotion(float moveDuration, Vector3 destination)
-    {
-        Vector3.SmoothDamp(transform.position, destination, ref _moveInput, moveDuration);
+        }
     }
 
     private void UpdateAnimation()
@@ -306,46 +332,33 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", speed);
     }
 
-    // PLAYER KNOCKBACK
-    public void TakeHit(Vector3 hitSourcePosition, float damage) // KNOCKBACK (called by enemy)
+    //NEW POWERUP METHODS
+
+    public void ApplySpeedBoost() //NEW
     {
-        if (isKnockedBack)
-        {
-            //Debug.Log("[KNOCKBACK] Hit ignored — already in knockback"); // DEBUG
-            return;
-        }
-
-        //Debug.Log("[KNOCKBACK] Player hit — knockback started"); // DEBUG
-
-        Vector3 direction = transform.position - hitSourcePosition; // KNOCKBACK
-        direction.y = 0f;
-        direction.Normalize();
-
-        if (knockbackRoutine != null)
-            StopCoroutine(knockbackRoutine); // KNOCKBACK
-
-        knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction)); // KNOCKBACK
+        runSpeed += 3f;
     }
 
-    private IEnumerator KnockbackCoroutine(Vector3 direction) // KNOCKBACK
+    public void ApplyDashUpgrade() //NEW
     {
-        isKnockedBack = true; // KNOCKBACK
+        // placeholder for dash implementation
+    }
 
-        float elapsed = 0f;
-        Vector3 start = transform.position;
-        Vector3 target = start + direction * knockbackDistance; // KNOCKBACK
+    public void ApplyExtraHealth() //NEW
+    {
+        PlayerHealth health = GetComponent<PlayerHealth>();
+        if (health != null)
+            health.IncreaseMaxHealth(25f);
+    }
 
-        while (elapsed < knockbackDuration)
-        {
-            elapsed += Time.deltaTime;
-            Vector3 nextPos = Vector3.Lerp(start, target, elapsed / knockbackDuration);
-            _characterController.Move(nextPos - transform.position);
-            yield return null;
-        }
+    public void ApplyGroundSmashUpgrade() //NEW
+    {
+        slamCooldownDuration *= 0.5f;
+    }
 
-        isKnockedBack = false; // KNOCKBACK
-        knockbackRoutine = null; // KNOCKBACK
-
-        //Debug.Log("[KNOCKBACK] Knockback ended — control restored"); // DEBUG
+    public void ApplyQuickSwing() //NEW
+    {
+        if (hammerAttack != null)
+            hammerAttack.ReduceCooldown(0.5f);
     }
 }
