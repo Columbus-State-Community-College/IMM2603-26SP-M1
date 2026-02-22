@@ -239,7 +239,12 @@ public class PlayerController : MonoBehaviour
     private bool JumpingPermitted()
     {
         bool canPlayerStartJumping;
-        canPlayerStartJumping = (isGrounded && !slamOnCooldown) ? true : false;
+        canPlayerStartJumping = 
+        (isGrounded && 
+        !slamOnCooldown &&
+        _jumpAbilityRiseCoroutine == null &&
+        _jumpAbilityHoverCoroutine == null &&
+        _jumpAbilityFallSlamCoroutine == null) ? true : false;
         
         return canPlayerStartJumping;
     }
@@ -249,6 +254,7 @@ public class PlayerController : MonoBehaviour
     // this coroutine handles the start of the jump and rising jump state
     private IEnumerator JumpAbilityRise()
     {
+        float jumpRiseDuration = 0.5f;
         Debug.Log("Jump Rise Coroutine begun.");
         //Debug.Break();
         isJumpAscending = true;
@@ -260,16 +266,18 @@ public class PlayerController : MonoBehaviour
 
         while (transform.position.y != (_groundPosition.GroundPointTransform.position.y + 5.0f))
         {
-            Mathf.SmoothDamp(transform.position.y, (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, 0.5f);
+            Mathf.SmoothDamp(transform.position.y, (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, jumpRiseDuration);
             currentJumpTime -= Time.deltaTime; // HOVER
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
-            yield return null;
+            yield return new WaitForSeconds(jumpRiseDuration);
         }
 
         isJumpAscending = false;
         // starts the floating coroutine
         Debug.Log("Jump Rise Coroutine finished.");
-        yield return StartCoroutine(JumpAbilityHover());
+        _jumpAbilityRiseCoroutine = null;
+        _jumpAbilityHoverCoroutine = StartCoroutine(JumpAbilityHover());
+        yield return _jumpAbilityHoverCoroutine;
         
 
     }
@@ -287,13 +295,17 @@ public class PlayerController : MonoBehaviour
         }
 
         Debug.Log("Jump Hover Coroutine finished.");
-        yield return StartCoroutine(JumpAbilityFallSlam());
+        _jumpAbilityHoverCoroutine = null;
+        _jumpAbilityFallSlamCoroutine = StartCoroutine(JumpAbilityFallSlam());
+        yield return _jumpAbilityFallSlamCoroutine;
+        
 
     }
 
     // This coroutine handles the fall and slam state of the jump ability.
     private IEnumerator JumpAbilityFallSlam()
     {
+        float jumpFallDuration = 0.3f;
         Debug.Log("Jump Fall Slam Coroutine begun.");
         // this code block ensures the fall state occurs cleanly
         {
@@ -308,8 +320,8 @@ public class PlayerController : MonoBehaviour
 
         while (!isGrounded)
         {
-            Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, 0.5f);
-            yield return null;
+            Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, jumpFallDuration);
+            yield return new WaitForSeconds(jumpFallDuration);
         }
 
         isJumpFalling = false;
