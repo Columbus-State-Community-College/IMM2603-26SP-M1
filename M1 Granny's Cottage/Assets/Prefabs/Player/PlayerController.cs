@@ -154,7 +154,7 @@ public class PlayerController : MonoBehaviour
         if (hammerAttack != null)
         {
             hammerAttack.StartAttack();
-            //audioSource.PlayOneShot(hammerSwingSound, volume);
+        // Prevent hammer attack while hovering or not grounded
         }
     }
 
@@ -203,6 +203,42 @@ public class PlayerController : MonoBehaviour
         _verticalVelocity = _gravity * _gravityMultiplier * Time.deltaTime;
     }
 
+    // KNOCKBACK (restored only — no changes to your system)
+    public void TakeHit(Vector3 hitSourcePosition, float damage)
+    {
+        if (isKnockedBack)
+            return;
+
+        Vector3 direction = transform.position - hitSourcePosition;
+        direction.y = 0f;
+        direction.Normalize();
+
+        if (knockbackRoutine != null)
+            StopCoroutine(knockbackRoutine);
+
+        knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction));
+    }
+
+    private IEnumerator KnockbackCoroutine(Vector3 direction)
+    {
+        isKnockedBack = true;
+
+        float elapsed = 0f;
+        Vector3 start = transform.position;
+        Vector3 target = start + direction * knockbackDistance;
+
+        while (elapsed < knockbackDuration)
+        {
+            elapsed += Time.deltaTime;
+            Vector3 nextPos = Vector3.Lerp(start, target, elapsed / knockbackDuration);
+            _characterController.Move(nextPos - transform.position);
+            yield return null;
+        }
+
+        isKnockedBack = false;
+        knockbackRoutine = null;
+    }
+
     private void Jump()
     {
         if (_playerInputActions.Player.Jump.WasPressedThisFrame())
@@ -211,7 +247,6 @@ public class PlayerController : MonoBehaviour
 
             isJumping = true;
             isHovering = true;
-
             slamStarted = true; //NEW
 
             groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
@@ -270,8 +305,6 @@ public class PlayerController : MonoBehaviour
             {
                 _verticalVelocity = 0;
                 currentHoverTime = maxHoverTime; // HOVER
-                hoverLogTimer = 0f; // HOVER
-
                 groundAttack?.StopCharge(); // GROUND ATTACK (safety)
 
                 //NEW
@@ -299,45 +332,33 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", speed);
     }
 
-    // PLAYER KNOCKBACK
-    public void TakeHit(Vector3 hitSourcePosition, float damage) // KNOCKBACK (called by enemy)
+    //NEW POWERUP METHODS
+
+    public void ApplySpeedBoost() //NEW
     {
-        if (isKnockedBack)
-        {
-            //Debug.Log("[KNOCKBACK] Hit ignored — already in knockback"); // DEBUG
-            return;
-        }
-
-        //Debug.Log("[KNOCKBACK] Player hit — knockback started"); // DEBUG
-        Vector3 direction = transform.position - hitSourcePosition; // KNOCKBACK
-        direction.y = 0f;
-        direction.Normalize();
-
-        if (knockbackRoutine != null)
-            StopCoroutine(knockbackRoutine); // KNOCKBACK
-
-        knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction)); // KNOCKBACK
+        runSpeed += 3f;
     }
 
-    private IEnumerator KnockbackCoroutine(Vector3 direction) // KNOCKBACK
+    public void ApplyDashUpgrade() //NEW
     {
-        isKnockedBack = true; // KNOCKBACK
+        // placeholder for dash implementation
+    }
 
-        float elapsed = 0f;
-        Vector3 start = transform.position;
-        Vector3 target = start + direction * knockbackDistance; // KNOCKBACK
+    public void ApplyExtraHealth() //NEW
+    {
+        PlayerHealth health = GetComponent<PlayerHealth>();
+        if (health != null)
+            health.IncreaseMaxHealth(25f);
+    }
 
-        while (elapsed < knockbackDuration)
-        {
-            elapsed += Time.deltaTime;
-            Vector3 nextPos = Vector3.Lerp(start, target, elapsed / knockbackDuration);
-            _characterController.Move(nextPos - transform.position);
-            yield return null;
-        }
+    public void ApplyGroundSmashUpgrade() //NEW
+    {
+        slamCooldownDuration *= 0.5f;
+    }
 
-        isKnockedBack = false; // KNOCKBACK
-        knockbackRoutine = null; // KNOCKBACK
-
-        //Debug.Log("[KNOCKBACK] Knockback ended — control restored"); // DEBUG
+    public void ApplyQuickSwing() //NEW
+    {
+        if (hammerAttack != null)
+            hammerAttack.ReduceCooldown(0.5f);
     }
 }

@@ -9,6 +9,11 @@ public class HammerAttack : MonoBehaviour
     public float damage = 10f;
     public float attackDuration = 0.5f;
 
+    //NEW
+    [Header("Cooldown Settings")] //NEW
+    [SerializeField] private float attackCooldown = 0.8f; //NEW
+    private bool canAttack = true; //NEW
+
     [Header("Particle VFX")]
     [SerializeField] private ParticleSystem slashParticles;
     [SerializeField] private ParticleSystem hitParticlesPrefab;
@@ -52,7 +57,7 @@ public class HammerAttack : MonoBehaviour
     // Called by PlayerController
     public void StartAttack()
     {
-        if (attackActive) return;
+        if (attackActive || !canAttack) return; //NEW include cooldown check
 
         //Debug.Log("[HAMMER] Attack START");
         StartCoroutine(AttackRoutine());
@@ -99,16 +104,21 @@ public class HammerAttack : MonoBehaviour
 
     private IEnumerator AttackRoutine()
     {
+        canAttack = false; //NEW start cooldown lock
+
         animator.ResetTrigger("isSwinging");
         animator.SetTrigger("isSwinging");
 
         // fixes taking input before animation is finished
         yield return new WaitForSeconds(attackDuration);
+
+        yield return new WaitForSeconds(attackCooldown); //NEW cooldown delay
+
+        canAttack = true; //NEW reset cooldown
     }
 
     private void OnTriggerEnter(Collider other)
     {
-
         //Debug.Log("Hammer hit: " + other.name);
         if (!attackActive) return;
 
@@ -138,5 +148,14 @@ public class HammerAttack : MonoBehaviour
             transform.position,
             contactPoint
         );
+    }
+
+    //NEW Powerup support
+    public void ReduceCooldown(float multiplier) //NEW
+    {
+        attackCooldown *= multiplier; //NEW
+
+        // Optional safety clamp so cooldown never becomes 0
+        attackCooldown = Mathf.Max(0.1f, attackCooldown); //NEW
     }
 }

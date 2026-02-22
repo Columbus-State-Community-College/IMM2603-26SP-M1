@@ -72,6 +72,23 @@ public class PlayerHealth : MonoBehaviour
         //Debug.Log("[PLAYER] Current Health After Heal: " + currentHealth);
     }
 
+    //NEW Increase max health powerup support
+    public void IncreaseMaxHealth(float amount) //NEW
+    {
+        maxHealth += amount; //NEW increase cap
+        currentHealth += amount; //NEW heal by same amount
+
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); //NEW safety
+
+        if (hitbox != null) //NEW update UI
+        {
+            hitbox.SetMaxHealth(maxHealth);
+        hitbox.SetHealth(currentHealth);
+        }
+
+        audioSource.PlayOneShot(HPGainSound, volume); //NEW feedback
+    }
+
     void Die()
     {
         //Debug.Log("[PLAYER] Player Died");
