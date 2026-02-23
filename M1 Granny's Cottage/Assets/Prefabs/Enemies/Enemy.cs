@@ -86,7 +86,11 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         DayNightCycle.OnTimeChanged += OnTimeChanged;
-        currentTime = DayNightCycle.Current.currentTime;
+
+        if (DayNightCycle.Current != null)
+        {
+            currentTime = DayNightCycle.Current.currentTime;
+        }
     }
 
     private void OnDisable()

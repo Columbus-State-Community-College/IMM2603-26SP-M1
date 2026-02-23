@@ -2292,7 +2292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   runSpeed: 10
-  turnSpeed: 1080
+  turnSpeed: 700
   _gravityMultiplier: 36
   _verticalVelocity: 0
   _playerCamera: {fileID: 0}
@@ -16805,6 +16805,7 @@ MonoBehaviour:
   slider: {fileID: 2089426900}
   meshRenderer: {fileID: 6068180473083566110}
   flashDuration: 0.25
+  damageCooldown: 0.3
 --- !u!136 &516815731
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -28962,6 +28963,7 @@ MonoBehaviour:
   - Quick Swing
   audioSource: {fileID: 349363251}
   SelectSound: {fileID: 8300000, guid: 85b73fe2e59dcdc9d96eae5331a63ecd, type: 3}
+  playerController: {fileID: 0}
 --- !u!4 &931524522 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5701676887763904231, guid: 32579238d7ce7374cbf44c80eb000e12, type: 3}
