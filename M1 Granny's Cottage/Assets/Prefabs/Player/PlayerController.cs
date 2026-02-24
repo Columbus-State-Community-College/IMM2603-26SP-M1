@@ -34,6 +34,16 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Settings")] // Jump (time-limited hover / slam charge)
     [SerializeField] private float maxJumpTime = 2f; // JUMP (upgrade-modifiable jump duration)
     private float currentJumpTime; // JUMP (runtime jump timer)
+
+    private enum JumpState
+    {
+        READY_TO_JUMP,
+        ASCENDING,
+        HOVERING,
+        FALLING,
+        JUMP_ON_COOLDOWWN
+    }
+    private JumpState _currentJumpState = JumpState.READY_TO_JUMP;
     private bool isJumpAscending = false; // JUMP (tracks jump ascending state)
     private bool isJumpHovering = false; // JUMP (tracks jump hovering state)
     private bool isJumpFalling = false; // JUMP (tracks jump falling state)
@@ -228,7 +238,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (callbackContext.action.WasReleasedThisFrame() && !isGrounded)
+        if (callbackContext.action.WasReleasedThisFrame() && !isGrounded && !isJumpFalling && !JumpingPermitted())
         {        
             _jumpAbilityFallSlamCoroutine = StartCoroutine(JumpAbilityFallSlam());
         }
@@ -257,6 +267,7 @@ public class PlayerController : MonoBehaviour
         float jumpRiseDuration = 0.5f;
         Debug.Log("Jump Rise Coroutine begun.");
         //Debug.Break();
+        //_currentJumpState = JumpState.ASCENDING;
         isJumpAscending = true;
         slamStarted = true; //NEW
 
@@ -264,14 +275,17 @@ public class PlayerController : MonoBehaviour
         audioSource.PlayOneShot(jumpingSound, volume);
 
 
-        while (transform.position.y != (_groundPosition.GroundPointTransform.position.y + 5.0f))
+        //while (transform.position.y <= (_groundPosition.GroundPointTransform.position.y + 5.0f))
         {
-            Mathf.SmoothDamp(transform.position.y, (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, jumpRiseDuration);
+            
+            Mathf.SmoothDamp(transform.position.y,  (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, jumpRiseDuration, runSpeed);
+            
             currentJumpTime -= Time.deltaTime; // HOVER
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
-            yield return new WaitForSeconds(jumpRiseDuration);
+            yield return new WaitForSeconds(jumpRiseDuration);// + 0.1f);
         }
-
+        _verticalVelocity = 0.0f;
+        //_currentJumpState = JumpState.HOVERING;
         isJumpAscending = false;
         // starts the floating coroutine
         Debug.Log("Jump Rise Coroutine finished.");
@@ -309,8 +323,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Jump Fall Slam Coroutine begun.");
         // this code block ensures the fall state occurs cleanly
         {
-            StopCoroutine(_jumpAbilityRiseCoroutine);
-            StopCoroutine(_jumpAbilityHoverCoroutine);
+            if (_jumpAbilityRiseCoroutine != null) StopCoroutine(_jumpAbilityRiseCoroutine);
+            if (_jumpAbilityHoverCoroutine != null) StopCoroutine(_jumpAbilityHoverCoroutine);
             isJumpAscending = false;
             isJumpHovering = false;
             groundAttack?.StopCharge(); // GROUND ATTACK
@@ -318,12 +332,13 @@ public class PlayerController : MonoBehaviour
 
         isJumpFalling = true;
 
-        while (!isGrounded)
+        //while (!isGrounded)
         {
             Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, jumpFallDuration);
             yield return new WaitForSeconds(jumpFallDuration);
         }
 
+        _verticalVelocity = 0.0f;
         isJumpFalling = false;
         currentJumpTime = maxJumpTime; // HOVER
         //NEW
@@ -342,6 +357,8 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("Jump Fall Slam Coroutine Finished.");
         StopCoroutine(_jumpAbilityFallSlamCoroutine);
+        _jumpAbilityFallSlamCoroutine = null;
+        yield break;
 
         
     }
