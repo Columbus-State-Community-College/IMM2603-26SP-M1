@@ -45,6 +45,14 @@ public class Enemy : MonoBehaviour
     private Coroutine knockbackRoutine;
     private bool isKnockedBack = false;
 
+    [Header("Hit Flash")]
+    private MeshRenderer[] meshRenderers;
+    [SerializeField] private float flashDuration = 0.1f;
+
+    private Material[] materials;
+    private Color[] originalColors;
+    private Coroutine flashRoutine;
+
     // Enemy types
     [Header("Day Persona (Businessmen)")]
     [SerializeField] private GameObject dayMesh;
@@ -86,7 +94,13 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         DayNightCycle.OnTimeChanged += OnTimeChanged;
-        currentTime = DayNightCycle.Current.currentTime;
+
+        if (DayNightCycle.Current != null)
+        {
+            currentTime = DayNightCycle.Current.currentTime;
+        }
+
+        GetMaterials();
     }
 
     private void OnDisable()
@@ -114,6 +128,30 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void GetMaterials()
+    {
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
+
+        var mats = new System.Collections.Generic.List<Material>();
+        var colors = new System.Collections.Generic.List<Color>();
+
+        foreach (var renderer in meshRenderers)
+        {
+            foreach (var mat in renderer.materials)
+            {
+                mats.Add(mat);
+
+                if (mat.HasProperty("_BaseColor"))
+                    colors.Add(mat.GetColor("_BaseColor"));
+                else
+                    colors.Add(mat.color);
+            }
+        }
+
+        materials = mats.ToArray();
+        originalColors = colors.ToArray();
+    }
+
     //NEW REMOVED - Player damage + knockback now handled in PlayerHitbox
     /*
     private void OnTriggerEnter(Collider other)
@@ -133,6 +171,39 @@ public class Enemy : MonoBehaviour
     */
     // ENEMY TAKES DAMAGE (FROM PLAYER)
     // Called by HammerAttack
+
+    public void FlashRed()
+    {
+        if (flashRoutine != null)
+            StopCoroutine(flashRoutine);
+
+        flashRoutine = StartCoroutine(FlashRoutine());
+    }
+
+    // loops through and adds granny materials to a list in order to chnage color
+    private IEnumerator FlashRoutine()
+    {
+        if (materials == null) yield break;
+
+        for (int i = 0; i < materials.Length; i++)
+        {
+            if (materials[i].HasProperty("_BaseColor"))
+                materials[i].SetColor("_BaseColor", Color.red);
+            else
+                materials[i].color = Color.red;
+        }
+
+        yield return new WaitForSeconds(flashDuration);
+
+        for (int i = 0; i < materials.Length; i++)
+        {
+            if (materials[i].HasProperty("_BaseColor"))
+                materials[i].SetColor("_BaseColor", originalColors[i]);
+            else
+                materials[i].color = originalColors[i];
+        }
+    }
+
     public void HandleHit(float damage, Vector3 attackerPosition, Vector3 hitPoint)
     {
         if (isDead) return;
@@ -140,6 +211,7 @@ public class Enemy : MonoBehaviour
         //Debug.Log("[ENEMY] Took HIT");
 
         currentHealth -= damage;
+        FlashRed();
 
         //Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
 
@@ -267,6 +339,8 @@ public class Enemy : MonoBehaviour
 
         damage = dayDamage;
         navMeshAgent.speed = daySpeed;
+
+        GetMaterials();
     }
 
     // "Switches" the mesh and damage to the demon type it is assigned
@@ -287,6 +361,8 @@ public class Enemy : MonoBehaviour
             damage = activeDemonType.damage;
             navMeshAgent.speed = activeDemonType.moveSpeed;
         }
+
+        GetMaterials();
     }
 
     private void Die()
