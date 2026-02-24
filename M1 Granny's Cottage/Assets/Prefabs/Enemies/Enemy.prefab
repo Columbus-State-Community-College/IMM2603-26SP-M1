@@ -287,7 +287,8 @@ MonoBehaviour:
   knockbackDuration: 0.12
   canBeStunned: 1
   hitVFX: {fileID: 4452503011363193251, guid: 8916ecc4842078846b31a3502647801f, type: 3}
-  dieSound: {fileID: 8300000, guid: 69e4b50c14409e029a1d450ce7cba191, type: 3}
+  meshRenderer: {fileID: 9131215624459556014}
+  flashDuration: 0.1
   dayMesh: {fileID: 7329718667263292795}
   dayDamage: 10
   daySpeed: 4
@@ -561,5 +562,10 @@ MonoBehaviour:
 --- !u!4 &7994932669948850113 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 359558943220930458, guid: 6d0d08f4599f65b488b24a527d2b42a5, type: 3}
+  m_PrefabInstance: {fileID: 7642287594759845979}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &9131215624459556014 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1492455267296636149, guid: 6d0d08f4599f65b488b24a527d2b42a5, type: 3}
   m_PrefabInstance: {fileID: 7642287594759845979}
   m_PrefabAsset: {fileID: 0}
