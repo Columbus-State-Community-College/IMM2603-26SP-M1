@@ -3,6 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
+using Unity.VisualScripting.ReorderableList;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -28,14 +29,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public HammerAttack hammerAttack;
 
     [Header("Player Status")]
-    [SerializeField] private bool isJumping = false;
     private GroundPosition _groundPosition;
     public bool isGrounded = true;
 
-    [Header("Hover Settings")] // HOVER (time-limited hover / slam charge)
-    [SerializeField] private float maxHoverTime = 2f; // HOVER (upgrade-modifiable hover duration)
-    private float currentHoverTime; // HOVER (runtime hover timer)
-    private bool isHovering; // HOVER (tracks active hover state)
+    [Header("Jump Settings")] // Jump (time-limited hover / slam charge)
+    [SerializeField] private float maxJumpTime = 2f; // JUMP (upgrade-modifiable jump duration)
+    private float currentJumpTime; // JUMP (runtime jump timer)
+
+    private enum JumpState
+    {
+        READY_TO_JUMP,
+        ASCENT_START,
+        ASCENDING,
+        HOVERING,
+        FALLING,
+        SLAM,
+        JUMP_ON_COOLDOWN
+    }
+    private JumpState _currentJumpState = JumpState.READY_TO_JUMP;
+
+    private Coroutine _jumpAbilityRiseCoroutine;
+    private Coroutine _jumpAbilityHoverCoroutine;
+    private Coroutine _jumpAbilityFallSlamCoroutine;
 
     private float hoverLogTimer = 0f; // HOVER (throttles hover debug logging)
     private const float hoverLogInterval = 0.25f; // HOVER (log interval)
@@ -53,11 +68,10 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Attack Cooldown")] //NEW
     [SerializeField] private float slamCooldownDuration = 7f; //NEW (adjustable in Inspector)
     private float slamCooldownTimer = 0f; //NEW
-    private bool slamOnCooldown = false; //NEW
-    private bool slamStarted = false; //NEW (tracks if a slam was actually initiated)
+    
 
     //NEW
-    [SerializeField] private bool showSlamCooldownDebug = true; //NEW (toggle in Inspector)
+    [SerializeField] private bool showSlamCooldownDebug = false; //NEW (toggle in Inspector)
     private float slamLogTimer = 0f; //NEW (throttle timer)
     private const float slamLogInterval = 1f; //NEW (log once per second)
 
@@ -83,7 +97,7 @@ public class PlayerController : MonoBehaviour
         if (_playerCamera != null)
             _playerCameraScript = _playerCamera.GetComponent<PlayerCameraScript>();
 
-        currentHoverTime = maxHoverTime; // HOVER (initialize hover timer)
+        currentJumpTime = maxJumpTime; // HOVER (initialize hover timer)
         //Debug.Log($"[HOVER] Initialized hover time: {currentHoverTime}"); // DEBUG
     }
 
@@ -106,37 +120,12 @@ public class PlayerController : MonoBehaviour
         isGrounded = _groundPosition.groundedState;
         //Debug.Log(isGrounded ? "GROUNDED" : "NOT GROUNDED");
 
-        //NEW
-        if (slamOnCooldown) //NEW
-        {
-            slamCooldownTimer -= Time.deltaTime; //NEW
-
-            //NEW
-            if (showSlamCooldownDebug) //NEW
-            {
-                slamLogTimer += Time.deltaTime; //NEW
-                if (slamLogTimer >= slamLogInterval) //NEW
-                {
-                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
-                    slamLogTimer = 0f; //NEW
-                }
-            }
-
-            if (slamCooldownTimer <= 0f) //NEW
-            {
-                slamOnCooldown = false; //NEW
-                slamCooldownTimer = 0f; //NEW
-                slamLogTimer = 0f; //NEW
-                //NEW
-                if (showSlamCooldownDebug) //NEW
-                    Debug.Log("[SLAM] Cooldown finished"); //NEW
-            }
-        }
+        JumpSlamCooldownManager();
 
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         ApplyRotation();
-        Jump();
+        //Jump();
         ApplyMovement();
         UpdateAnimation();
     }
@@ -145,7 +134,7 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         // Prevent hammer attack while hovering or not grounded
-        if (!isGrounded || isHovering)
+        if (!isGrounded) // || _currentJumpState != JumpState.READY_TO_JUMP || _currentJumpState != JumpState.JUMP_ON_COOLDOWN)
         {
             Debug.Log("[COMBAT] Hammer attack blocked — player airborne or hovering");
             return;
@@ -239,85 +228,173 @@ public class PlayerController : MonoBehaviour
         knockbackRoutine = null;
     }
 
-    private void Jump()
+    public void OnJumpInputEvent(InputAction.CallbackContext callbackContext)
     {
-        if (_playerInputActions.Player.Jump.WasPressedThisFrame())
+
+        if (callbackContext.action.WasPressedThisFrame() && JumpingPermitted())
         {
-            if (slamOnCooldown) return; //NEW
-
-            isJumping = true;
-            isHovering = true;
-            slamStarted = true; //NEW
-
-            groundAttack?.StartCharge(transform.position, maxHoverTime); // GROUND ATTACK
-            audioSource.PlayOneShot(jumpingSound, volume);
+            //Debug.LogWarning("Jump Press event called.");
+            _jumpAbilityRiseCoroutine = StartCoroutine(JumpAbilityRise());
         }
 
-        if (_playerInputActions.Player.Jump.WasReleasedThisFrame())
-        {
-            isJumping = false;
-            isHovering = false; // HOVER (manual cancel)
-            groundAttack?.StopCharge(); // GROUND ATTACK
+
+        if (callbackContext.action.WasReleasedThisFrame() && !isGrounded && _currentJumpState == JumpState.HOVERING && !JumpingPermitted())
+        {        
+            //Debug.LogWarning("Jump Release event called.");
+            _jumpAbilityFallSlamCoroutine = StartCoroutine(JumpAbilityFallSlam());
         }
 
-        // Hover logic with time limit
-        if (isHovering && currentHoverTime > 0f) // HOVER
-        {
-            if (transform.position.y < 7f)
-            {
-                _verticalVelocity = -_gravity * _gravityMultiplier * Time.deltaTime;
-            }
-            else
-            {
-                _verticalVelocity = 0;
-            }
+    }
 
-            currentHoverTime -= Time.deltaTime; // HOVER
+    // This function checks whether the player can start the jump ability
+    private bool JumpingPermitted()
+    {
+        bool canPlayerStartJumping;
+        canPlayerStartJumping = (isGrounded && _currentJumpState == JumpState.READY_TO_JUMP) ? true : false;
+        //Debug.LogWarning(_currentJumpState);
+
+        return canPlayerStartJumping;
+    }
+
+    //private bool 
+    
+    // this coroutine handles the start of the jump and rising jump state
+    private IEnumerator JumpAbilityRise()
+    {
+        _currentJumpState = JumpState.ASCENT_START;
+        _currentJumpState = JumpState.ASCENDING;
+        float jumpRiseDuration = 1.0f;
+        
+        //Debug.Log("Jump Rise Coroutine begun.");
+        
+        
+        
+        
+
+        groundAttack?.StartCharge(transform.position, maxJumpTime); // GROUND ATTACK
+        audioSource.PlayOneShot(jumpingSound, volume);
+
+
+        while (transform.position.y <= (_groundPosition.GroundPointTransform.position.y + 5.0f))
+        {
+            //Debug.LogWarning("Moving from Y: " + transform.position.y + " To Y : " + (_groundPosition.GroundPointTransform.position.y + 5.0f));
+            
+            Mathf.SmoothDamp(transform.position.y,  (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, jumpRiseDuration);
+            currentJumpTime -= Time.deltaTime; // HOVER
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
-
-            // slowed logging
-            hoverLogTimer += Time.deltaTime; // DEBUG
-            if (hoverLogTimer >= hoverLogInterval) // DEBUG
-            {
-                //Debug.Log($"[HOVER] Active — Time left: {currentHoverTime:F2}");
-                hoverLogTimer = 0f; // DEBUG
-            }
+            yield return null;
         }
-        else
-        {
-            if (isHovering)
-            {
-                Debug.Log("[HOVER] Hover time expired — auto-ending hover"); // DEBUG
-            }
+        _verticalVelocity = 0.0f;
+        
+        
+        //Debug.Log("Jump Rise Coroutine finished.");
+        // starts the floating coroutine
+        _jumpAbilityRiseCoroutine = null;
+        _jumpAbilityHoverCoroutine = StartCoroutine(JumpAbilityHover());
+        yield return _jumpAbilityHoverCoroutine;
+        
 
-            isHovering = false; // HOVER
+    }
+
+    // this coroutine handles the hovering jump state
+    private IEnumerator JumpAbilityHover()
+    {
+        //Debug.Log("Jump Hover Coroutine begun.");
+        _currentJumpState = JumpState.HOVERING;
+        
+        while (currentJumpTime > 0.0f)
+        {
+            currentJumpTime -= Time.deltaTime; // HOVER
+            groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
+            yield return null;
+        }
+
+        //Debug.Log("Jump Hover Coroutine finished.");
+
+        _jumpAbilityHoverCoroutine = null;
+        _jumpAbilityFallSlamCoroutine = StartCoroutine(JumpAbilityFallSlam());
+        yield return _jumpAbilityFallSlamCoroutine;
+        
+
+    }
+
+    // This coroutine handles the fall and slam state of the jump ability.
+    private IEnumerator JumpAbilityFallSlam()
+    {
+        float jumpFallDuration = 0.3f;
+        //Debug.Log("Jump Fall Slam Coroutine begun.");
+
+        // this code block ensures the fall state occurs cleanly
+        {
+            if (_jumpAbilityRiseCoroutine != null) StopCoroutine(_jumpAbilityRiseCoroutine);
+            if (_jumpAbilityHoverCoroutine != null) StopCoroutine(_jumpAbilityHoverCoroutine);
             groundAttack?.StopCharge(); // GROUND ATTACK
         }
 
-        // Gravity when not hovering
-        if (!isHovering)
+        
+        _currentJumpState = JumpState.FALLING;
+
+        while (!isGrounded)
         {
-            if (transform.position.y > 1.8f)
-            {
-                ApplyGravity();
-            }
-            else
-            {
-                _verticalVelocity = 0;
-                currentHoverTime = maxHoverTime; // HOVER
-                groundAttack?.StopCharge(); // GROUND ATTACK (safety)
+            Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, jumpFallDuration);
+            yield return null;
+        }
+        _currentJumpState = JumpState.SLAM;
 
-                //NEW
-                if (slamStarted && !slamOnCooldown) //NEW
+        _verticalVelocity = 0.0f;
+        
+        _currentJumpState = JumpState.JUMP_ON_COOLDOWN;
+        currentJumpTime = maxJumpTime; // HOVER
+        
+            slamCooldownTimer = slamCooldownDuration; //NEW
+            slamLogTimer = 0f; //NEW
+            
+            if (showSlamCooldownDebug) //NEW
+                Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
+            
+        //}
+
+        //Debug.Log("Jump Fall Slam Coroutine Finished.");
+        //StopCoroutine(_jumpAbilityFallSlamCoroutine);
+        _jumpAbilityFallSlamCoroutine = null;
+        yield break;
+        
+    }
+
+    // This function manages the cooldown for the jump slam
+    private void JumpSlamCooldownManager()
+    {
+        //NEW
+        if (_currentJumpState == JumpState.JUMP_ON_COOLDOWN) //NEW
+        {
+            slamCooldownTimer -= Time.deltaTime; //NEW
+
+            //NEW
+            if (showSlamCooldownDebug) //NEW
+            {
+                slamLogTimer += Time.deltaTime; //NEW
+                
+                if (slamLogTimer >= slamLogInterval) //NEW
                 {
-                    slamOnCooldown = true; //NEW
-                    slamCooldownTimer = slamCooldownDuration; //NEW
-                    slamStarted = false; //NEW
+                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
                     slamLogTimer = 0f; //NEW
-
-                    if (showSlamCooldownDebug) //NEW
-                        Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
                 }
+            }
+
+            if (slamCooldownTimer <= 0f) //NEW
+            {
+                
+                _currentJumpState = JumpState.READY_TO_JUMP;
+                slamCooldownTimer = 0f; //NEW
+                slamLogTimer = 0f; //NEW
+
+                
+                //NEW
+                if (showSlamCooldownDebug)
+                {
+                    //NEW
+                    Debug.Log("[SLAM] Cooldown finished"); //NEW
+                } 
             }
         }
     }

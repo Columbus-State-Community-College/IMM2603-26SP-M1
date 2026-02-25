@@ -2229,7 +2229,6 @@ GameObject:
   - component: {fileID: 71386919}
   - component: {fileID: 71386920}
   - component: {fileID: 71386921}
-  - component: {fileID: 71386923}
   m_Layer: 9
   m_Name: PlayerParent
   m_TagString: Player
@@ -2298,14 +2297,13 @@ MonoBehaviour:
   _playerCamera: {fileID: 0}
   _playerCameraScript: {fileID: 0}
   hammerAttack: {fileID: 0}
-  isJumping: 0
   isGrounded: 1
-  maxHoverTime: 2
+  maxJumpTime: 2
   knockbackDistance: 3.5
   knockbackDuration: 0.15
   groundAttack: {fileID: 71386920}
   slamCooldownDuration: 7
-  showSlamCooldownDebug: 1
+  showSlamCooldownDebug: 0
   audioSource: {fileID: 349363251}
   jumpingSound: {fileID: 8300000, guid: 01c41e01064db3c248ed61046437f0f6, type: 3}
   hammerSwingSound: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
@@ -2457,7 +2455,19 @@ MonoBehaviour:
     m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
     m_ActionName: 'Player/Crouch[/Keyboard/c]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 71386916}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnJumpInputEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space]'
   - m_PersistentCalls:
@@ -2517,18 +2527,6 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &71386923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 71386913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27ac1abe6e102404db05e63eeb732690, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1001 &76895194
 PrefabInstance:
   m_ObjectHideFlags: 0
