@@ -70409,6 +70409,18 @@ PrefabInstance:
       value: Medium Cookie Mesh HP UP House
       objectReference: {fileID: 0}
     - target: {fileID: 4058697069657907515, guid: e5ddc49d1441916479529f9eb10bdd0c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.8414598
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058697069657907515, guid: e5ddc49d1441916479529f9eb10bdd0c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.8414598
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058697069657907515, guid: e5ddc49d1441916479529f9eb10bdd0c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.8414598
+      objectReference: {fileID: 0}
+    - target: {fileID: 4058697069657907515, guid: e5ddc49d1441916479529f9eb10bdd0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.406
       objectReference: {fileID: 0}
