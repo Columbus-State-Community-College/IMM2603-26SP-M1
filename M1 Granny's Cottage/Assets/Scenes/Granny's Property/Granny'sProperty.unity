@@ -2229,7 +2229,6 @@ GameObject:
   - component: {fileID: 71386919}
   - component: {fileID: 71386920}
   - component: {fileID: 71386921}
-  - component: {fileID: 71386923}
   m_Layer: 9
   m_Name: PlayerParent
   m_TagString: Player
@@ -2304,7 +2303,7 @@ MonoBehaviour:
   knockbackDuration: 0.15
   groundAttack: {fileID: 71386920}
   slamCooldownDuration: 7
-  showSlamCooldownDebug: 1
+  showSlamCooldownDebug: 0
   audioSource: {fileID: 349363251}
   jumpingSound: {fileID: 8300000, guid: 01c41e01064db3c248ed61046437f0f6, type: 3}
   hammerSwingSound: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
@@ -2528,18 +2527,6 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &71386923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 71386913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27ac1abe6e102404db05e63eeb732690, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1001 &76895194
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
+using Unity.VisualScripting.ReorderableList;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -38,15 +39,14 @@ public class PlayerController : MonoBehaviour
     private enum JumpState
     {
         READY_TO_JUMP,
+        ASCENT_START,
         ASCENDING,
         HOVERING,
         FALLING,
-        JUMP_ON_COOLDOWWN
+        SLAM,
+        JUMP_ON_COOLDOWN
     }
     private JumpState _currentJumpState = JumpState.READY_TO_JUMP;
-    private bool isJumpAscending = false; // JUMP (tracks jump ascending state)
-    private bool isJumpHovering = false; // JUMP (tracks jump hovering state)
-    private bool isJumpFalling = false; // JUMP (tracks jump falling state)
 
     private Coroutine _jumpAbilityRiseCoroutine;
     private Coroutine _jumpAbilityHoverCoroutine;
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
     private bool slamStarted = false; //NEW (tracks if a slam was actually initiated)
 
     //NEW
-    [SerializeField] private bool showSlamCooldownDebug = true; //NEW (toggle in Inspector)
+    [SerializeField] private bool showSlamCooldownDebug = false; //NEW (toggle in Inspector)
     private float slamLogTimer = 0f; //NEW (throttle timer)
     private const float slamLogInterval = 1f; //NEW (log once per second)
 
@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext context)
     {
         // Prevent hammer attack while hovering or not grounded
-        if (!isGrounded || isJumpHovering)
+        if (!isGrounded) // || _currentJumpState != JumpState.READY_TO_JUMP || _currentJumpState != JumpState.JUMP_ON_COOLDOWN)
         {
             Debug.Log("[COMBAT] Hammer attack blocked — player airborne or hovering");
             return;
@@ -234,12 +234,14 @@ public class PlayerController : MonoBehaviour
 
         if (callbackContext.action.WasPressedThisFrame() && JumpingPermitted())
         {
+            //Debug.LogWarning("Jump Press event called.");
             _jumpAbilityRiseCoroutine = StartCoroutine(JumpAbilityRise());
         }
 
 
-        if (callbackContext.action.WasReleasedThisFrame() && !isGrounded && !isJumpFalling && !JumpingPermitted())
+        if (callbackContext.action.WasReleasedThisFrame() && !isGrounded && _currentJumpState == JumpState.HOVERING && !JumpingPermitted())
         {        
+            //Debug.LogWarning("Jump Release event called.");
             _jumpAbilityFallSlamCoroutine = StartCoroutine(JumpAbilityFallSlam());
         }
 
@@ -249,13 +251,18 @@ public class PlayerController : MonoBehaviour
     private bool JumpingPermitted()
     {
         bool canPlayerStartJumping;
-        canPlayerStartJumping = 
+        
+        /*canPlayerStartJumping = 
         (isGrounded && 
         !slamOnCooldown &&
         _jumpAbilityRiseCoroutine == null &&
         _jumpAbilityHoverCoroutine == null &&
-        _jumpAbilityFallSlamCoroutine == null) ? true : false;
-        
+        _jumpAbilityFallSlamCoroutine == null) ? true : false;*/
+
+        canPlayerStartJumping = (isGrounded && _currentJumpState == JumpState.READY_TO_JUMP) ? true : false;
+        Debug.LogWarning(_currentJumpState);
+
+        //Debug.LogWarning($"Jumping Permitted? {canPlayerStartJumping} [isGrounded({isGrounded}), !slamOnCooldown({!slamOnCooldown}), _jumpAbilityRiseCoroutine({_jumpAbilityRiseCoroutine == null}), _jumpAbilityHoverCoroutine({_jumpAbilityHoverCoroutine == null}), _jumpAbilityFallSlamCoroutine({_jumpAbilityFallSlamCoroutine == null})]");
         return canPlayerStartJumping;
     }
 
@@ -264,29 +271,32 @@ public class PlayerController : MonoBehaviour
     // this coroutine handles the start of the jump and rising jump state
     private IEnumerator JumpAbilityRise()
     {
-        float jumpRiseDuration = 0.5f;
+        _currentJumpState = JumpState.ASCENT_START;
+        _currentJumpState = JumpState.ASCENDING;
+        float jumpRiseDuration = 1.0f;
+        //float jumpRiseVelocity = 0.6f;
         Debug.Log("Jump Rise Coroutine begun.");
         //Debug.Break();
-        //_currentJumpState = JumpState.ASCENDING;
-        isJumpAscending = true;
+        
+        //isJumpAscending = true;
         slamStarted = true; //NEW
 
         groundAttack?.StartCharge(transform.position, maxJumpTime); // GROUND ATTACK
         audioSource.PlayOneShot(jumpingSound, volume);
 
 
-        //while (transform.position.y <= (_groundPosition.GroundPointTransform.position.y + 5.0f))
+        while (transform.position.y <= (_groundPosition.GroundPointTransform.position.y + 5.0f))
         {
-            
-            Mathf.SmoothDamp(transform.position.y,  (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, jumpRiseDuration, runSpeed);
+            Debug.LogWarning("Moving from Y: " + transform.position.y + " To Y : " + (_groundPosition.GroundPointTransform.position.y + 5.0f));
+            Mathf.SmoothDamp(transform.position.y,  (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, jumpRiseDuration);
             
             currentJumpTime -= Time.deltaTime; // HOVER
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
-            yield return new WaitForSeconds(jumpRiseDuration);// + 0.1f);
+            yield return null;// + 0.1f);
         }
         _verticalVelocity = 0.0f;
-        //_currentJumpState = JumpState.HOVERING;
-        isJumpAscending = false;
+        
+        //isJumpAscending = false;
         // starts the floating coroutine
         Debug.Log("Jump Rise Coroutine finished.");
         _jumpAbilityRiseCoroutine = null;
@@ -300,7 +310,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator JumpAbilityHover()
     {
         Debug.Log("Jump Hover Coroutine begun.");
-        isJumpHovering = true;
+        _currentJumpState = JumpState.HOVERING;
+        //isJumpHovering = true;
         while (currentJumpTime > 0.0f)
         {
             currentJumpTime -= Time.deltaTime; // HOVER
@@ -322,31 +333,34 @@ public class PlayerController : MonoBehaviour
         float jumpFallDuration = 0.3f;
         Debug.Log("Jump Fall Slam Coroutine begun.");
         // this code block ensures the fall state occurs cleanly
-        {
-            if (_jumpAbilityRiseCoroutine != null) StopCoroutine(_jumpAbilityRiseCoroutine);
-            if (_jumpAbilityHoverCoroutine != null) StopCoroutine(_jumpAbilityHoverCoroutine);
-            isJumpAscending = false;
-            isJumpHovering = false;
-            groundAttack?.StopCharge(); // GROUND ATTACK
-        }
+        //{
+        if (_jumpAbilityRiseCoroutine != null) StopCoroutine(_jumpAbilityRiseCoroutine);
+        if (_jumpAbilityHoverCoroutine != null) StopCoroutine(_jumpAbilityHoverCoroutine);
+        //isJumpAscending = false;
+        //isJumpHovering = false;
+        groundAttack?.StopCharge(); // GROUND ATTACK
+        //}
 
-        isJumpFalling = true;
+        //isJumpFalling = true;
+        _currentJumpState = JumpState.FALLING;
 
         //while (!isGrounded)
         {
             Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, jumpFallDuration);
             yield return new WaitForSeconds(jumpFallDuration);
         }
+        _currentJumpState = JumpState.SLAM;
 
         _verticalVelocity = 0.0f;
-        isJumpFalling = false;
+        //isJumpFalling = false;
+        _currentJumpState = JumpState.JUMP_ON_COOLDOWN;
         currentJumpTime = maxJumpTime; // HOVER
         //NEW
         if (slamStarted && !slamOnCooldown) //NEW
         {
-            slamOnCooldown = true; //NEW
+            //slamOnCooldown = true; //NEW
             slamCooldownTimer = slamCooldownDuration; //NEW
-            slamStarted = false; //NEW
+            //slamStarted = false; //NEW
             slamLogTimer = 0f; //NEW
 
             /* debug
@@ -367,7 +381,7 @@ public class PlayerController : MonoBehaviour
     private void JumpSlamCooldownManager()
     {
         //NEW
-        if (slamOnCooldown) //NEW
+        if (_currentJumpState == JumpState.JUMP_ON_COOLDOWN) //NEW
         {
             slamCooldownTimer -= Time.deltaTime; //NEW
 
@@ -385,7 +399,8 @@ public class PlayerController : MonoBehaviour
 
             if (slamCooldownTimer <= 0f) //NEW
             {
-                slamOnCooldown = false; //NEW
+                //slamOnCooldown = false; //NEW
+                _currentJumpState = JumpState.READY_TO_JUMP;
                 slamCooldownTimer = 0f; //NEW
                 slamLogTimer = 0f; //NEW
 
