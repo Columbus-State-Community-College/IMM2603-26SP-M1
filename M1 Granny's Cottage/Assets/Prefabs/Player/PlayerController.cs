@@ -228,16 +228,17 @@ public class PlayerController : MonoBehaviour
         knockbackRoutine = null;
     }
 
+    // This function is called via the Player Input component Invoke Unity Events by the Jump Action on the Player Action Map 
     public void OnJumpInputEvent(InputAction.CallbackContext callbackContext)
     {
-
+        // When the Jump Action button is pressed
         if (callbackContext.action.WasPressedThisFrame() && JumpingPermitted())
         {
             //Debug.LogWarning("Jump Press event called.");
             _jumpAbilityRiseCoroutine = StartCoroutine(JumpAbilityRise());
         }
 
-
+        // When the Jump Action button is released
         if (callbackContext.action.WasReleasedThisFrame() && !isGrounded && _currentJumpState == JumpState.HOVERING && !JumpingPermitted())
         {        
             //Debug.LogWarning("Jump Release event called.");
@@ -255,53 +256,55 @@ public class PlayerController : MonoBehaviour
 
         return canPlayerStartJumping;
     }
-
-    //private bool 
     
-    // this coroutine handles the start of the jump and rising jump state
+    // This coroutine handles the start of the jump and jump ascent state.
     private IEnumerator JumpAbilityRise()
     {
         _currentJumpState = JumpState.ASCENT_START;
         _currentJumpState = JumpState.ASCENDING;
+
         float jumpRiseDuration = 1.0f;
+        float jumpRiseHeight = 5.0f;
         
         //Debug.Log("Jump Rise Coroutine begun.");
-        
-        
-        
-        
 
         groundAttack?.StartCharge(transform.position, maxJumpTime); // GROUND ATTACK
         audioSource.PlayOneShot(jumpingSound, volume);
 
-
-        while (transform.position.y <= (_groundPosition.GroundPointTransform.position.y + 5.0f))
+        // While the player is not at or above the designated jumpRiseHeight - this while loop acts like a mini Update function for just this coroutine
+        while (transform.position.y <= (_groundPosition.GroundPointTransform.position.y + jumpRiseHeight))
         {
             //Debug.LogWarning("Moving from Y: " + transform.position.y + " To Y : " + (_groundPosition.GroundPointTransform.position.y + 5.0f));
             
+            // Move the player towards the targeted height over the specified duration
             Mathf.SmoothDamp(transform.position.y,  (_groundPosition.GroundPointTransform.position.y + 5.0f), ref _verticalVelocity, jumpRiseDuration);
+
             currentJumpTime -= Time.deltaTime; // HOVER
+
             groundAttack?.UpdateCharge(transform.position); // GROUND ATTACK
-            yield return null;
+            yield return null; // advances to next frame
         }
+
+        // once at desired height, halt _verticalVelocity
         _verticalVelocity = 0.0f;
         
-        
         //Debug.Log("Jump Rise Coroutine finished.");
-        // starts the floating coroutine
+
+        // helps stop the rising coroutine
         _jumpAbilityRiseCoroutine = null;
+
+        // starts the hovering coroutine
         _jumpAbilityHoverCoroutine = StartCoroutine(JumpAbilityHover());
         yield return _jumpAbilityHoverCoroutine;
-        
-
     }
 
-    // this coroutine handles the hovering jump state
+    // This coroutine handles the hovering jump state.
     private IEnumerator JumpAbilityHover()
     {
         //Debug.Log("Jump Hover Coroutine begun.");
         _currentJumpState = JumpState.HOVERING;
         
+        // while the player can still hover - this while loop acts like a mini Update function for just this coroutine
         while (currentJumpTime > 0.0f)
         {
             currentJumpTime -= Time.deltaTime; // HOVER
@@ -311,7 +314,10 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log("Jump Hover Coroutine finished.");
 
+        // helps stop the hovering coroutine
         _jumpAbilityHoverCoroutine = null;
+
+        // starts the falling coroutine
         _jumpAbilityFallSlamCoroutine = StartCoroutine(JumpAbilityFallSlam());
         yield return _jumpAbilityFallSlamCoroutine;
         
@@ -324,38 +330,41 @@ public class PlayerController : MonoBehaviour
         float jumpFallDuration = 0.3f;
         //Debug.Log("Jump Fall Slam Coroutine begun.");
 
-        // this code block ensures the fall state occurs cleanly
+        // this code block helps ensure the fall state occurs cleanly
         {
             if (_jumpAbilityRiseCoroutine != null) StopCoroutine(_jumpAbilityRiseCoroutine);
-            if (_jumpAbilityHoverCoroutine != null) StopCoroutine(_jumpAbilityHoverCoroutine);
-            groundAttack?.StopCharge(); // GROUND ATTACK
+            if (_jumpAbilityHoverCoroutine != null) StopCoroutine(_jumpAbilityHoverCoroutine);   
         }
 
-        
         _currentJumpState = JumpState.FALLING;
 
+        // While the player is not grounded - this while loop acts like a mini Update function for just this coroutine
         while (!isGrounded)
         {
+            // Move the player towards the ground over the specified duration
             Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, jumpFallDuration);
             yield return null;
         }
+
+        groundAttack?.StopCharge(); // GROUND ATTACK
         _currentJumpState = JumpState.SLAM;
 
         _verticalVelocity = 0.0f;
         
         _currentJumpState = JumpState.JUMP_ON_COOLDOWN;
-        currentJumpTime = maxJumpTime; // HOVER
-        
+
+        // this code block helps reset 
+        {
+            currentJumpTime = maxJumpTime; // HOVER
             slamCooldownTimer = slamCooldownDuration; //NEW
             slamLogTimer = 0f; //NEW
-            
+
             if (showSlamCooldownDebug) //NEW
                 Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
             
-        //}
+        }
 
         //Debug.Log("Jump Fall Slam Coroutine Finished.");
-        //StopCoroutine(_jumpAbilityFallSlamCoroutine);
         _jumpAbilityFallSlamCoroutine = null;
         yield break;
         
