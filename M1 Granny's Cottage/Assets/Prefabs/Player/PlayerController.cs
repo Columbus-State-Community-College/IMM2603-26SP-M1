@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ground Attack")] // GROUND ATTACK
     [SerializeField] private GroundAttack groundAttack; // GROUND ATTACK
+    public ParticleSystem groundAttackParticles;
 
     //NEW
     [Header("Ground Attack Cooldown")] //NEW
@@ -326,6 +327,9 @@ public class PlayerController : MonoBehaviour
     // This coroutine handles the fall and slam state of the jump ability.
     private IEnumerator JumpAbilityFallSlam()
     {
+        animator.ResetTrigger("isAirAttacking");
+        animator.SetTrigger("isAirAttacking");
+
         float jumpFallDuration = 0.3f;
         //Debug.Log("Jump Fall Slam Coroutine begun.");
 
@@ -406,6 +410,33 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    // for charging effects
+    public void OnAirAttackStart()
+    {
+        // Debug.Log("Air attack anim started");
+    }
+
+    // spawns particles on the ground for the jump attack
+    public void OnAirSlamImpact()
+    {
+        if (groundAttackParticles != null && _groundPosition != null)
+        {
+            Vector3 groundPos = _groundPosition.GroundPointTransform.position;
+            groundPos += Vector3.up * 0.05f;
+
+            ParticleSystem ps = Instantiate(
+                groundAttackParticles,
+                groundPos,
+                Quaternion.Euler(90f, 0f, 0f)
+            );
+
+            ps.Play();
+            Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
+        }
+
+    }
+
 
     private void UpdateAnimation()
     {
