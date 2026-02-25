@@ -107,11 +107,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.3, y: 1.3, z: 1.3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4594704455575386558
 MonoBehaviour:
@@ -129,10 +129,10 @@ MonoBehaviour:
   onlyHealIfMissingHealth: 1
   requireKeyPress: 0
   interactKey: 101
-  enableFloating: 0
-  floatSpeed: 2
-  floatHeight: 0.25
+  enableFloating: 1
+  floatSpeed: 1.5
+  floatHeight: 1
   pickupSound: {fileID: 0}
   pickupEffect: {fileID: 0}
-  enableRespawn: 0
-  respawnDelay: 10
+  enableRespawn: 1
+  respawnDelay: 30

@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.11
+      value: -5.406
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.4127
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.43
+      value: -2.4051304
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalRotation.y
@@ -67,5 +67,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5226728606700075776}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8302656313243879630}
   m_SourcePrefab: {fileID: 100100000, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
+--- !u!1 &3681890433611381633 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
+  m_PrefabInstance: {fileID: 4600948215273850576}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &5226728606700075776
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3681890433611381633}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 0
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &8302656313243879630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3681890433611381633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dda7d2535cc0f8146886147269be1dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthPickup
+  healAmount: 25
+  onlyHealIfMissingHealth: 1
+  requireKeyPress: 0
+  interactKey: 101
+  enableFloating: 1
+  floatSpeed: 1.5
+  floatHeight: 1
+  pickupSound: {fileID: 0}
+  pickupEffect: {fileID: 0}
+  enableRespawn: 1
+  respawnDelay: 30
