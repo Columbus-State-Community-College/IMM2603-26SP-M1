@@ -3,7 +3,6 @@ using Unity.Cinemachine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
-using Unity.VisualScripting.ReorderableList;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
