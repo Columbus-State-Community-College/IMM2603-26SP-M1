@@ -2302,6 +2302,7 @@ MonoBehaviour:
   knockbackDistance: 3.5
   knockbackDuration: 0.15
   groundAttack: {fileID: 71386920}
+  groundAttackParticles: {fileID: 3016694964494978990, guid: a7d3fac79b48ce848957dbecea924d08, type: 3}
   slamCooldownDuration: 7
   showSlamCooldownDebug: 0
   audioSource: {fileID: 349363251}
@@ -68347,6 +68348,7 @@ GameObject:
   - component: {fileID: 516815732}
   - component: {fileID: 919132149430154438}
   - component: {fileID: 919132149430154439}
+  - component: {fileID: 919132149430154440}
   m_Layer: 9
   m_Name: LitaV1
   m_TagString: Player
@@ -68383,6 +68385,18 @@ MonoBehaviour:
   smallDust: {fileID: 5881888027922530641, guid: 21d64b0b850704440bbacadf042e575d, type: 3}
   leftFoot: {fileID: 6436604035163265704}
   rightFoot: {fileID: 1855540168910908849}
+--- !u!114 &919132149430154440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149430154437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3583e36055df06e408f8d68e1b014eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEventReciever
 --- !u!1 &994483196072270608
 GameObject:
   m_ObjectHideFlags: 0
