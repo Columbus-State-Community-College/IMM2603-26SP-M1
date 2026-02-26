@@ -5,6 +5,7 @@ public class ScoreCounter : MonoBehaviour
 {
     public int totalScore = 0;
     public TMP_Text scoreCounter;
+    public TMP_Text overallScoreText;
 
     void Start()
     {
@@ -15,5 +16,6 @@ public class ScoreCounter : MonoBehaviour
     {
         totalScore += points;
         scoreCounter.text = "Score: " + totalScore.ToString();
+        overallScoreText.text = "Overall Score: " + totalScore.ToString();
     }
 }
