@@ -9,33 +9,21 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Player Movement")]
     [SerializeField] private float runSpeed = 10f;
-    [SerializeField] private float turnSpeed = 1080f;
-
-    [Header("Gravity")]
-    private float _gravity = -9.81f;
-    [SerializeField] private float _gravityMultiplier = 36.0f;
+    [SerializeField] private float turnSpeed = 1920f;
     [SerializeField] private float _verticalVelocity;
-
-    private InputSystem_Actions _playerInputActions;
-    private Vector3 _moveInput;
-    private CharacterController _characterController;
-
-    [Header("Camera")]
-    [SerializeField] public CinemachineCamera _playerCamera;
-    [SerializeField] private PlayerCameraScript _playerCameraScript;
-
-    [Header("Combat")]
-    [SerializeField] public HammerAttack hammerAttack;
 
     [Header("Player Status")]
     private GroundPosition _groundPosition;
     public bool isGrounded = true;
+    private InputSystem_Actions _playerInputActions;
+    private Vector3 _moveInput;
+    private CharacterController _characterController;
 
     [Header("Jump Settings")] // Jump (time-limited hover / slam charge)
     [SerializeField] private float maxJumpTime = 2f; // JUMP (upgrade-modifiable jump duration)
     private float currentJumpTime; // JUMP (runtime jump timer)
 
-    private enum JumpState
+    public enum JumpState
     {
         READY_TO_JUMP,
         ASCENT_START,
@@ -45,7 +33,7 @@ public class PlayerController : MonoBehaviour
         SLAM,
         JUMP_ON_COOLDOWN
     }
-    private JumpState _currentJumpState = JumpState.READY_TO_JUMP;
+    public JumpState _currentJumpState = JumpState.READY_TO_JUMP;
 
     private Coroutine _jumpAbilityRiseCoroutine;
     private Coroutine _jumpAbilityHoverCoroutine;
@@ -53,6 +41,13 @@ public class PlayerController : MonoBehaviour
 
     private float hoverLogTimer = 0f; // HOVER (throttles hover debug logging)
     private const float hoverLogInterval = 0.25f; // HOVER (log interval)
+
+    [Header("Camera")]
+    [SerializeField] public CinemachineCamera _playerCamera;
+    [SerializeField] private PlayerCameraScript _playerCameraScript;
+
+    [Header("Combat")]
+    [SerializeField] public HammerAttack hammerAttack;
 
     [Header("Knockback Settings")] // KNOCKBACK (player hit reaction)
     [SerializeField] private float knockbackDistance = 3.5f; // KNOCKBACK (push distance)
@@ -64,16 +59,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GroundAttack groundAttack; // GROUND ATTACK
     public ParticleSystem groundAttackParticles;
 
-    //NEW
-    [Header("Ground Attack Cooldown")] //NEW
-    [SerializeField] private float slamCooldownDuration = 7f; //NEW (adjustable in Inspector)
-    private float slamCooldownTimer = 0f; //NEW
-    
+    [Header("Ground Attack Cooldown")]
+    [SerializeField] private float slamCooldownDuration = 7f; // (adjustable in Inspector)
+    private float slamCooldownTimer = 0f;
+    [SerializeField] private bool showSlamCooldownDebug = false; // (toggle in Inspector)
+    private float slamLogTimer = 0f; // (throttle timer)
+    private const float slamLogInterval = 1f; // (log once per second)
 
-    //NEW
-    [SerializeField] private bool showSlamCooldownDebug = false; //NEW (toggle in Inspector)
-    private float slamLogTimer = 0f; //NEW (throttle timer)
-    private const float slamLogInterval = 1f; //NEW (log once per second)
+    // NEW (Cooldown Feedback)
+    [Header("Ground Attack Cooldown Feedback")]
+    [SerializeField] private ParticleSystem slamCooldownParticles;
+    [SerializeField] private AudioClip slamOnCooldownSound;
+    [SerializeField] private AudioClip slamImpactSound;
+
+    private ParticleSystem activeCooldownParticles;
+    private bool slamCooldownFeedbackTriggered = false;
 
     [Header("Player Action Sounds")]
     public AudioSource audioSource;
@@ -83,6 +83,40 @@ public class PlayerController : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] public Animator animator;
+
+    // DROP FIX (NEW)
+
+    private Coroutine dropToGroundRoutine;
+
+    private bool IsInJumpState()
+    {
+        return _currentJumpState == JumpState.ASCENDING ||
+               _currentJumpState == JumpState.HOVERING ||
+               _currentJumpState == JumpState.FALLING ||
+               _currentJumpState == JumpState.SLAM;
+    }
+
+    private IEnumerator DropToGround()
+    {
+        float dropSpeed = 15f;
+
+        while (!isGrounded)
+        {
+            // Stop drop if jump begins
+            if (IsInJumpState())
+            {
+                dropToGroundRoutine = null;
+                yield break;
+            }
+
+            Vector3 downward = Vector3.down * dropSpeed * Time.deltaTime;
+            _characterController.Move(downward);
+
+            yield return null;
+        }
+
+        dropToGroundRoutine = null;
+    }
 
     private void Awake()
     {
@@ -104,7 +138,6 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         _playerInputActions.Player.Enable();
-
         // attack input hookup
         _playerInputActions.Player.Attack.performed += OnAttack;
     }
@@ -119,13 +152,18 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = _groundPosition.groundedState;
         //Debug.Log(isGrounded ? "GROUNDED" : "NOT GROUNDED");
-
         JumpSlamCooldownManager();
+
+        // DROP FIX TRIGGER (NEW)
+        if (!isGrounded && !IsInJumpState())
+        {
+            if (dropToGroundRoutine == null)
+                dropToGroundRoutine = StartCoroutine(DropToGround());
+        }
 
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         ApplyRotation();
-        //Jump();
         ApplyMovement();
         UpdateAnimation();
     }
@@ -187,11 +225,7 @@ public class PlayerController : MonoBehaviour
         _characterController.Move(moveDirection);
     }
 
-    private void ApplyGravity()
-    {
-        _verticalVelocity = _gravity * _gravityMultiplier * Time.deltaTime;
-    }
-
+    
     // KNOCKBACK (restored only — no changes to your system)
     public void TakeHit(Vector3 hitSourcePosition, float damage)
     {
@@ -345,16 +379,23 @@ public class PlayerController : MonoBehaviour
         while (!isGrounded)
         {
             // Move the player towards the ground over the specified duration
-            Mathf.SmoothDamp(transform.position.y, _groundPosition.GroundPointTransform.position.y, ref _verticalVelocity, jumpFallDuration);
+            Mathf.SmoothDamp(transform.position.y,
+                _groundPosition.GroundPointTransform.position.y,
+                ref _verticalVelocity,
+                jumpFallDuration);
             yield return null;
         }
 
         groundAttack?.StopCharge(); // GROUND ATTACK
         _currentJumpState = JumpState.SLAM;
-
         _verticalVelocity = 0.0f;
-        
         _currentJumpState = JumpState.JUMP_ON_COOLDOWN;
+
+        // Play slam impact sound (MOVE IT HERE)
+        if (slamImpactSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(slamImpactSound, volume);
+        }
 
         // this code block helps reset 
         {
@@ -368,9 +409,9 @@ public class PlayerController : MonoBehaviour
         }
 
         //Debug.Log("Jump Fall Slam Coroutine Finished.");
+
         _jumpAbilityFallSlamCoroutine = null;
         yield break;
-        
     }
 
     // This function manages the cooldown for the jump slam
@@ -381,11 +422,33 @@ public class PlayerController : MonoBehaviour
         {
             slamCooldownTimer -= Time.deltaTime; //NEW
 
-            //NEW
-            if (showSlamCooldownDebug) //NEW
+            // NEW (Cooldown Feedback)
+            if (!slamCooldownFeedbackTriggered)
+            {
+                slamCooldownFeedbackTriggered = true;
+
+                if (slamCooldownParticles != null)
+                {
+                    activeCooldownParticles = Instantiate(
+                        slamCooldownParticles,
+                        transform.position,
+                        Quaternion.identity
+                    );
+
+                    activeCooldownParticles.transform.SetParent(transform);
+                    activeCooldownParticles.Play();
+                }
+
+                if (slamOnCooldownSound != null && audioSource != null)
+                {
+                    audioSource.PlayOneShot(slamOnCooldownSound, volume);
+                }
+            }
+
+            if (showSlamCooldownDebug)
             {
                 slamLogTimer += Time.deltaTime; //NEW
-                
+
                 if (slamLogTimer >= slamLogInterval) //NEW
                 {
                     Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
@@ -395,18 +458,26 @@ public class PlayerController : MonoBehaviour
 
             if (slamCooldownTimer <= 0f) //NEW
             {
-                
+                // NEW (Cooldown Feedback) — stop particles
+                if (activeCooldownParticles != null)
+                {
+                    Destroy(activeCooldownParticles.gameObject);
+                    activeCooldownParticles = null;
+                }
+
+                slamCooldownFeedbackTriggered = false;
+
                 _currentJumpState = JumpState.READY_TO_JUMP;
                 slamCooldownTimer = 0f; //NEW
                 slamLogTimer = 0f; //NEW
-
                 
+
                 //NEW
                 if (showSlamCooldownDebug)
-                {
+                {    
                     //NEW
                     Debug.Log("[SLAM] Cooldown finished"); //NEW
-                } 
+                }
             }
         }
     }
