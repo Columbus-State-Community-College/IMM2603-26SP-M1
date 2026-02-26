@@ -1882,11 +1882,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Player's Actions:\tMouse + Keyboard Controls:      Gamepad Controls:\n0
-    Run\t\t\t\t      0 WASD\t\t\t0 Left Control Stick\n0 Hammer Attack Ability          
-    0 Left-click\t\t\t0 Button West\n0 Jump Ability (begin)\t              0 Spacebar
-    (press)\t0 Button South (press)\n0 Jump Ability (end)\t              0 Spacebar
-    (release)\t0 Button South (release)"
+  m_text: "Player's Actions:\tMouse + Keyboard Controls:      Gamepad Controls:\n\u2022
+    Run\t\t\t\t      - WASD\t\t\t- Left Control Stick\n\u2022 Hammer Attack Ability           
+    - Left-click\t\t\t- Button West\n\u2022 Jump Ability (begin)\t              -
+    Spacebar (press)\t- Button South (press)\n\u2022 Jump Ability (end)\t             
+    - Spacebar (release)\t- Button South (release)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -1975,14 +1975,14 @@ RectTransform:
   m_GameObject: {fileID: 1907251742}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.043714356, y: 0.043714356, z: 0.043714356}
+  m_LocalScale: {x: 0.039077576, y: 0.039077576, z: 0.039077576}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 651098891}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 70.5, y: 22.7}
+  m_AnchoredPosition: {x: 62.9, y: 20.7}
   m_SizeDelta: {x: 700, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1660057539 &9223372036854775807

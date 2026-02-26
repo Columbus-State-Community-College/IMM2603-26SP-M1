@@ -54259,11 +54259,11 @@ TextMesh:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689838620}
   m_Text: "Player's Actions:\t           Mouse + Keyboard Controls:          Gamepad
-    Controls:\n0 Run\t\t\t\t                                  0 WASD\t\t\t                     
-    0 Left Control Stick\n0 Hammer Attack Ability            0 Left-click\t\t                     
-    0 Button West\n0 Jump Ability (begin)\t              0 Spacebar (press)\t         
-    0 Button South (press)\n0 Jump Ability (end)\t                  0 Spacebar (release)\t     
-    0 Button South (release)"
+    Controls:\n\u2022 Run\t\t\t\t                             - WASD\t\t\t                
+    - Left Control Stick\n\u2022 Hammer Attack Ability                  - Left-click\t\t                
+    - Button West\n\u2022 Jump Ability (begin)\t                     - Spacebar (press)\t            
+    - Button South (press)\n\u2022 Jump Ability (end)\t                     - Spacebar
+    (release)\t         - Button South (release)"
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -54335,8 +54335,8 @@ Transform:
   m_GameObject: {fileID: 1689838620}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.34418556, z: -0, w: 0.9389017}
-  m_LocalPosition: {x: -3.56, y: 0.13, z: 3.51}
-  m_LocalScale: {x: 0.30158103, y: 0.30158103, z: 0.30158103}
+  m_LocalPosition: {x: -4.26, y: 0.55, z: 2.95}
+  m_LocalScale: {x: 0.27112445, y: 0.26435694, z: 0.26435694}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1636932378}
@@ -59967,7 +59967,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 5.5, y: -46.5}
+  m_AnchoredPosition: {x: 6, y: -46.5}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1856425399
@@ -59991,10 +59991,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Player's Actions:\t           Mouse + Keyboard Controls:      Gamepad
-    Controls:\n0 Run\t\t\t\t              0 WASD\t\t\t   0 Left Control Stick\n0
-    Hammer Attack Ability                0 Left-click\t\t   0 Button West\n0 Jump
-    Ability (begin)\t              0 Spacebar (press)\t   0 Button South (press)\n0
-    Jump Ability (end)\t              0 Spacebar (release)\t   0 Button South (release)"
+    Controls:\n\u2022 Run\t\t\t\t              - WASD\t\t\t   - Left Control Stick\n\u2022
+    Hammer Attack Ability                 - Left-click\t\t   - Button West\n\u2022
+    Jump Ability (begin)\t              - Spacebar (press)\t   - Button South (press)\n\u2022
+    Jump Ability (end)\t              - Spacebar (release)\t   - Button South (release)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
