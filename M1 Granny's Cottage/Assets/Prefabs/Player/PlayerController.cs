@@ -9,33 +9,21 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Player Movement")]
     [SerializeField] private float runSpeed = 10f;
-    [SerializeField] private float turnSpeed = 1080f;
-
-    [Header("Gravity")]
-    private float _gravity = -9.81f;
-    [SerializeField] private float _gravityMultiplier = 36.0f;
+    [SerializeField] private float turnSpeed = 1920f;
     [SerializeField] private float _verticalVelocity;
-
-    private InputSystem_Actions _playerInputActions;
-    private Vector3 _moveInput;
-    private CharacterController _characterController;
-
-    [Header("Camera")]
-    [SerializeField] public CinemachineCamera _playerCamera;
-    [SerializeField] private PlayerCameraScript _playerCameraScript;
-
-    [Header("Combat")]
-    [SerializeField] public HammerAttack hammerAttack;
 
     [Header("Player Status")]
     private GroundPosition _groundPosition;
     public bool isGrounded = true;
+    private InputSystem_Actions _playerInputActions;
+    private Vector3 _moveInput;
+    private CharacterController _characterController;
 
     [Header("Jump Settings")] // Jump (time-limited hover / slam charge)
     [SerializeField] private float maxJumpTime = 2f; // JUMP (upgrade-modifiable jump duration)
     private float currentJumpTime; // JUMP (runtime jump timer)
 
-    private enum JumpState
+    public enum JumpState
     {
         READY_TO_JUMP,
         ASCENT_START,
@@ -45,7 +33,7 @@ public class PlayerController : MonoBehaviour
         SLAM,
         JUMP_ON_COOLDOWN
     }
-    private JumpState _currentJumpState = JumpState.READY_TO_JUMP;
+    public JumpState _currentJumpState = JumpState.READY_TO_JUMP;
 
     private Coroutine _jumpAbilityRiseCoroutine;
     private Coroutine _jumpAbilityHoverCoroutine;
@@ -53,6 +41,12 @@ public class PlayerController : MonoBehaviour
 
     private float hoverLogTimer = 0f; // HOVER (throttles hover debug logging)
     private const float hoverLogInterval = 0.25f; // HOVER (log interval)
+    [Header("Camera")]
+    [SerializeField] public CinemachineCamera _playerCamera;
+    [SerializeField] private PlayerCameraScript _playerCameraScript;
+
+    [Header("Combat")]
+    [SerializeField] public HammerAttack hammerAttack;
 
     [Header("Knockback Settings")] // KNOCKBACK (player hit reaction)
     [SerializeField] private float knockbackDistance = 3.5f; // KNOCKBACK (push distance)
@@ -125,7 +119,6 @@ public class PlayerController : MonoBehaviour
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
         ApplyRotation();
-        //Jump();
         ApplyMovement();
         UpdateAnimation();
     }
@@ -187,10 +180,6 @@ public class PlayerController : MonoBehaviour
         _characterController.Move(moveDirection);
     }
 
-    private void ApplyGravity()
-    {
-        _verticalVelocity = _gravity * _gravityMultiplier * Time.deltaTime;
-    }
 
     // KNOCKBACK (restored only — no changes to your system)
     public void TakeHit(Vector3 hitSourcePosition, float damage)

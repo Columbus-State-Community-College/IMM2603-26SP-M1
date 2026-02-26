@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   runSpeed: 10
-  turnSpeed: 700
+  turnSpeed: 1920
   _gravityMultiplier: 36
   _verticalVelocity: 0
   _playerCamera: {fileID: 0}
