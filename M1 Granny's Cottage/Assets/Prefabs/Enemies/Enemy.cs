@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     private float currentHealth;
 
     public float damage = 10f;
+    public ScoreCounter scoreScript;
+    public int points = 100;
 
     [Header("Knockback (Tuning)")]
     [SerializeField] private float knockbackDistance = 4.5f;
@@ -367,6 +369,16 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        GameObject playerObject = GameObject.Find("PlayerParent");
+        if (playerObject)
+        {
+            ScoreCounter scoreScript = playerObject.GetComponent<ScoreCounter>();
+            if (scoreScript != null)
+            {
+                Debug.Log("NOOOOOOO");
+                scoreScript.addPoints(points);
+            }
+        }
         isDead = true;
         //Debug.Log("[ENEMY] DIED");
 

@@ -4,7 +4,6 @@ using TMPro;
 public class ScoreCounter : MonoBehaviour
 {
     public int totalScore = 0;
-    public int score = 100;
     public TMP_Text scoreCounter;
 
     void Start()
@@ -12,9 +11,9 @@ public class ScoreCounter : MonoBehaviour
         scoreCounter.text = "Score: " + totalScore.ToString();
     }
 
-    void Update()
+    public void addPoints(int points)
     {
-        totalScore += score;
+        totalScore += points;
         scoreCounter.text = "Score: " + totalScore.ToString();
     }
 }
