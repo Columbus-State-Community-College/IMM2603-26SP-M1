@@ -78,6 +78,47 @@ public class PlayerController : MonoBehaviour
     [Header("Animation")]
     [SerializeField] public Animator animator;
 
+    // DROP FIX (NEW)
+    private Coroutine dropToGroundRoutine; //NEW
+
+    private bool IsInJumpState() //NEW
+    {
+        return _currentJumpState == JumpState.ASCENDING ||
+               _currentJumpState == JumpState.HOVERING ||
+               _currentJumpState == JumpState.FALLING ||
+               _currentJumpState == JumpState.SLAM;
+    }
+
+    private IEnumerator DropToGround() //NEW
+    {
+        float dropSpeed = 15f;
+
+        while (!isGrounded)
+        {
+            // If jump starts mid-drop, stop this coroutine
+            if (IsInJumpState())
+            {
+                dropToGroundRoutine = null;
+                yield break;
+            }
+
+            Vector3 downward = Vector3.down * dropSpeed * Time.deltaTime;
+            _characterController.Move(downward);
+
+            yield return null;
+        }
+
+        // SNAP TO GROUND (NEW)
+        if (_groundPosition != null)
+        {
+            Vector3 pos = transform.position;
+            pos.y = _groundPosition.GroundPointTransform.position.y;
+            transform.position = pos;
+        }
+
+        dropToGroundRoutine = null;
+    }
+
     private void Awake()
     {
         _playerInputActions = new InputSystem_Actions();
@@ -115,6 +156,13 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(isGrounded ? "GROUNDED" : "NOT GROUNDED");
 
         JumpSlamCooldownManager();
+
+        // DROP FIX TRIGGER (NEW)
+        if (!isGrounded && !IsInJumpState())
+        {
+            if (dropToGroundRoutine == null)
+                dropToGroundRoutine = StartCoroutine(DropToGround());
+        }
 
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
