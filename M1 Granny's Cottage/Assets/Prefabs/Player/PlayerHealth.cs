@@ -9,11 +9,7 @@ public class PlayerHealth : MonoBehaviour
 
     public PlayerHitbox hitbox;
     public GameObject GameOverScreen;
-    public AudioSource audioSource;
-    public AudioClip ScreamSound;
-    public AudioClip HPGainSound;
-    public AudioClip HPLostSound;
-    private float volume = 1f;
+    public GrannysSounds grannySoundScript;
 
     void Start()
     {
@@ -44,7 +40,10 @@ public class PlayerHealth : MonoBehaviour
             hitbox.SetHealth(currentHealth);
         }
 
-        audioSource.PlayOneShot(HPLostSound, volume = 0.4f);
+        if (grannySoundScript != null)
+        {
+            grannySoundScript.PlayHPLost();
+        }
 
         //Debug.Log("[PLAYER] Current Health After Damage: " + currentHealth);
 
@@ -66,10 +65,12 @@ public class PlayerHealth : MonoBehaviour
         {
             hitbox.SetHealth(currentHealth);
         }
-
-        audioSource.PlayOneShot(HPGainSound, volume);
-
         //Debug.Log("[PLAYER] Current Health After Heal: " + currentHealth);
+
+        if (grannySoundScript != null)
+        {
+            grannySoundScript.PlayHeal();
+        }
     }
 
     //NEW Increase max health powerup support
@@ -86,7 +87,10 @@ public class PlayerHealth : MonoBehaviour
         hitbox.SetHealth(currentHealth);
         }
 
-        audioSource.PlayOneShot(HPGainSound, volume); //NEW feedback
+        if (grannySoundScript != null)
+        {
+            grannySoundScript.PlayHeal();
+        }
     }
 
     void Die()
@@ -94,7 +98,10 @@ public class PlayerHealth : MonoBehaviour
         //Debug.Log("[PLAYER] Player Died");
 
         GameOverScreen.gameObject.SetActive(true);
-        audioSource.PlayOneShot(ScreamSound, volume);
+        if (grannySoundScript != null)
+        {
+            grannySoundScript.PlayScream();
+        }
         Time.timeScale = 0;
     }
 }

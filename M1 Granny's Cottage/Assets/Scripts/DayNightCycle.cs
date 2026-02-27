@@ -11,9 +11,7 @@ public class DayNightCycle : MonoBehaviour
     public float nightDuration = 90f;
 
     [Header("Sound Effect")]
-    public AudioSource audioSource;
-    public AudioClip CycleSwitch;
-    private float volume = 1f;
+    public EtcSounds etcSoundScript;
 
     float timer;
 
@@ -41,7 +39,11 @@ public class DayNightCycle : MonoBehaviour
 
         if (timer < 0) 
         {
-            audioSource.PlayOneShot(CycleSwitch, volume);
+            if (etcSoundScript != null)
+            {
+                etcSoundScript.PlaySwitch();
+            }
+            
             SwitchTime();
         }
     }

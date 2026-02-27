@@ -22,8 +22,7 @@ public class DayNightPopup : MonoBehaviour
     };
 
     [Header("Select Sound Effect")]
-    public AudioSource audioSource;
-    public AudioClip SelectSound;
+    public EtcSounds etcSoundScript;
 
     //NEW
     [Header("Player Reference")]
@@ -66,7 +65,10 @@ public class DayNightPopup : MonoBehaviour
         Debug.Log("Player chose: " + powerup);
 
         ApplyPowerup(powerup);
-        audioSource.PlayOneShot(SelectSound);
+        if (etcSoundScript != null)
+        {
+            etcSoundScript.PlayUpgrade();
+        }
 
         popupPanel.SetActive(false);
         Time.timeScale = 1f;

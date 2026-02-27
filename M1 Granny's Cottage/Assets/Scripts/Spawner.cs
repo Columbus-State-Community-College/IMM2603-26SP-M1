@@ -24,9 +24,7 @@ public class Spawner : MonoBehaviour
     private IObjectPool<Enemy> enemyPool;
 
     [Header("Sound Effect for Spawning Enemies")]
-    public AudioSource audioSource;
-    public AudioClip spawnSound;
-    public float volume = 0.5f;
+    public EnemySounds enemySoundScript;
 
     private void Awake()
     {
@@ -61,7 +59,10 @@ public class Spawner : MonoBehaviour
         enemy.transform.position = randomSpawnPoint.position;
         enemy.player = GameObject.FindGameObjectWithTag("Player").transform;
         enemy.ResetEnemy();
-        audioSource.PlayOneShot(spawnSound, volume);
+        if (enemySoundScript != null)
+        {
+            enemySoundScript.PlayMonsterSpawn();
+        }
     }
 
     // Inactive when "dead"

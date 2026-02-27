@@ -77,8 +77,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Action Sounds")]
     public AudioSource audioSource;
-    public AudioClip jumpingSound;
-    public AudioClip hammerSwingSound;
+    public GrannysSounds grannySoundScript;
     public float volume = 0.5f;
 
     [Header("Animation")]
@@ -303,7 +302,10 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Jump Rise Coroutine begun.");
 
         groundAttack?.StartCharge(transform.position, maxJumpTime); // GROUND ATTACK
-        audioSource.PlayOneShot(jumpingSound, volume);
+        if (grannySoundScript != null)
+        {
+            grannySoundScript.PlayJump();
+        }
 
         // While the player is not at or above the designated jumpRiseHeight - this while loop acts like a mini Update function for just this coroutine
         while (transform.position.y <= (_groundPosition.GroundPointTransform.position.y + jumpRiseHeight))

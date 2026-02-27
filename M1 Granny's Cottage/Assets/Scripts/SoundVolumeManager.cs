@@ -8,7 +8,7 @@ public class SoundVolumeManager : MonoBehaviour
     public AudioSource soundEffectAudioSource;
     public TMP_Text musicVolumeText;
     public TMP_Text soundEffectVolumeText;
-    public AudioClip sfxTextSound;
+    public EtcSounds etcSoundScript;
     public Button musicVolDownButton;
     public Button musicVolUpButton;
     public Button soundVolDownButton;
@@ -52,7 +52,11 @@ public class SoundVolumeManager : MonoBehaviour
     {
         soundEffectAudioSource.volume -=0.1f;
         soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
-        soundEffectAudioSource.PlayOneShot(sfxTextSound);
+
+        if(etcSoundScript != null)
+        {
+            etcSoundScript.PlaySwitch();
+        }
 
         if(soundEffectAudioSource.volume == 0f){
             soundVolDownButton.interactable = false;
@@ -67,7 +71,11 @@ public class SoundVolumeManager : MonoBehaviour
     {
         soundEffectAudioSource.volume +=0.1f;
         soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
-        soundEffectAudioSource.PlayOneShot(sfxTextSound);
+        
+        if(etcSoundScript != null)
+        {
+            etcSoundScript.PlaySwitch();
+        }
 
         if(soundEffectAudioSource.volume >= 0f){
             soundVolDownButton.interactable = true;

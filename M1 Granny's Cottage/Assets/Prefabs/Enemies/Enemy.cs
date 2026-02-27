@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
 
     public float damage = 10f;
     public ScoreCounter scoreScript;
+    public EnemySounds enemySoundScript;
     public int points = 100;
 
     [Header("Knockback (Tuning)")]
@@ -369,6 +370,16 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        GameObject enemySoundObject = GameObject.Find("EnemySoundManager");
+        if (enemySoundObject)
+        {
+            EnemySounds enemySoundScript = enemySoundObject.GetComponent<EnemySounds>();
+            if (enemySoundScript != null)
+            {
+                enemySoundScript.PlayMonsterScream();
+            }
+        }
+
         GameObject playerObject = GameObject.Find("PlayerParent");
         if (playerObject)
         {

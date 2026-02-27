@@ -20,11 +20,7 @@ public class HammerAttack : MonoBehaviour
     [SerializeField] private float hitParticlesLifetime = 1f;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource enemyAudioSource;
-    [SerializeField] private AudioClip hammerSwingSound;
-    [SerializeField] private AudioClip hammerHitSound;
-    [SerializeField] private AudioClip hammerHitEnemySound;
-    [SerializeField] private float volume;
+    public GrannysSounds grannySoundScript;
 
     [Header("Other Components")]
     [SerializeField] private PlayerController playerController;
@@ -89,17 +85,18 @@ public class HammerAttack : MonoBehaviour
 
     public void PlaySwooshSound()
     {
-        playerController.audioSource.PlayOneShot(hammerSwingSound, volume);
+        if (grannySoundScript != null)
+        {
+            grannySoundScript.PlayHammerSwing();
+        }
     }
 
     public void PlayHitSound()
     {
-        playerController.audioSource.PlayOneShot(hammerHitSound, volume);
-    }
-
-    public void PlayEnemyHitSound()
-    {
-        enemyAudioSource.PlayOneShot(hammerHitEnemySound);
+        if (grannySoundScript != null)
+        {
+            grannySoundScript.PlayHammerHit();
+        }
     }
 
     private IEnumerator AttackRoutine()
@@ -127,7 +124,6 @@ public class HammerAttack : MonoBehaviour
 
         Vector3 contactPoint = other.ClosestPoint(hitbox.bounds.center);
         PlayHitSound();
-        PlayEnemyHitSound();
 
         if (hitParticlesPrefab != null)
         {
