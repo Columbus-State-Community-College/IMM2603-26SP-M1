@@ -23,7 +23,7 @@ public class PlayerCameraScript : MonoBehaviour
         playerController = FindFirstObjectByType<PlayerController>();
         playerController._playerCamera = parentObject;
 
-        groundPointTransform = FindFirstObjectByType<PlayerController>().GetComponent<GroundPosition>().GroundPointTransform;
+        groundPointTransform = FindFirstObjectByType<PlayerController>().GetComponent<GroundBelowPlayer>().GroundPointTransform;
         parentObject.Target.TrackingTarget = groundPointTransform;
         
     }

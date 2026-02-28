@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 
-public class GroundPosition : MonoBehaviour
+public class GroundBelowPlayer : MonoBehaviour
 {
     public RaycastHit GroundRaycastHit;
     public Transform GroundPointTransform;

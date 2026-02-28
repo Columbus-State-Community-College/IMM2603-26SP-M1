@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _verticalVelocity;
 
     [Header("Player Status")]
-    private GroundPosition _groundPosition;
+    private GroundBelowPlayer _groundPosition;
     public bool isGrounded = true;
     private InputSystem_Actions _playerInputActions;
     private Vector3 _moveInput;
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         _playerInputActions = new InputSystem_Actions();
         _playerInputActions.UI.Disable();
         _characterController = GetComponent<CharacterController>();
-        _groundPosition = GetComponent<GroundPosition>();
+        _groundPosition = GetComponent<GroundBelowPlayer>();
     }
 
     private void Start()
