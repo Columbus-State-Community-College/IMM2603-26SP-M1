@@ -20,10 +20,12 @@ public class GroundAttack : MonoBehaviour
     private bool isCharging; // indicator active flag
 
     private CharacterController characterController;
+    private GroundBelowPlayer _groundPosition; // the same position the camera follows
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+        _groundPosition = GetComponent<GroundBelowPlayer>();
     }
 
     // Called when player hover begins
@@ -41,7 +43,7 @@ public class GroundAttack : MonoBehaviour
         currentChargeTime = 0f;
         isCharging = true;
 
-        Vector3 spawnPos = GetGroundPosition(playerPosition); // NEW changr from groundPos
+        Vector3 spawnPos = _groundPosition.GroundPointTransform.position;//GetGroundPosition(playerPosition); // NEW changr from groundPos
 
         activeIndicator = Instantiate(indicatorPrefab, spawnPos, Quaternion.identity);
 
@@ -68,7 +70,7 @@ public class GroundAttack : MonoBehaviour
         // Calculate current radius
         float radius = Mathf.Lerp(0.5f, maxRadius, t);
 
-        activeIndicator.transform.position = GetGroundPosition(playerPosition); // NEW
+        activeIndicator.transform.position = _groundPosition.GroundPointTransform.position;//GetGroundPosition(playerPosition); // NEW
         // Scale visual (scale uses diameter, so radius * 2)
         activeIndicator.transform.localScale =
             new Vector3(radius * 2f, 0.02f, radius * 2f);
