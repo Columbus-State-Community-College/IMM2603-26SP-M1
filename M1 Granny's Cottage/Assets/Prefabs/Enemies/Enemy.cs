@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Pool;
@@ -12,6 +13,14 @@ public class DemonType
     public GameObject mesh;
     public float damage;
     public float moveSpeed;
+    public EnemyRole role;
+}
+
+public enum EnemyRole
+{
+    Aggressor,
+    Flanker,
+    Ranged
 }
 
 public class Enemy : MonoBehaviour
@@ -68,6 +77,12 @@ public class Enemy : MonoBehaviour
     private DemonType activeDemonType;
     private DayNightCycle.TimeOfDay currentTime;
 
+    [Header("AI")]
+    public EnemyRole role;
+    [SerializeField] private float surroundRadius = 3f;
+    [SerializeField] private float separationRadius = 1.5f;
+    [SerializeField] private float separationStrength = 2f;
+
     public void SetPool(IObjectPool<Enemy> pool)
     {
         enemyPool = pool;
@@ -87,10 +102,60 @@ public class Enemy : MonoBehaviour
     {
         if (isDead || isKnockedBack || isStunned) return; // NEW add || isStunned
 
-        if (player != null)
+        if (player ==  null) return;
+
+        Vector3 targetPosition = player.position;
+
+        switch (role)
         {
-            navMeshAgent.SetDestination(player.position);
+            case EnemyRole.Aggressor:
+                targetPosition = player.position;
+                break;
+
+            case EnemyRole.Flanker:
+                targetPosition = GetFlankPosition();
+                break;
+
+            case EnemyRole.Ranged:
+                //HandleRangedBehavior();
+                return;
         }
+
+        targetPosition += GetSeparationOffset();
+        navMeshAgent.SetDestination(targetPosition);
+    }
+
+    // make sure enemies don't clump together
+    private Vector3 GetSeparationOffset()
+    {
+        Collider[] nearby = Physics.OverlapSphere(transform.position, separationRadius);
+
+        Vector3 pushAway = Vector3.zero;
+        int count = 0;
+
+        foreach (var col in nearby)
+        {
+            if (col.gameObject == gameObject) continue;
+            if (!col.CompareTag("Enemy")) continue;
+
+            Vector3 diff = transform.position - col.transform.position;
+            pushAway += diff.normalized;
+            count++;
+        }
+
+        if (count > 0)
+            pushAway /= count;
+
+        return pushAway * separationStrength;
+    }
+
+    // gets player position info to creep up on player
+    private Vector3 GetFlankPosition()
+    {
+        Vector3 dir = (transform.position - player.position).normalized;
+        Vector3 perpendicular = Vector3.Cross(dir, Vector3.up);
+
+        return player.position + perpendicular * surroundRadius;
     }
 
     // Controls switching the enemies from businessmen to demons
@@ -363,6 +428,7 @@ public class Enemy : MonoBehaviour
             activeDemonType.mesh.SetActive(true);
             damage = activeDemonType.damage;
             navMeshAgent.speed = activeDemonType.moveSpeed;
+            role = activeDemonType.role;
         }
 
         GetMaterials();

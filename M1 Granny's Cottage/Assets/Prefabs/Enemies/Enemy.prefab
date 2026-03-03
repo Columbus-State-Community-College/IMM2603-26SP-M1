@@ -285,6 +285,7 @@ MonoBehaviour:
   maxHealth: 20
   damage: 10
   scoreScript: {fileID: 0}
+  enemySoundScript: {fileID: 0}
   points: 100
   knockbackDistance: 4.5
   knockbackDuration: 0.12
@@ -299,14 +300,21 @@ MonoBehaviour:
     mesh: {fileID: 1042497297427913165}
     damage: 10
     moveSpeed: 7
+    role: 0
   - name: Star Demon
     mesh: {fileID: 1091288656810828338}
     damage: 15
     moveSpeed: 5
+    role: 1
   - name: Yokai
     mesh: {fileID: 4661438985726913640}
     damage: 20
     moveSpeed: 3
+    role: 1
+  role: 0
+  surroundRadius: 3
+  separationRadius: 1.5
+  separationStrength: 2
 --- !u!65 &8381160669612720715
 BoxCollider:
   m_ObjectHideFlags: 0
