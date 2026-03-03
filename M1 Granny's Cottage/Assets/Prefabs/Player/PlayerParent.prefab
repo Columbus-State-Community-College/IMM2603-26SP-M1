@@ -222,6 +222,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5782441490218532274}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a9dfb012-328a-42aa-974d-ae343c42825c
+    m_ActionName: 'UI/Pause[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: 
@@ -241,22 +257,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   runSpeed: 10
   turnSpeed: 1920
-  _gravityMultiplier: 36
   _verticalVelocity: 0
+  isGrounded: 1
+  maxJumpTime: 2
+  _currentJumpState: 0
   _playerCamera: {fileID: 0}
   _playerCameraScript: {fileID: 0}
   hammerAttack: {fileID: 0}
-  isGrounded: 1
-  maxJumpTime: 2
   knockbackDistance: 3.5
   knockbackDuration: 0.15
   groundAttack: {fileID: 3465162847324248541}
   groundAttackParticles: {fileID: 3016694964494978990, guid: a7d3fac79b48ce848957dbecea924d08, type: 3}
   slamCooldownDuration: 7
   showSlamCooldownDebug: 0
+  slamCooldownParticles: {fileID: 0}
+  slamOnCooldownSound: {fileID: 0}
+  slamImpactSound: {fileID: 0}
   audioSource: {fileID: 0}
-  jumpingSound: {fileID: 8300000, guid: 01c41e01064db3c248ed61046437f0f6, type: 3}
-  hammerSwingSound: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
+  grannySoundScript: {fileID: 0}
   volume: 1
   animator: {fileID: 8605433662663619711}
 --- !u!114 &2887890843598394806
@@ -275,10 +293,7 @@ MonoBehaviour:
   currentHealth: 0
   hitbox: {fileID: 8132435451460904920}
   GameOverScreen: {fileID: 0}
-  audioSource: {fileID: 0}
-  ScreamSound: {fileID: 8300000, guid: 21d0eedd31e79c5e8b87552d42888660, type: 3}
-  HPGainSound: {fileID: 8300000, guid: 6772f11bf641e8f37937dd257e9dbfa4, type: 3}
-  HPLostSound: {fileID: 8300000, guid: aacd225a564a172ea91c44115e900769, type: 3}
+  grannySoundScript: {fileID: 0}
 --- !u!114 &5782441490218532274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,8 +338,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GroundAttack
   indicatorPrefab: {fileID: 7636873798645113123, guid: 74a7a64ceea946444a708d915774b84e, type: 3}
   maxRadius: 5
-  raycastHeight: 20
-  raycastDistance: 50
   hitboxPrefab: {fileID: 4317177190620310435, guid: b7457578de4448349b4989ee14b3ef5c, type: 3}
 --- !u!114 &8393999397549388912
 MonoBehaviour:
@@ -342,7 +355,7 @@ MonoBehaviour:
   soundEffectAudioSource: {fileID: 0}
   musicVolumeText: {fileID: 0}
   soundEffectVolumeText: {fileID: 0}
-  sfxTextSound: {fileID: 8300000, guid: 36765096a79c91c8e8ec113e2d826a3e, type: 3}
+  etcSoundScript: {fileID: 0}
   musicVolDownButton: {fileID: 0}
   musicVolUpButton: {fileID: 0}
   soundVolDownButton: {fileID: 0}
@@ -1874,10 +1887,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hammer
       objectReference: {fileID: 0}
-    - target: {fileID: 2233075728892771767, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4472379138281265617, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: m_RootBone
       value: 
@@ -1943,29 +1952,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
-      propertyPath: volume
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 8605433662663619711}
     - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
-      propertyPath: hammerHitSound
-      value: 
-      objectReference: {fileID: 8300000, guid: ab57ad1a2ea2ac3ebabe4ce89d2a6fc5, type: 3}
-    - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
       propertyPath: slashParticles
       value: 
       objectReference: {fileID: 7523404849132193022}
-    - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
-      propertyPath: hammerSwingSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 2a79b0afe2eb87c499f31de5c19d539c, type: 3}
-    - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
-      propertyPath: hammerHitEnemySound
-      value: 
-      objectReference: {fileID: 8300000, guid: 69e4b50c14409e029a1d450ce7cba191, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

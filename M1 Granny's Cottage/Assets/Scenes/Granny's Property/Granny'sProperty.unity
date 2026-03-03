@@ -48803,7 +48803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1448653258
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52555,7 +52555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1543175091
 RectTransform:
   m_ObjectHideFlags: 0
@@ -73380,6 +73380,46 @@ PrefabInstance:
       propertyPath: grannySoundScript
       value: 
       objectReference: {fileID: 1175992296}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionId
+      value: a9dfb012-328a-42aa-974d-ae343c42825c
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionName
+      value: 'UI/Pause[/Keyboard/escape]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 71386918}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPause
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneLoader, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5077211144312180974, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: enemyAudioSource
       value: 
@@ -73463,19 +73503,19 @@ PrefabInstance:
     - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: musicVolUpButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1754930676}
     - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: soundVolUpButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 26318817}
     - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: musicVolDownButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1475500049}
     - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: soundVolDownButton
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 22541687}
     - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: soundEffectVolumeText
       value: 

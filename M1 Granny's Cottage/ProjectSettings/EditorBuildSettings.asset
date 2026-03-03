@@ -15,5 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Granny's Property/Granny'sProperty.unity
     guid: a7549891a9ed49c47a38119d1272360b
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 7e6a78a57c0601440bf2af7ca2cf242a, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

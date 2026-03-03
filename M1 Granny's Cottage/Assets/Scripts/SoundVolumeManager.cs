@@ -16,14 +16,14 @@ public class SoundVolumeManager : MonoBehaviour
 
     void Start()
     {
-        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
-        soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
+        //musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
+        //soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
     }
 
     public void MusicVolumeDown()
     {
         musicAudioSource.volume -=0.1f;
-        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
+        //musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
 
         if(musicAudioSource.volume == 0f){
             musicVolDownButton.interactable = false;
@@ -37,7 +37,7 @@ public class SoundVolumeManager : MonoBehaviour
     public void MusicVolumeUp()
     {
         musicAudioSource.volume +=0.1f;
-        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
+        //musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
 
         if(musicAudioSource.volume >= 0f){
             musicVolDownButton.interactable = true;
@@ -51,7 +51,7 @@ public class SoundVolumeManager : MonoBehaviour
     public void SoundVolumeDown()
     {
         soundEffectAudioSource.volume -=0.1f;
-        soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
+        //soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
 
         if(etcSoundScript != null)
         {
@@ -70,7 +70,7 @@ public class SoundVolumeManager : MonoBehaviour
     public void SoundVolumeUp()
     {
         soundEffectAudioSource.volume +=0.1f;
-        soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
+        //soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
         
         if(etcSoundScript != null)
         {
