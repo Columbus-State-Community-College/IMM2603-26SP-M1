@@ -17,6 +17,13 @@ public class GroundAttackHitbox : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
+    // NEW — called by GroundAttack when upgraded
+    public void SetDamageValues(float damage)
+    {
+        applyDamage = true;
+        damageAmount = damage;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();

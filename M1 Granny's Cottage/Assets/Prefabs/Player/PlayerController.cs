@@ -39,9 +39,6 @@ public class PlayerController : MonoBehaviour
     private Coroutine _jumpAbilityHoverCoroutine;
     private Coroutine _jumpAbilityFallSlamCoroutine;
 
-    private float hoverLogTimer = 0f; // HOVER (throttles hover debug logging)
-    private const float hoverLogInterval = 0.25f; // HOVER (log interval)
-
     [Header("Camera")]
     [SerializeField] public CinemachineCamera _playerCamera;
     [SerializeField] private PlayerCameraScript _playerCameraScript;
@@ -510,7 +507,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
     private void UpdateAnimation()
     {
         if (animator == null) return;
@@ -522,6 +518,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //NEW POWERUP METHODS
+    private bool hasEmpoweredSlam = false;
 
     public void ApplySpeedBoost() //NEW
     {
@@ -544,5 +541,18 @@ public class PlayerController : MonoBehaviour
     {
         if (hammerAttack != null)
             hammerAttack.ReduceCooldown(0.5f);
+    }
+
+    public void ApplyEmpoweredSlam()
+    {
+        if (hasEmpoweredSlam) return;
+
+        if (groundAttack != null)
+        {
+            groundAttack.EnableDamage();
+            hasEmpoweredSlam = true;
+
+            Debug.Log("[POWERUP] Ground Smash now deals damage.");
+        }
     }
 }

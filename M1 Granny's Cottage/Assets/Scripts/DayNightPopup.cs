@@ -17,9 +17,13 @@ public class DayNightPopup : MonoBehaviour
 
     [Header("Settings")]
     public List<string> allPowerups = new List<string>
-    {
-        "Speed Boost", "Extra Health", "Ground Smash", "Quick Swing" //NEW removed Double Jump and Dash + renamed Area Smash
-    };
+{
+    "Speed Boost",
+    "Extra Health",
+    "Ground Smash",
+    "Quick Swing",
+    "Empowered Slam" // NEW
+};
 
     [Header("Select Sound Effect")]
     public EtcSounds etcSoundScript;
@@ -95,6 +99,10 @@ public class DayNightPopup : MonoBehaviour
 
             case "Quick Swing":
                 playerController.ApplyQuickSwing(); //NEW
+                break;
+
+            case "Empowered Slam":
+                playerController.ApplyEmpoweredSlam();
                 break;
         }
     }
