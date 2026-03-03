@@ -18,7 +18,7 @@ public class DayNightPopup : MonoBehaviour
     [Header("Settings")]
     public List<string> allPowerups = new List<string>
     {
-        "Speed Boost", "Dash", "Extra Health", "Ground Smash", "Quick Swing" //NEW removed Double Jump + renamed Area Smash
+        "Speed Boost", "Extra Health", "Ground Smash", "Quick Swing" //NEW removed Double Jump and Dash + renamed Area Smash
     };
 
     [Header("Select Sound Effect")]
@@ -83,10 +83,6 @@ public class DayNightPopup : MonoBehaviour
         {
             case "Speed Boost":
                 playerController.ApplySpeedBoost(); //NEW
-                break;
-
-            case "Dash":
-                playerController.ApplyDashUpgrade(); //NEW
                 break;
 
             case "Extra Health":

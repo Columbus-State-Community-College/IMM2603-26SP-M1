@@ -528,11 +528,6 @@ public class PlayerController : MonoBehaviour
         runSpeed += 3f;
     }
 
-    public void ApplyDashUpgrade() //NEW
-    {
-        // placeholder for dash implementation
-    }
-
     public void ApplyExtraHealth() //NEW
     {
         PlayerHealth health = GetComponent<PlayerHealth>();
