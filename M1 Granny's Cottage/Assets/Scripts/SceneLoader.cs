@@ -8,6 +8,7 @@ public class SceneLoader : MonoBehaviour
 {
     public GameObject PauseScreen;
     public GameObject HowToPlayScreen;
+    public GameObject MainMenuPanel;
     public TMP_Text HowToPlayButtonText;
     public Button HowToPlayButton;
     private bool isPaused;
@@ -40,6 +41,10 @@ public class SceneLoader : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    public void MainMenuClose()
+    {
+        MainMenuPanel.gameObject.SetActive(false);
+    }
     public void HowToPlay()
     {
         HowToPlayScreen.gameObject.SetActive(true);
@@ -51,6 +56,7 @@ public class SceneLoader : MonoBehaviour
     public void HowToPlayMenuClose()
     {
         HowToPlayScreen.gameObject.SetActive(false);
+        MainMenuPanel.gameObject.SetActive(true);
         HowToPlayButton.onClick.RemoveListener(HowToPlayMenuClose);
         HowToPlayButton.onClick.AddListener(HowToPlay);
         HowToPlayButtonText.text = "How to Play";
