@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [Header("Camera")]
     [SerializeField] public CinemachineCamera _playerCamera;
     [SerializeField] private PlayerCameraScript _playerCameraScript;
+    [SerializeField] private CinemachineImpulseSource _jumpImpulseSource;
 
     [Header("Combat")]
     [SerializeField] public HammerAttack hammerAttack;
@@ -120,6 +121,7 @@ public class PlayerController : MonoBehaviour
         _playerInputActions.UI.Disable();
         _characterController = GetComponent<CharacterController>();
         _groundPosition = GetComponent<GroundBelowPlayer>();
+        _jumpImpulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     private void Start()
@@ -387,6 +389,7 @@ public class PlayerController : MonoBehaviour
 
         groundAttack?.StopCharge(); // GROUND ATTACK
         _currentJumpState = JumpState.SLAM;
+        _jumpImpulseSource.GenerateImpulse();
         _verticalVelocity = 0.0f;
         _currentJumpState = JumpState.JUMP_ON_COOLDOWN;
 
