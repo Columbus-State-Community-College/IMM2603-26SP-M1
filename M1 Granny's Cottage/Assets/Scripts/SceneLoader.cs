@@ -56,10 +56,19 @@ public class SceneLoader : MonoBehaviour
     public void HowToPlayMenuClose()
     {
         HowToPlayScreen.gameObject.SetActive(false);
-        MainMenuPanel.gameObject.SetActive(true);
         HowToPlayButton.onClick.RemoveListener(HowToPlayMenuClose);
         HowToPlayButton.onClick.AddListener(HowToPlay);
-        HowToPlayButtonText.text = "How to Play";
+        HowToPlayButtonText.text = " ";
+
+        if (MainMenuPanel != null)
+        {
+            MainMenuPanel.gameObject.SetActive(true);
+        }
+        
+        else 
+        {
+            Debug.Log("MainMenuPanel object is not assigned.");
+        }
     }
 
     public void QuitGame()
