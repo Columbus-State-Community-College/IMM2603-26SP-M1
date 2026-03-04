@@ -48,6 +48,9 @@ GameObject:
   - component: {fileID: 4042795981804938134}
   - component: {fileID: 3465162847324248541}
   - component: {fileID: 8393999397549388912}
+  - component: {fileID: 1262403249204017945}
+  - component: {fileID: 8109714729136637722}
+  - component: {fileID: 1002914071448429023}
   m_Layer: 9
   m_Name: PlayerParent
   m_TagString: Player
@@ -63,7 +66,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738151681271892026}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -274,7 +277,7 @@ MonoBehaviour:
   slamOnCooldownSound: {fileID: 0}
   slamImpactSound: {fileID: 0}
   audioSource: {fileID: 0}
-  grannySoundScript: {fileID: 0}
+  grannySoundScript: {fileID: 1002914071448429023}
   volume: 1
   animator: {fileID: 8605433662663619711}
 --- !u!114 &2887890843598394806
@@ -293,7 +296,7 @@ MonoBehaviour:
   currentHealth: 0
   hitbox: {fileID: 8132435451460904920}
   GameOverScreen: {fileID: 0}
-  grannySoundScript: {fileID: 0}
+  grannySoundScript: {fileID: 1002914071448429023}
 --- !u!114 &5782441490218532274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +363,142 @@ MonoBehaviour:
   musicVolUpButton: {fileID: 0}
   soundVolDownButton: {fileID: 0}
   soundVolUpButton: {fileID: 0}
+--- !u!114 &1262403249204017945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738151681271892026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f7824eae223fec79fb3caa26ec076e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreCounter
+  totalScore: 0
+  scoreCounter: {fileID: 0}
+  overallScoreText: {fileID: 0}
+--- !u!82 &8109714729136637722
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738151681271892026}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1002914071448429023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738151681271892026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ce1b6e97860d345a9b9038ef89ecfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrannysSounds
+  jumpSFX: Jump
+  hammerSwingSFX: Hammer Swing
+  hammerHitSFX: Hammer Hit
+  healSFX: yummy
+  hpLostSFX: Hammer
+  screamSFX: screams
+  jumpVolume: 1
+  hammerSwingVolume: 1
+  hammerHitVolume: 1
+  healVolume: 1
+  hpLostVolume: 1
+  screamVolume: 1
 --- !u!1 &855241149701611655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1959,6 +2098,10 @@ PrefabInstance:
       propertyPath: slashParticles
       value: 
       objectReference: {fileID: 7523404849132193022}
+    - target: {fileID: 8695354432963544540, guid: ea1e9d7c863143e45b10551e7dc61b66, type: 3}
+      propertyPath: grannySoundScript
+      value: 
+      objectReference: {fileID: 1002914071448429023}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

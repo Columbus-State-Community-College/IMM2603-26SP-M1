@@ -2677,7 +2677,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5782441490218532274, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
   m_PrefabInstance: {fileID: 2976292704268564384}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175992287}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb7a664b7278a64458a9aba46485202f, type: 3}
@@ -2688,7 +2688,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
   m_PrefabInstance: {fileID: 2976292704268564384}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175992287}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73f63b87aae2a9b4c9a9ee6f3d2fdb58, type: 3}
@@ -38443,147 +38443,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3108434280277541986, guid: 82616a8ba580c4047ab70f2c67a293fb, type: 3}
   m_PrefabInstance: {fileID: 1172972279}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1175992287 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 738151681271892026, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-  m_PrefabInstance: {fileID: 2976292704268564384}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1175992288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175992287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00f7824eae223fec79fb3caa26ec076e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScoreCounter
-  totalScore: 0
-  scoreCounter: {fileID: 521336040}
-  overallScoreText: {fileID: 1400448314}
---- !u!82 &1175992295
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175992287}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &1175992296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175992287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46ce1b6e97860d345a9b9038ef89ecfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GrannysSounds
-  jumpSFX: Jump
-  hammerSwingSFX: Hammer Swing
-  hammerHitSFX: Hammer Hit
-  healSFX: yummy
-  hpLostSFX: Hammer
-  screamSFX: screams
-  jumpVolume: 1
-  hammerSwingVolume: 1
-  hammerHitVolume: 1
-  healVolume: 1
-  hpLostVolume: 1
-  screamVolume: 1
 --- !u!1001 &1177154995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73356,94 +73215,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerParent
       objectReference: {fileID: 0}
-    - target: {fileID: 2887890843598394806, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: HPGainSound
+    - target: {fileID: 1262403249204017945, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: scoreCounter
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2887890843598394806, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: audioSource
+      objectReference: {fileID: 521336040}
+    - target: {fileID: 1262403249204017945, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
+      propertyPath: overallScoreText
       value: 
-      objectReference: {fileID: 349363251}
+      objectReference: {fileID: 1400448314}
     - target: {fileID: 2887890843598394806, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: GameOverScreen
       value: 
       objectReference: {fileID: 680053253}
-    - target: {fileID: 2887890843598394806, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: grannySoundScript
-      value: 
-      objectReference: {fileID: 1175992296}
     - target: {fileID: 4300989965964687802, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 349363251}
-    - target: {fileID: 4300989965964687802, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: grannySoundScript
-      value: 
-      objectReference: {fileID: 1175992296}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_ActionId
-      value: a9dfb012-328a-42aa-974d-ae343c42825c
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_ActionName
-      value: 'UI/Pause[/Keyboard/escape]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 71386918}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnPause
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SceneLoader, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 4521956755262189982, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5077211144312180974, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: enemyAudioSource
-      value: 
-      objectReference: {fileID: 349363251}
-    - target: {fileID: 5077211144312180974, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: grannySoundScript
-      value: 
-      objectReference: {fileID: 1175992296}
     - target: {fileID: 5782441490218532274, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: PauseScreen
       value: 
       objectReference: {fileID: 742418018}
-    - target: {fileID: 5782441490218532274, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: HowToPlayButton
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5782441490218532274, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: HowToPlayScreen
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5782441490218532274, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: HowToPlayButtonText
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6253791379909209582, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -73493,10 +73284,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1107388953}
     - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: musicVolumeText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: musicAudioSource
       value: 
       objectReference: {fileID: 1281849990}
@@ -73517,26 +73304,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22541687}
     - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      propertyPath: soundEffectVolumeText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8393999397549388912, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
       propertyPath: soundEffectAudioSource
       value: 
       objectReference: {fileID: 991151344}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 738151681271892026, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1175992288}
-    - targetCorrespondingSourceObject: {fileID: 738151681271892026, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1175992295}
-    - targetCorrespondingSourceObject: {fileID: 738151681271892026, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1175992296}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e88571da233cdab4daa5f4e470bc1f94, type: 3}
 --- !u!1001 &5277887881968969992
 PrefabInstance:
