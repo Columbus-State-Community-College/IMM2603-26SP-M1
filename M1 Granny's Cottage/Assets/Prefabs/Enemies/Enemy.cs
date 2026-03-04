@@ -474,9 +474,13 @@ public class Enemy : MonoBehaviour
         isKnockedBack = false;
 
         if (enemyPool != null)
+        {
             enemyPool.Release(this);
+        }
         else
+        {
             gameObject.SetActive(false);
+        }
     }
 
     public void ResetEnemy()

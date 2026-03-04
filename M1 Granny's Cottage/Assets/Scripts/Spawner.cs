@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -19,12 +20,19 @@ public class Spawner : MonoBehaviour
     private float waveTimer;
     private bool waitingForNextWave = false;
     private bool waveFinishedSpawning = false;
+    public int currentWave = 0;
 
     [SerializeField] private Enemy enemyPrefab;
     private IObjectPool<Enemy> enemyPool;
 
     [Header("Sound Effect for Spawning Enemies")]
     public EnemySounds enemySoundScript;
+
+    [Header("Wave UI")]
+    public TMP_Text waveText;
+    public TMP_Text enemiesRemainingText;
+    public TMP_Text nextWaveTimerText;
+    public GameObject waveIncomingPanel;
 
     private void Awake()
     {
@@ -43,12 +51,25 @@ public class Spawner : MonoBehaviour
 
     private void StartWave()
     {
+        currentWave++;
         waveActive = true;
         waitingForNextWave = false;
         waveFinishedSpawning = false;
         spawnTimer = spawnInterval;
         enemiesSpawned = 0;
         numEnemiesPerWave += 2;
+
+        if (waveIncomingPanel != null)
+        {
+            waveIncomingPanel.SetActive(true);
+            Invoke(nameof(HideWaveBanner), 2f);
+        }
+    }
+
+    private void HideWaveBanner()
+    {
+        if (waveIncomingPanel != null)
+            waveIncomingPanel.SetActive(false);
     }
 
     // Spawns the enemies (gets them from pool)
@@ -121,7 +142,22 @@ public class Spawner : MonoBehaviour
                 StartWave();
             }
         }
+
+        UpdateUI();
     }
 
 
+    private void UpdateUI()
+    {
+        if (waveText != null)
+            waveText.text = "Wave: " + currentWave;
+
+        if (enemiesRemainingText != null)
+            enemiesRemainingText.text = "Enemies: " + aliveEnemies;
+
+        if (waitingForNextWave && nextWaveTimerText != null)
+            nextWaveTimerText.text = "Next Wave In: " + Mathf.Ceil(waveTimer);
+        else if (nextWaveTimerText != null)
+            nextWaveTimerText.text = "";
+    }
 }
