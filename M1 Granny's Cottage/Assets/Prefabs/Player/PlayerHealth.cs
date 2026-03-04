@@ -4,6 +4,7 @@ public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth;
+    public ScoreCounter scoreScript;
 
     [Header("Health UI and Audio Elements")]
 
@@ -103,5 +104,14 @@ public class PlayerHealth : MonoBehaviour
             grannySoundScript.PlayScream();
         }
         Time.timeScale = 0;
+        GameObject playerObject = GameObject.Find("PlayerParent");
+        if (playerObject)
+        {
+            ScoreCounter scoreScript = playerObject.GetComponent<ScoreCounter>();
+            if (scoreScript != null)
+            {
+                scoreScript.startFileWrite();
+            }
+        }
     }
 }
