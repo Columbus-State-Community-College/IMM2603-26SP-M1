@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerHitbox : MonoBehaviour
 {
     PlayerHealth playerHealth;
-    PlayerController playerController; //NEW
+    PlayerController playerController;  
 
     public Slider slider;
 
@@ -17,14 +17,14 @@ public class PlayerHitbox : MonoBehaviour
     private Color[] originalColors;
     private Coroutine flashRoutine;
 
-    [Header("Damage Cooldown")] //NEW
-    [SerializeField] private float damageCooldown = 0.3f; //NEW
-    private float damageCooldownTimer = 0f; //NEW
+    [Header("Damage Cooldown")]  
+    [SerializeField] private float damageCooldown = 0.3f;  
+    private float damageCooldownTimer = 0f;  
 
     private void Awake()
     {
         playerHealth = GetComponentInParent<PlayerHealth>();
-        playerController = GetComponentInParent<PlayerController>(); //NEW
+        playerController = GetComponentInParent<PlayerController>();  
 
         if (meshRenderer != null)
         {
@@ -41,14 +41,14 @@ public class PlayerHitbox : MonoBehaviour
         }
     }
 
-    private void Update() //NEW
+    private void Update()  
     {
         if (damageCooldownTimer > 0f)
             damageCooldownTimer -= Time.deltaTime;
     }
 
-    //NEW CHANGED from OnTriggerStay to OnTriggerEnter
-    private void OnTriggerEnter(Collider other) //NEW
+    // CHANGED from OnTriggerStay to OnTriggerEnter
+    private void OnTriggerEnter(Collider other)  
     {
         if (damageCooldownTimer > 0f) return;
 

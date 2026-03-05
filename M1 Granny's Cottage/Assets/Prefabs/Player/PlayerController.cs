@@ -402,11 +402,11 @@ public class PlayerController : MonoBehaviour
         // this code block helps reset 
         {
             currentJumpTime = maxJumpTime; // HOVER
-            slamCooldownTimer = slamCooldownDuration; //NEW
-            slamLogTimer = 0f; //NEW
+            slamCooldownTimer = slamCooldownDuration;  
+            slamLogTimer = 0f;  
 
-            if (showSlamCooldownDebug) //NEW
-                Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)"); //NEW
+            if (showSlamCooldownDebug)  
+                Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)");  
             
         }
 
@@ -419,10 +419,10 @@ public class PlayerController : MonoBehaviour
     // This function manages the cooldown for the jump slam
     private void JumpSlamCooldownManager()
     {
-        //NEW
-        if (_currentJumpState == JumpState.JUMP_ON_COOLDOWN) //NEW
+         
+        if (_currentJumpState == JumpState.JUMP_ON_COOLDOWN)  
         {
-            slamCooldownTimer -= Time.deltaTime; //NEW
+            slamCooldownTimer -= Time.deltaTime;  
 
             // (Cooldown Feedback)
             if (!slamCooldownFeedbackTriggered)
@@ -449,16 +449,16 @@ public class PlayerController : MonoBehaviour
 
             if (showSlamCooldownDebug)
             {
-                slamLogTimer += Time.deltaTime; //NEW
+                slamLogTimer += Time.deltaTime;  
 
-                if (slamLogTimer >= slamLogInterval) //NEW
+                if (slamLogTimer >= slamLogInterval)  
                 {
-                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s"); //NEW
-                    slamLogTimer = 0f; //NEW
+                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s");  
+                    slamLogTimer = 0f;  
                 }
             }
 
-            if (slamCooldownTimer <= 0f) //NEW
+            if (slamCooldownTimer <= 0f)  
             {
                 // (Cooldown Feedback) — stop particles
                 if (activeCooldownParticles != null)
@@ -470,15 +470,15 @@ public class PlayerController : MonoBehaviour
                 slamCooldownFeedbackTriggered = false;
 
                 _currentJumpState = JumpState.READY_TO_JUMP;
-                slamCooldownTimer = 0f; //NEW
-                slamLogTimer = 0f; //NEW
+                slamCooldownTimer = 0f;  
+                slamLogTimer = 0f;  
                 
 
-                //NEW
+                 
                 if (showSlamCooldownDebug)
                 {    
-                    //NEW
-                    Debug.Log("[SLAM] Cooldown finished"); //NEW
+                     
+                    Debug.Log("[SLAM] Cooldown finished");  
                 }
             }
         }
@@ -520,27 +520,27 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", speed);
     }
 
-    //NEW POWERUP METHODS
+    // POWERUP METHODS
     private bool hasEmpoweredSlam = false;
 
-    public void ApplySpeedBoost() //NEW
+    public void ApplySpeedBoost()  
     {
         runSpeed += 3f;
     }
 
-    public void ApplyExtraHealth() //NEW
+    public void ApplyExtraHealth()  
     {
         PlayerHealth health = GetComponent<PlayerHealth>();
         if (health != null)
             health.IncreaseMaxHealth(25f);
     }
 
-    public void ApplyGroundSmashUpgrade() //NEW
+    public void ApplyGroundSmashUpgrade()  
     {
         slamCooldownDuration *= 0.5f;
     }
 
-    public void ApplyQuickSwing() //NEW
+    public void ApplyQuickSwing()  
     {
         if (hammerAttack != null)
             hammerAttack.ReduceCooldown(0.5f);
@@ -556,6 +556,14 @@ public class PlayerController : MonoBehaviour
             hasEmpoweredSlam = true;
 
             Debug.Log("[POWERUP] Ground Smash now deals damage.");
+        }
+    }
+
+    public void ApplyHammerDamage()
+    {
+        if (hammerAttack != null)
+        {
+            hammerAttack.IncreaseDamage(5f);
         }
     }
 }

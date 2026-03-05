@@ -17,20 +17,21 @@ public class DayNightPopup : MonoBehaviour
 
     [Header("Settings")]
     public List<string> allPowerups = new List<string>
-{
-    "Speed Boost",
-    "Extra Health",
-    "Ground Smash",
-    "Quick Swing",
-    "Empowered Slam" 
-};
+    {
+        "Hammer Damage",
+        "Speed Boost",
+        "Extra Health",
+        "Ground Smash",
+        "Quick Swing",
+        "Empowered Slam"
+    };
 
     [Header("Select Sound Effect")]
     public EtcSounds etcSoundScript;
 
-    //NEW
+     
     [Header("Player Reference")]
-    [SerializeField] private PlayerController playerController; //NEW
+    [SerializeField] private PlayerController playerController;  
 
     private void OnEnable()
     {
@@ -81,28 +82,32 @@ public class DayNightPopup : MonoBehaviour
     void ApplyPowerup(string powerup)
     {
         // Will add to these if game is chosen
-        if (playerController == null) return; //NEW
+        if (playerController == null) return;  
 
         switch (powerup)
         {
             case "Speed Boost":
-                playerController.ApplySpeedBoost(); //NEW
+                playerController.ApplySpeedBoost();  
                 break;
 
             case "Extra Health":
-                playerController.ApplyExtraHealth(); //NEW
+                playerController.ApplyExtraHealth();  
                 break;
 
-            case "Ground Smash": //NEW renamed
-                playerController.ApplyGroundSmashUpgrade(); //NEW
+            case "Ground Smash": // renamed
+                playerController.ApplyGroundSmashUpgrade();  
                 break;
 
             case "Quick Swing":
-                playerController.ApplyQuickSwing(); //NEW
+                playerController.ApplyQuickSwing();  
                 break;
 
             case "Empowered Slam":
                 playerController.ApplyEmpoweredSlam();
+                break;
+
+            case "Hammer Damage":
+                playerController.ApplyHammerDamage();
                 break;
         }
     }

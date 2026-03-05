@@ -219,7 +219,7 @@ public class Enemy : MonoBehaviour
         originalColors = colors.ToArray();
     }
 
-    //NEW REMOVED - Player damage + knockback now handled in PlayerHitbox
+    // REMOVED - Player damage + knockback now handled in PlayerHitbox
     /*
     private void OnTriggerEnter(Collider other)
     {

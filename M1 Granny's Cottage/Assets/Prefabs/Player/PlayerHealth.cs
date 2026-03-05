@@ -74,15 +74,15 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    //NEW Increase max health powerup support
-    public void IncreaseMaxHealth(float amount) //NEW
+    // Increase max health powerup support
+    public void IncreaseMaxHealth(float amount)  
     {
-        maxHealth += amount; //NEW increase cap
-        currentHealth += amount; //NEW heal by same amount
+        maxHealth += amount; // increase cap
+        currentHealth += amount; // heal by same amount
 
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); //NEW safety
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // safety
 
-        if (hitbox != null) //NEW update UI
+        if (hitbox != null) // update UI
         {
             hitbox.SetMaxHealth(maxHealth);
         hitbox.SetHealth(currentHealth);
