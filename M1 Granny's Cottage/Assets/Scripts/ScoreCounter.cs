@@ -7,6 +7,7 @@ public class ScoreCounter : MonoBehaviour
     public int totalScore = 0;
     public TMP_Text scoreCounter;
     public TMP_Text overallScoreText;
+    public TMP_Text highScoreText;
     private string scoreFile = "HighScore.txt";
 
     void Start()
@@ -23,8 +24,32 @@ public class ScoreCounter : MonoBehaviour
 
     public void startFileWrite()
     {
-        string path = Path.Combine(Application.persistentDataPath, scoreFile);
-        WriteToFile(path, "High Score: " + totalScore.ToString());
+        string filePath = Path.Combine(Application.persistentDataPath, scoreFile);
+        if (File.Exists(filePath))
+        {
+            string fileContent = File.ReadAllText(filePath);
+            if (int.TryParse(fileContent, out int result))
+            {
+                Debug.Log("Parsed Integer: " + result);
+
+                if (totalScore >= result)
+                {
+                    string path = Path.Combine(Application.persistentDataPath, scoreFile);
+                    WriteToFile(path, totalScore.ToString());
+                }
+
+                else 
+                {
+                    ReadFile();
+                }
+            }
+        }
+
+        else
+        {
+            string path = Path.Combine(Application.persistentDataPath, scoreFile);
+            WriteToFile(path, totalScore.ToString());
+        }
     }
 
     public void WriteToFile(string path, string content)
@@ -37,6 +62,22 @@ public class ScoreCounter : MonoBehaviour
         catch (System.Exception ex)
         {
             Debug.LogError("Error writing to file: " + ex.Message);
+        }
+
+        ReadFile();
+    }
+
+    public void ReadFile()
+    {
+        string filePath = Path.Combine(Application.persistentDataPath, scoreFile);
+        if (File.Exists(filePath))
+        {
+            string fileContents = File.ReadAllText(filePath);
+            highScoreText.text = "High Score: " + fileContents;
+        }
+        else
+        {
+            Debug.LogError("File not found at: " + filePath);
         }
     }
 }
