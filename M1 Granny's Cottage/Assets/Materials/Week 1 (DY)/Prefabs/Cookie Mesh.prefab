@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.7950397
+      value: 3.8414598
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.7950397
+      value: 3.8414598
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.7950397
+      value: 3.8414598
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d788d83b5635eb048bfe6148ef9b98dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -126,3 +126,7 @@ MonoBehaviour:
   pickupEffect: {fileID: 0}
   enableRespawn: 1
   respawnDelay: 30
+  groundIndicatorPrefab: {fileID: 4067517944776928949, guid: 5399c96c25fc8a94a99aed8f1fc0750b, type: 3}
+  indicatorGroundY: 0.5
+  indicatorRadius: 1
+  indicatorThickness: 0.02

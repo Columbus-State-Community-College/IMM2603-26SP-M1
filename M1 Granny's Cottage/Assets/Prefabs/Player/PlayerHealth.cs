@@ -25,7 +25,7 @@ public class PlayerHealth : MonoBehaviour
             //Debug.LogWarning("[PLAYER] No PlayerHitbox assigned");
         }
 
-        // NEW Log starting health
+        // Log starting health
         //Debug.Log("[PLAYER] Starting Health: " + currentHealth);
     }
 
@@ -54,7 +54,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // NEW Heal function for health pickups
+    // Heal function for health pickups
     public void Heal(float amount)
     {
         //Debug.Log("[PLAYER] Attempting Heal: " + amount);

@@ -42,11 +42,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float knockbackDistance = 4.5f;
     [SerializeField] private float knockbackDuration = 0.12f;
 
-    // NEW
-    [Header("Stun (Tuning)")] // NEW
-    [SerializeField] private bool canBeStunned = true; // NEW
-    private bool isStunned = false; // NEW
-    private Coroutine stunRoutine; // NEW
+    [Header("Stun (Tuning)")]  
+    [SerializeField] private bool canBeStunned = true;  
+    private bool isStunned = false;  
+    private Coroutine stunRoutine;  
 
     [Header("VFX")]
     public VisualEffect hitVFX;
@@ -100,7 +99,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (isDead || isKnockedBack || isStunned) return; // NEW add || isStunned
+        if (isDead || isKnockedBack || isStunned) return; // add || isStunned
 
         if (player ==  null) return;
 
@@ -358,7 +357,7 @@ public class Enemy : MonoBehaviour
         //Debug.Log("[ENEMY] Knockback END");   
     }
 
-    public void ApplyStun(float duration) // NEW
+    public void ApplyStun(float duration)  
     {
         if (!canBeStunned || isDead || isStunned)
             return;
@@ -369,7 +368,7 @@ public class Enemy : MonoBehaviour
         stunRoutine = StartCoroutine(StunCoroutine(duration));
     }
 
-    private IEnumerator StunCoroutine(float duration) // NEW
+    private IEnumerator StunCoroutine(float duration)  
     {
         isStunned = true;
 
@@ -468,8 +467,8 @@ public class Enemy : MonoBehaviour
             knockbackRoutine = null;
         }
 
-        if (stunRoutine != null) StopCoroutine(stunRoutine); // NEW
-        isStunned = false; // NEW
+        if (stunRoutine != null) StopCoroutine(stunRoutine);  
+        isStunned = false;  
 
         isKnockedBack = false;
 
@@ -494,8 +493,8 @@ public class Enemy : MonoBehaviour
             knockbackRoutine = null;
         }
 
-        if (stunRoutine != null) StopCoroutine(stunRoutine); // NEW
-        isStunned = false; // NEW
+        if (stunRoutine != null) StopCoroutine(stunRoutine);  
+        isStunned = false;  
 
         isKnockedBack = false;
 

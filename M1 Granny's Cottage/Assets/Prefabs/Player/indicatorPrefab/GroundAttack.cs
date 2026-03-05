@@ -9,7 +9,7 @@ public class GroundAttack : MonoBehaviour
     [Header("Hitbox Settings")]
     [SerializeField] private GameObject hitboxPrefab; // AOE trigger prefab
 
-    // NEW — Upgrade flag
+    // Upgrade flag
     private bool canDealDamage = false;
 
     private GameObject activeIndicator; // currently spawned indicator
@@ -45,7 +45,7 @@ public class GroundAttack : MonoBehaviour
         currentChargeTime = 0f;
         isCharging = true;
 
-        Vector3 spawnPos = _groundPosition.GroundPointTransform.position;//GetGroundPosition(playerPosition); // NEW changr from groundPos
+        Vector3 spawnPos = _groundPosition.GroundPointTransform.position;//GetGroundPosition(playerPosition); // changr from groundPos
 
         activeIndicator = Instantiate(indicatorPrefab, spawnPos, Quaternion.identity);
 

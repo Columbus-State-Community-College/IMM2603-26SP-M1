@@ -17,7 +17,7 @@ public class GroundAttackHitbox : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
-    // NEW — called by GroundAttack when upgraded
+    //  — called by GroundAttack when upgraded
     public void SetDamageValues(float damage)
     {
         applyDamage = true;

@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.32243776
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6914553
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4955397
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -34,23 +34,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.69393337
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.13585486
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.13585486
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.69393337
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -22.154
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -122,13 +122,17 @@ MonoBehaviour:
   onlyHealIfMissingHealth: 1
   requireKeyPress: 0
   interactKey: 101
-  enableFloating: 0
+  enableFloating: 1
   floatSpeed: 2
   floatHeight: 0.25
   pickupSound: {fileID: 0}
   pickupEffect: {fileID: 0}
   enableRespawn: 1
   respawnDelay: 15
+  groundIndicatorPrefab: {fileID: 4067517944776928949, guid: 5399c96c25fc8a94a99aed8f1fc0750b, type: 3}
+  indicatorGroundY: 0.5
+  indicatorRadius: 1
+  indicatorThickness: 0.02
 --- !u!4 &642235008618579945 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a9d65b5f1f673794d9e9e4d9e93aaceb, type: 3}

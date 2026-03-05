@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
     private float slamLogTimer = 0f; // (throttle timer)
     private const float slamLogInterval = 1f; // (log once per second)
 
-    // NEW (Cooldown Feedback)
+    // (Cooldown Feedback)
     [Header("Ground Attack Cooldown Feedback")]
     [SerializeField] private ParticleSystem slamCooldownParticles;
     [SerializeField] private AudioClip slamOnCooldownSound;
@@ -424,7 +424,7 @@ public class PlayerController : MonoBehaviour
         {
             slamCooldownTimer -= Time.deltaTime; //NEW
 
-            // NEW (Cooldown Feedback)
+            // (Cooldown Feedback)
             if (!slamCooldownFeedbackTriggered)
             {
                 slamCooldownFeedbackTriggered = true;
@@ -460,7 +460,7 @@ public class PlayerController : MonoBehaviour
 
             if (slamCooldownTimer <= 0f) //NEW
             {
-                // NEW (Cooldown Feedback) — stop particles
+                // (Cooldown Feedback) — stop particles
                 if (activeCooldownParticles != null)
                 {
                     Destroy(activeCooldownParticles.gameObject);

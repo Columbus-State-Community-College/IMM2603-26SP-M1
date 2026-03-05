@@ -358,6 +358,10 @@ MonoBehaviour:
   pickupEffect: {fileID: 0}
   enableRespawn: 1
   respawnDelay: 60
+  groundIndicatorPrefab: {fileID: 4067517944776928949, guid: 5399c96c25fc8a94a99aed8f1fc0750b, type: 3}
+  indicatorGroundY: 0.5
+  indicatorRadius: 1
+  indicatorThickness: 0.02
 --- !u!4 &3281657843532353581 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d7a53cf6ea38cbe4591543ae45d011ed, type: 3}

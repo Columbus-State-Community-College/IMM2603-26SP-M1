@@ -22,7 +22,7 @@ public class DayNightPopup : MonoBehaviour
     "Extra Health",
     "Ground Smash",
     "Quick Swing",
-    "Empowered Slam" // NEW
+    "Empowered Slam" 
 };
 
     [Header("Select Sound Effect")]
