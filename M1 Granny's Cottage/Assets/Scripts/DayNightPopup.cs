@@ -23,7 +23,8 @@ public class DayNightPopup : MonoBehaviour
         "Extra Health",
         "Ground Smash",
         "Quick Swing",
-        "Empowered Slam"
+        "Empowered Slam",
+        "Hammer Knockback",
     };
 
     [Header("Select Sound Effect")]
@@ -108,6 +109,10 @@ public class DayNightPopup : MonoBehaviour
 
             case "Hammer Damage":
                 playerController.ApplyHammerDamage();
+                break;
+
+            case "Hammer Knockback":
+                playerController.ApplyHammerKnockback();
                 break;
         }
     }

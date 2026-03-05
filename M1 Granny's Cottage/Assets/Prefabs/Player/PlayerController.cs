@@ -566,4 +566,10 @@ public class PlayerController : MonoBehaviour
             hammerAttack.IncreaseDamage(5f);
         }
     }
+
+    public void ApplyHammerKnockback()
+    {
+        if (hammerAttack != null)
+            hammerAttack.IncreaseKnockback();
+    }
 }

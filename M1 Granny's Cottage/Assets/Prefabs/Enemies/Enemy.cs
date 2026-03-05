@@ -42,6 +42,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float knockbackDistance = 4.5f;
     [SerializeField] private float knockbackDuration = 0.12f;
 
+    private float knockbackMultiplier = 1f; // NEW - allows powerups to increase knockback
+
     [Header("Stun (Tuning)")]  
     [SerializeField] private bool canBeStunned = true;  
     private bool isStunned = false;  
@@ -275,27 +277,21 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-        //Debug.Log("[ENEMY] Took HIT");
-
         currentHealth -= damage;
         FlashRed();
 
-        //Debug.Log($"[ENEMY] Damage Applied: {damage} | HP Now: {currentHealth}");
-
-        // Knockback
         if (knockbackDistance > 0f && knockbackDuration > 0f)
         {
-            //Debug.Log("[ENEMY] Knockback SHOULD trigger");
-
-            // use hit point for accurate knockback direction
             Vector3 dir = (transform.position - hitPoint);
             dir.y = 0f;
             dir.Normalize();
 
-            StartKnockback(dir, knockbackDistance, knockbackDuration);
+            // Apply multiplier from hammer powerups
+            float finalKnockback = knockbackDistance * knockbackMultiplier;
+
+            StartKnockback(dir, finalKnockback, knockbackDuration);
         }
-        
-        // Death handling AFTER knockback
+
         if (currentHealth <= 0f)
         {
             if (isKnockedBack)
@@ -307,6 +303,12 @@ public class Enemy : MonoBehaviour
                 Die();
             }
         }
+    }
+
+    // Allows hammer powerups to modify enemy knockback strength
+    public void SetKnockbackMultiplier(float multiplier)
+    {
+        knockbackMultiplier = multiplier;
     }
 
     private IEnumerator DieAfterKnockback()

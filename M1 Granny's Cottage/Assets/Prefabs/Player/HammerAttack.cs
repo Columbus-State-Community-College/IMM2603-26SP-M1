@@ -9,6 +9,8 @@ public class HammerAttack : MonoBehaviour
     public float damage = 10f;
     public float attackDuration = 0.5f;
 
+    [Header("Knockback Settings")]
+    [SerializeField] private float knockbackMultiplier = 1f; // Multiplier applied to enemy knockback
      
     [Header("Cooldown Settings")]  
     [SerializeField] private float attackCooldown = 0.8f;  
@@ -137,13 +139,15 @@ public class HammerAttack : MonoBehaviour
             Destroy(hitVFX.gameObject, hitParticlesLifetime);
         }
 
-        //Debug.Log("[HAMMER] Enemy HIT");
         //Debug.Log("Enemy hit: " + enemy.name);
-        enemy.HandleHit(
-            damage,
-            transform.position,
-            contactPoint
-        );
+        // Apply knockback multiplier from powerup
+    enemy.SetKnockbackMultiplier(knockbackMultiplier);
+
+    enemy.HandleHit(
+        damage,
+        transform.position,
+        contactPoint
+);
     }
 
     // Powerup support
@@ -161,5 +165,11 @@ public class HammerAttack : MonoBehaviour
         damage += amount;
 
         Debug.Log("[POWERUP] Hammer damage increased to: " + damage);
+    }
+
+    // Powerup support
+    public void IncreaseKnockback()
+    {
+        knockbackMultiplier = 2f;
     }
 }
