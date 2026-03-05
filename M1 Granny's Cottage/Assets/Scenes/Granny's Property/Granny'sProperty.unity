@@ -30973,6 +30973,9 @@ MonoBehaviour:
   - {fileID: 1689142061}
   - {fileID: 1723271447}
   - {fileID: 1262416864}
+  - {fileID: 2047258975}
+  - {fileID: 1019845171}
+  - {fileID: 1702760035}
   allPowerups:
   - Speed Boost
   - Extra Health
