@@ -5,9 +5,10 @@ using TMPro;
 public class SoundVolumeManager : MonoBehaviour
 {
     public AudioSource musicAudioSource;
-    public AudioSource soundEffectAudioSource;
+    public AudioSource grannyAudioSource;
+    public AudioSource enemyAudioSource;
+    public AudioSource etcAudioSource;
     public TMP_Text musicVolumeText;
-    public TMP_Text soundEffectVolumeText;
     public EtcSounds etcSoundScript;
     public Button musicVolDownButton;
     public Button musicVolUpButton;
@@ -16,14 +17,13 @@ public class SoundVolumeManager : MonoBehaviour
 
     void Start()
     {
-        //musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
-        //soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
+        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
     }
 
     public void MusicVolumeDown()
     {
         musicAudioSource.volume -=0.1f;
-        //musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
+        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
 
         if(musicAudioSource.volume == 0f){
             musicVolDownButton.interactable = false;
@@ -37,7 +37,7 @@ public class SoundVolumeManager : MonoBehaviour
     public void MusicVolumeUp()
     {
         musicAudioSource.volume +=0.1f;
-        //musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
+        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
 
         if(musicAudioSource.volume >= 0f){
             musicVolDownButton.interactable = true;
@@ -50,38 +50,40 @@ public class SoundVolumeManager : MonoBehaviour
 
     public void SoundVolumeDown()
     {
-        soundEffectAudioSource.volume -=0.1f;
-        //soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
+        grannyAudioSource.volume -=0.1f;
+        enemyAudioSource.volume -=0.1f;
+        etcAudioSource.volume -=0.1f;
 
         if(etcSoundScript != null)
         {
             etcSoundScript.PlaySwitch();
         }
 
-        if(soundEffectAudioSource.volume == 0f){
+        if(grannyAudioSource.volume == 0f && enemyAudioSource.volume == 0f && etcAudioSource.volume == 0f){
             soundVolDownButton.interactable = false;
         }
 
-        if(soundEffectAudioSource.volume <= 1f){
+        if(grannyAudioSource.volume <= 1f && enemyAudioSource.volume <= 1f && etcAudioSource.volume <= 1f){
             soundVolUpButton.interactable = true;
         }
     }
 
     public void SoundVolumeUp()
     {
-        soundEffectAudioSource.volume +=0.1f;
-        //soundEffectVolumeText.text = "SFX Volume: " + soundEffectAudioSource.volume.ToString();
+        grannyAudioSource.volume +=0.1f;
+        enemyAudioSource.volume +=0.1f;
+        etcAudioSource.volume +=0.1f;
         
         if(etcSoundScript != null)
         {
             etcSoundScript.PlaySwitch();
         }
 
-        if(soundEffectAudioSource.volume >= 0f){
+        if(grannyAudioSource.volume >= 0f && enemyAudioSource.volume >= 0f && etcAudioSource.volume >= 0f){
             soundVolDownButton.interactable = true;
         }
 
-        if (soundEffectAudioSource.volume == 1){
+        if (grannyAudioSource.volume == 1 && enemyAudioSource.volume == 1 && etcAudioSource.volume == 1){
             soundVolUpButton.interactable = false;
         }
     }
