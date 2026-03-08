@@ -590,5 +590,13 @@ public class PlayerController : MonoBehaviour
             groundAttack.IncreaseStunDuration(1f);
 
             Debug.Log("[POWERUP] groundAttack StunDuration upgraded.");
-    }   
+    }  
+
+    public void ApplyJumpAOEUpgrade()
+    {
+        if (groundAttack != null)
+            groundAttack.IncreaseAOESize(2f);
+
+            Debug.Log("[POWERUP] groundAttack AOE Size Increase upgraded.");
+    } 
 }

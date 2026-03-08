@@ -27,6 +27,7 @@ public class DayNightPopup : MonoBehaviour
         "Hammer Knockback",
         "Jump Duration",
         "Jump Stun Duration",
+        "Jump AOE Size",
         
     };
 
@@ -125,6 +126,11 @@ public class DayNightPopup : MonoBehaviour
             case "Jump Stun Duration":
                 playerController.ApplyJumpStunUpgrade();
                 break;
+
+            case "Jump AOE Size":
+                playerController.ApplyJumpAOEUpgrade();
+                break;
         }
+        
     }
 }

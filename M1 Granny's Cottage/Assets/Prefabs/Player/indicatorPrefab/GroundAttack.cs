@@ -146,5 +146,13 @@ public class GroundAttack : MonoBehaviour
         stunDuration += amount;
 
         Debug.Log("[POWERUP] Slam stun duration increased to: " + stunDuration);
-    }   
+    }  
+
+    // Called by PlayerController when AOE size upgrade is applied
+    public void IncreaseAOESize(float amount)
+    {
+        maxRadius += amount;
+
+        Debug.Log("[POWERUP] Slam AOE size increased to: " + maxRadius);
+    }
 }
