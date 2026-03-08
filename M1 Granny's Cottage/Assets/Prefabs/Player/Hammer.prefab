@@ -141,6 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HammerAttack
   damage: 10
   attackDuration: 0.2
+  knockbackMultiplier: 1
   attackCooldown: 0.8
   slashParticles: {fileID: 0}
   hitParticlesPrefab: {fileID: 8448741907919744343, guid: 2454fc33572d35f45b17bdfcd8ce79fc, type: 3}
