@@ -25,6 +25,8 @@ public class DayNightPopup : MonoBehaviour
         "Quick Swing",
         "Empowered Slam",
         "Hammer Knockback",
+        "Jump Duration",
+        
     };
 
     [Header("Select Sound Effect")]
@@ -113,6 +115,10 @@ public class DayNightPopup : MonoBehaviour
 
             case "Hammer Knockback":
                 playerController.ApplyHammerKnockback();
+                break;
+
+            case "Jump Duration":
+                playerController.ApplyJumpDurationUpgrade();
                 break;
         }
     }
