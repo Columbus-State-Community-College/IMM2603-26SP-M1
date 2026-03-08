@@ -26,6 +26,7 @@ public class DayNightPopup : MonoBehaviour
         "Empowered Slam",
         "Hammer Knockback",
         "Jump Duration",
+        "Jump Stun Duration",
         
     };
 
@@ -119,6 +120,10 @@ public class DayNightPopup : MonoBehaviour
 
             case "Jump Duration":
                 playerController.ApplyJumpDurationUpgrade();
+                break;
+
+            case "Jump Stun Duration":
+                playerController.ApplyJumpStunUpgrade();
                 break;
         }
     }

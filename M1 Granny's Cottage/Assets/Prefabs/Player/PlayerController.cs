@@ -564,7 +564,8 @@ public class PlayerController : MonoBehaviour
         if (hammerAttack != null)
         {
             hammerAttack.IncreaseDamage(5f);
-            Debug.Log("[POWERUP] Hammer knockback upgraded.");
+
+            Debug.Log("[POWERUP] hammerAttack upgraded.");
         }
     }
 
@@ -572,6 +573,8 @@ public class PlayerController : MonoBehaviour
     {
         if (hammerAttack != null)
             hammerAttack.IncreaseKnockback();
+
+            Debug.Log("[POWERUP] Hammer knockback upgraded.");
     }
 
     public void ApplyJumpDurationUpgrade()
@@ -580,4 +583,12 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("[POWERUP] Jump duration increased to: " + maxJumpTime);
     }
+
+    public void ApplyJumpStunUpgrade()
+    {
+        if (groundAttack != null)
+            groundAttack.IncreaseStunDuration(1f);
+
+            Debug.Log("[POWERUP] groundAttack StunDuration upgraded.");
+    }   
 }

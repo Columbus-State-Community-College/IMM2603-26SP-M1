@@ -9,6 +9,9 @@ public class GroundAttack : MonoBehaviour
     [Header("Hitbox Settings")]
     [SerializeField] private GameObject hitboxPrefab; // AOE trigger prefab
 
+    [Header("Stun Settings")]
+    [SerializeField] private float stunDuration = 2f;
+
     // Upgrade flag
     private bool canDealDamage = false;
 
@@ -105,7 +108,7 @@ public class GroundAttack : MonoBehaviour
     private void ExecuteGroundAttack(Vector3 center, float radius)
     {
         if (hitboxPrefab == null)
-        //Debug.LogWarning("[GROUND ATTACK] No hitbox prefab assigned");
+            //Debug.LogWarning("[GROUND ATTACK] No hitbox prefab assigned");
             return;
 
         GameObject hitbox = Instantiate(hitboxPrefab, center, Quaternion.identity);
@@ -119,15 +122,29 @@ public class GroundAttack : MonoBehaviour
         // Apply damage only if upgraded
         GroundAttackHitbox slamHitbox = hitbox.GetComponent<GroundAttackHitbox>();
 
-        if (slamHitbox != null && canDealDamage)
+        if (slamHitbox != null)
         {
-            HammerAttack hammer = GetComponent<HammerAttack>();
+            // NEW — pass stun duration from GroundAttack to the hitbox
+            slamHitbox.SetStunDuration(stunDuration);
 
-            if (hammer != null)
+            if (canDealDamage)
             {
-                float dynamicDamage = hammer.damage * 2f;
-                slamHitbox.SetDamageValues(dynamicDamage);
+                HammerAttack hammer = GetComponent<HammerAttack>();
+
+                if (hammer != null)
+                {
+                    float dynamicDamage = hammer.damage * 2f;
+                    slamHitbox.SetDamageValues(dynamicDamage);
+                }
             }
         }
     }
+
+    //poewr up
+    public void IncreaseStunDuration(float amount)
+    {
+        stunDuration += amount;
+
+        Debug.Log("[POWERUP] Slam stun duration increased to: " + stunDuration);
+    }   
 }

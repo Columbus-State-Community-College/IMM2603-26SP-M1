@@ -24,6 +24,12 @@ public class GroundAttackHitbox : MonoBehaviour
         damageAmount = damage;
     }
 
+    // called by GroundAttack to modify stun duration
+    public void SetStunDuration(float duration)
+    {
+        stunDuration = duration;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
@@ -40,4 +46,5 @@ public class GroundAttackHitbox : MonoBehaviour
             //Debug.Log("GroundAttackHitbox: Enemy affected.");
         }
     }
+    
 }
