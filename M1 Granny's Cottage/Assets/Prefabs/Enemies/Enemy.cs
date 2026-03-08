@@ -278,6 +278,7 @@ public class Enemy : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damage;
+        Debug.Log("[ENEMY] Took damage: " + damage + " | Remaining Health: " + currentHealth); //power up log
         FlashRed();
 
         if (knockbackDistance > 0f && knockbackDuration > 0f)
@@ -288,6 +289,7 @@ public class Enemy : MonoBehaviour
 
             // Apply multiplier from hammer powerups
             float finalKnockback = knockbackDistance * knockbackMultiplier;
+            Debug.Log("[ENEMY] Knockback applied. Multiplier: " + knockbackMultiplier + " | Distance: " + finalKnockback); //power up log
 
             StartKnockback(dir, finalKnockback, knockbackDuration);
         }
@@ -361,6 +363,7 @@ public class Enemy : MonoBehaviour
 
     public void ApplyStun(float duration)  
     {
+        Debug.Log("[ENEMY] Stunned for: " + duration); //power up log
         if (!canBeStunned || isDead || isStunned)
             return;
 

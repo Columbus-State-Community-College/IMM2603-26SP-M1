@@ -21,7 +21,6 @@ public class DayNightPopup : MonoBehaviour
         "Hammer Damage",
         "Speed Boost",
         "Extra Health",
-        "Ground Smash",
         "Quick Swing",
         "Empowered Slam",
         "Hammer Knockback",
@@ -97,10 +96,6 @@ public class DayNightPopup : MonoBehaviour
 
             case "Extra Health":
                 playerController.ApplyExtraHealth();  
-                break;
-
-            case "Ground Smash": // renamed
-                playerController.ApplyGroundSmashUpgrade();  
                 break;
 
             case "Quick Swing":

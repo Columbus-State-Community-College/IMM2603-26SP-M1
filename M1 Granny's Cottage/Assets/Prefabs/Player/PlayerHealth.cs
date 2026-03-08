@@ -85,13 +85,14 @@ public class PlayerHealth : MonoBehaviour
         if (hitbox != null) // update UI
         {
             hitbox.SetMaxHealth(maxHealth);
-        hitbox.SetHealth(currentHealth);
+            hitbox.SetHealth(currentHealth);
         }
 
         if (grannySoundScript != null)
         {
             grannySoundScript.PlayHeal();
         }
+        //Debug.Log("[POWERUP] Extra Health applied. Max Health = " + maxHealth + " | Current Health = " + currentHealth); //power up log
     }
 
     void Die()

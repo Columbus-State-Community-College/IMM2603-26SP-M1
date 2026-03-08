@@ -129,13 +129,10 @@ public class GroundAttack : MonoBehaviour
 
             if (canDealDamage)
             {
-                HammerAttack hammer = GetComponent<HammerAttack>();
+                float slamDamage = 20f; // fixed empowered slam damage
+                slamHitbox.SetDamageValues(slamDamage);
 
-                if (hammer != null)
-                {
-                    float dynamicDamage = hammer.damage * 2f;
-                    slamHitbox.SetDamageValues(dynamicDamage);
-                }
+                //Debug.Log("[GROUND SLAM] Empowered slam damage applied: " + slamDamage); //power up log
             }
         }
     }

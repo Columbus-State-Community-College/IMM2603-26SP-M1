@@ -47,7 +47,7 @@ public class HealthPickup : MonoBehaviour
 
         SpawnIndicator(); // Create the ground indicator if one is assigned
 
-        Debug.Log("[HEALTH PICKUP] Ready. Heal Amount: " + healAmount);
+        //Debug.Log("[HEALTH PICKUP] Ready. Heal Amount: " + healAmount);
     }
 
     private void Update()
@@ -104,13 +104,13 @@ public class HealthPickup : MonoBehaviour
         if (onlyHealIfMissingHealth &&
             cachedPlayerHealth.currentHealth >= cachedPlayerHealth.maxHealth)
         {
-            Debug.Log("[HEALTH PICKUP] Player already at max health.");
+            //Debug.Log("[HEALTH PICKUP] Player already at max health.");
             return;
         }
 
         // Heal the player
         cachedPlayerHealth.Heal(healAmount);
-        Debug.Log("[HEALTH PICKUP] Player healed for: " + healAmount);
+        //Debug.Log("[HEALTH PICKUP] Player healed for: " + healAmount);
 
         PlayEffects(); // Play audio and particle effects
 
@@ -161,7 +161,7 @@ public class HealthPickup : MonoBehaviour
     // Handles respawning after delay
     private IEnumerator RespawnRoutine()
     {
-        Debug.Log("[HEALTH PICKUP] Respawning in " + respawnDelay + " seconds");
+        //Debug.Log("[HEALTH PICKUP] Respawning in " + respawnDelay + " seconds");
 
         SetActiveState(false); // Hide pickup
 

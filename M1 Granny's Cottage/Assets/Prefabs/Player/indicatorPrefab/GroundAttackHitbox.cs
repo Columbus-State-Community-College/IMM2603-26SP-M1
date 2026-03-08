@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GroundAttackHitbox : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class GroundAttackHitbox : MonoBehaviour
 
             if (applyDamage)
             {
+                Debug.Log("[GROUND SLAM] Damage applied: " + damageAmount); //power up log
                 enemy.HandleHit(damageAmount, transform.position, transform.position);
             }
 

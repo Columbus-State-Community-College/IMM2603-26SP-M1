@@ -123,6 +123,7 @@ public class HammerAttack : MonoBehaviour
 
         Enemy enemy = other.GetComponentInParent<Enemy>();
         if (enemy == null) return;
+        //Debug.Log("[HAMMER] Hit enemy with damage: " + damage); //power up log
 
         Vector3 contactPoint = other.ClosestPoint(hitbox.bounds.center);
         PlayHitSound();
@@ -151,12 +152,14 @@ public class HammerAttack : MonoBehaviour
     }
 
     // Powerup support
-    public void ReduceCooldown(float multiplier) //
+    public void ReduceCooldown(float multiplier)
     {
         attackCooldown *= multiplier;  
 
         // Optional safety clamp so cooldown never becomes 0
-        attackCooldown = Mathf.Max(0.1f, attackCooldown);  
+        attackCooldown = Mathf.Max(0.1f, attackCooldown);
+
+        //Debug.Log("[POWERUP] Hammer attackCooldown: " + attackCooldown); //power up log
     }
 
     // Powerup support
@@ -164,7 +167,7 @@ public class HammerAttack : MonoBehaviour
     {
         damage += amount;
 
-        Debug.Log("[POWERUP] Hammer damage increased to: " + damage);
+        Debug.Log("[POWERUP] Hammer damage increased to: " + damage);// power up log
     }
 
     // Powerup support

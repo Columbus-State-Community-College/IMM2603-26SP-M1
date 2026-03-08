@@ -581,7 +581,7 @@ public class PlayerController : MonoBehaviour
     {
         maxJumpTime += 1f;
 
-        Debug.Log("[POWERUP] Jump duration increased to: " + maxJumpTime);
+        //Debug.Log("[POWERUP] Jump duration increased to: " + maxJumpTime); // power uplog
     }
 
     public void ApplyJumpStunUpgrade()
