@@ -92,17 +92,27 @@ public class GroundAttack : MonoBehaviour
 
     // Called when hover ends or is cancelled
     public void StopCharge()
+{
+    if (!isCharging)
+        return;
+
+    isCharging = false;
+
+    // NEW — calculate current radius based on charge progress
+    float t = Mathf.Clamp01(currentChargeTime / maxChargeTime);
+    float radius = Mathf.Lerp(0.5f, maxRadius, t);
+
+    if (activeIndicator != null)
     {
-        if (!isCharging)
-            return;
+        Vector3 slamPosition = activeIndicator.transform.position;
 
-        isCharging = false;
+        // NEW — execute slam when player releases early
+        ExecuteGroundAttack(slamPosition, radius);
+        Debug.Log("[GROUND SLAM] Slam executed from early release. Radius: " + radius);
 
-        if (activeIndicator != null)
-        {
-            Destroy(activeIndicator);
-            activeIndicator = null;
-        }
+        Destroy(activeIndicator);
+        activeIndicator = null;
+    }
     }
 
     private void ExecuteGroundAttack(Vector3 center, float radius)
