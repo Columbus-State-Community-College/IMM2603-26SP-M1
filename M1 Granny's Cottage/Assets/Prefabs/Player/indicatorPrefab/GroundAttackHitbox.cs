@@ -38,6 +38,7 @@ public class GroundAttackHitbox : MonoBehaviour
         if (enemy != null)
         {
             enemy.ApplyStun(stunDuration);
+            enemy.HandleHit(0f, transform.position, transform.position);
 
             if (applyDamage)
             {
