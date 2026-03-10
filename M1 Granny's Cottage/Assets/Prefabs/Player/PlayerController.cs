@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxJumpTime = 2f; // JUMP (upgrade-modifiable jump duration)
     private float currentJumpTime; // JUMP (runtime jump timer)
 
+    [Header("Invincibility Frames")]
+    [SerializeField] private float slamInvincibilityDuration = 1f;
+    private bool isInvincible = false;
+
     public enum JumpState
     {
         READY_TO_JUMP,
@@ -227,7 +231,7 @@ public class PlayerController : MonoBehaviour
     // KNOCKBACK (restored only — no changes to your system)
     public void TakeHit(Vector3 hitSourcePosition, float damage)
     {
-        if (isKnockedBack)
+        if (isKnockedBack || isInvincible)
             return;
 
         Vector3 direction = transform.position - hitSourcePosition;
@@ -238,6 +242,16 @@ public class PlayerController : MonoBehaviour
             StopCoroutine(knockbackRoutine);
 
         knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction));
+    }
+
+    // allows granny to be invincible for a set amount of seconds
+    private IEnumerator InvincibilityCoroutine(float duration)
+    {
+        isInvincible = true;
+
+        yield return new WaitForSeconds(duration);
+
+        isInvincible = false;
     }
 
     private IEnumerator KnockbackCoroutine(Vector3 direction)
@@ -390,6 +404,7 @@ public class PlayerController : MonoBehaviour
         groundAttack?.StopCharge(); // GROUND ATTACK
         _currentJumpState = JumpState.SLAM;
         _jumpImpulseSource.GenerateImpulse();
+        StartCoroutine(InvincibilityCoroutine(slamInvincibilityDuration));
         _verticalVelocity = 0.0f;
         _currentJumpState = JumpState.JUMP_ON_COOLDOWN;
 

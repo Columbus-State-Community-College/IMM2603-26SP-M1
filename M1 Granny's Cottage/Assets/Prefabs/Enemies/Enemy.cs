@@ -362,6 +362,18 @@ public class Enemy : MonoBehaviour
         //Debug.Log("[ENEMY] Knockback END");   
     }
 
+    // Knockback for ground attack
+    public void ApplyGroundKnockback(Vector3 sourcePosition, float distance, float duration)
+    {
+        if (isDead) return;
+
+        Vector3 direction = transform.position - sourcePosition;
+        direction.y = 0f;
+        direction.Normalize();
+
+        StartKnockback(direction, distance, duration);
+    }
+
     public void ApplyStun(float duration)  
     {
         Debug.Log("[ENEMY] Stunned for: " + duration); //power up log
