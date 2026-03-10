@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour
 
     [Header("VFX")]
     public VisualEffect hitVFX;
+    [SerializeField] private ParticleSystem dizzyParticles;
 
     private IObjectPool<Enemy> enemyPool;
     private bool isDead = false;
@@ -380,7 +381,13 @@ public class Enemy : MonoBehaviour
         navMeshAgent.isStopped = true;
         navMeshAgent.ResetPath();
 
+        if (dizzyParticles != null) 
+            dizzyParticles.Play();
+
         yield return new WaitForSeconds(duration);
+
+        if (dizzyParticles != null) 
+            dizzyParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
         navMeshAgent.isStopped = false;
         isStunned = false;
