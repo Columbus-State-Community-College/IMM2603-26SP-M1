@@ -111,7 +111,7 @@ public class HammerAttack : MonoBehaviour
         // fixes taking input before animation is finished
         yield return new WaitForSeconds(attackDuration);
 
-        yield return new WaitForSeconds(attackCooldown); // cooldown delay
+        //yield return new WaitForSeconds(attackCooldown); // cooldown delay
 
         canAttack = true; // reset cooldown
     }
