@@ -350,6 +350,9 @@ public class PlayerController : MonoBehaviour
     // This coroutine handles the hovering jump state.
     private IEnumerator JumpAbilityHover()
     {
+        animator.ResetTrigger("isCharging");
+        animator.SetTrigger("isCharging");
+
         //Debug.Log("Jump Hover Coroutine begun.");
         _currentJumpState = JumpState.HOVERING;
         
