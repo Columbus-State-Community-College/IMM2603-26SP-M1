@@ -39,13 +39,14 @@ public class SoundManager : MonoBehaviour
         UpdateVolume();
     }
 
-    public void PlaySFX(string name)
+    public void PlaySFX(string name, float pitch = 1f)
     {
         if (muteSFX || sfxSource == null) return;
 
         AudioClip clip = GetClipInternal(name);
         if (clip == null) return;
 
+        sfxSource.pitch = pitch;
         sfxSource.PlayOneShot(clip, sfxVolume);
     }
 

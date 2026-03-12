@@ -34,7 +34,7 @@ public class EnemySounds : MonoBehaviour
         return item.clip;
     }
 
-    private void PlayLocalClip(string clipName, float localVolume)
+    private void PlayLocalClip(string clipName, float localVolume, float pitch)
     {
         AudioClip clip = GetClip(clipName);
         if (clip == null) return;
@@ -44,16 +44,18 @@ public class EnemySounds : MonoBehaviour
         // allow up to 300% volume without clipping too hard
         finalVolume = Mathf.Clamp(finalVolume, 0f, 3f);
 
+        audioSource.pitch = pitch;
         audioSource.PlayOneShot(clip, finalVolume);
     }
 
     public void PlayMonsterScream()
     {
-        PlayLocalClip(monsterScreamSFX, monsterScreamVolume);
+        float randomPitch = Random.Range(0.9f, 1.1f);
+        PlayLocalClip(monsterScreamSFX, monsterScreamVolume, randomPitch);
     }
 
     public void PlayMonsterSpawn()
     {
-        PlayLocalClip(monsterSpawnSFX, monsterSpawnVolume);
+        PlayLocalClip(monsterSpawnSFX, monsterSpawnVolume, 1f);
     }
 }

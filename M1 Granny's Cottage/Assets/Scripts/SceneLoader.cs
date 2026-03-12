@@ -100,17 +100,11 @@ public class SceneLoader : MonoBehaviour
     public void HowToPlay()
     {
         HowToPlayScreen.gameObject.SetActive(true);
-        HowToPlayButton.onClick.AddListener(HowToPlayMenuClose);
-        HowToPlayButton.onClick.RemoveListener(HowToPlay);
-        HowToPlayButtonText.text = "Back";
     }
 
     public void HowToPlayMenuClose()
     {
         HowToPlayScreen.gameObject.SetActive(false);
-        HowToPlayButton.onClick.RemoveListener(HowToPlayMenuClose);
-        HowToPlayButton.onClick.AddListener(HowToPlay);
-        HowToPlayButtonText.text = " ";
 
         if (MainMenuPanel != null)
         {

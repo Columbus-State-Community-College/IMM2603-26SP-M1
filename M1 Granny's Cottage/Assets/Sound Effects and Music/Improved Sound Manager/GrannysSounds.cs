@@ -50,7 +50,7 @@ public class GrannysSounds : MonoBehaviour
         return item.clip;
     }
 
-    private void PlayLocalClip(string clipName, float localVolume)
+    private void PlayLocalClip(string clipName, float localVolume, float pitch)
     {
         AudioClip clip = GetClip(clipName);
         if (clip == null) return;
@@ -60,36 +60,39 @@ public class GrannysSounds : MonoBehaviour
         // allow up to 300% volume without clipping too hard
         finalVolume = Mathf.Clamp(finalVolume, 0f, 3f);
 
+        audioSource.pitch = pitch;
         audioSource.PlayOneShot(clip, finalVolume);
     }
 
     public void PlayJump()
     {
-        PlayLocalClip(jumpSFX, jumpVolume);
+        PlayLocalClip(jumpSFX, jumpVolume, 1f);
     }
 
     public void PlayHammerSwing()
     {
-        PlayLocalClip(hammerSwingSFX, hammerSwingVolume);
+        float randomPitch = Random.Range(0.9f, 1.1f);
+        PlayLocalClip(hammerSwingSFX, hammerSwingVolume, randomPitch);
     }
 
     public void PlayHammerHit()
     {
-        PlayLocalClip(hammerHitSFX, hammerHitVolume);
+        float randomPitch = Random.Range(0.9f, 1.1f);
+        PlayLocalClip(hammerHitSFX, hammerHitVolume, randomPitch);
     }
 
     public void PlayHeal()
     {
-        PlayLocalClip(healSFX, healVolume);
+        PlayLocalClip(healSFX, healVolume, 1f);
     }
 
     public void PlayHPLost()
     {
-        PlayLocalClip(hpLostSFX, hpLostVolume);
+        PlayLocalClip(hpLostSFX, hpLostVolume, 1f);
     }
 
     public void PlayScream()
     {
-        PlayLocalClip(screamSFX, screamVolume);
+        PlayLocalClip(screamSFX, screamVolume, 1f);
     }
 }
