@@ -9,12 +9,14 @@ public class SceneLoader : MonoBehaviour
 {
     public GameObject PauseScreen;
     public GameObject HowToPlayScreen;
+    public GameObject submenuScreen;
     public GameObject MainMenuPanel;
     public TMP_Text HowToPlayButtonText;
     public TMP_Text HighScoreText;
     public Button HowToPlayButton;
     private string scoreFile = "HighScore.txt";
     private bool isPaused;
+    private int isSubScreenEnabled = 0;
 
     void Start()
     {
@@ -97,6 +99,22 @@ public class SceneLoader : MonoBehaviour
     {
         MainMenuPanel.gameObject.SetActive(false);
     }
+
+    public void SubMenu()
+    {
+
+        if (isSubScreenEnabled == 0){
+            submenuScreen.gameObject.SetActive(true);
+            isSubScreenEnabled += 1;
+        }
+        
+        else if (isSubScreenEnabled == 1){
+            submenuScreen.gameObject.SetActive(false);
+            isSubScreenEnabled = 0;
+        }
+        // Debug.Log("This is where the upgrade menu will be!");
+    }
+
     public void HowToPlay()
     {
         HowToPlayScreen.gameObject.SetActive(true);
