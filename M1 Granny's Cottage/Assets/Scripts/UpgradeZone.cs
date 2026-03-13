@@ -9,15 +9,28 @@ public class UpgradeZone : MonoBehaviour
     public GameObject WelcomeBackground;
     public GameObject HammerGlamourChoices;
     public Button HammerGlamourButton;
+    public Button HammerBaseDamageButton;
+    public Button HammerBaseAttackSpeedButton;
+    public Button HammerBaseKnockbackButton;
     public TMP_Text ChangeableText;
     public TMP_Text OKButtonText;
+    public TMP_Text UpgradeAppliedText;
+    public TMP_Text CoinCountText;
+    private int coins = 200;
     private bool isFirstTime = true;
     private bool isHammerBaseDamage;
+    private bool isHammerBaseAttackSpeed;
+    private bool isHammerBaseKnockback;
+
+    void Start ()
+    {
+        CoinCountText.text = "Coins: " + coins.ToString();
+    }
 
 
     public void OKButtonPress()
     {
-        if(isFirstTime == true)
+        if (isFirstTime == true)
         {
             OKButton.gameObject.SetActive(false);
             OKButtonText.text = "YES!";
@@ -27,10 +40,35 @@ public class UpgradeZone : MonoBehaviour
 
         if (isHammerBaseDamage == true)
         {
-            Debug.Log("Base Damage Glamour Applied");
+            UpgradeAppliedText.text = "Base Damage Glamour Applied!";
             isHammerBaseDamage = false;
             HammerGlamourButton.interactable = true;
+            HammerBaseDamageButton.interactable = false;
+            coins -= 100;
             SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isHammerBaseAttackSpeed == true)
+        {
+            UpgradeAppliedText.text = "Base Attack Speed Glamour Applied!";
+            isHammerBaseAttackSpeed = false;
+            HammerGlamourButton.interactable = true;
+            HammerBaseAttackSpeedButton.interactable = false;
+            coins -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isHammerBaseKnockback == true)
+        {
+            UpgradeAppliedText.text = "Base Knockback Glamour Applied!";
+            isHammerBaseKnockback = false;
+            HammerGlamourButton.interactable = true;
+            HammerBaseKnockbackButton.interactable = false;
+            coins -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
         }
     }
 
@@ -38,12 +76,25 @@ public class UpgradeZone : MonoBehaviour
     {
         if (isHammerBaseDamage == true)
         {
-            OKButton.gameObject.SetActive(false);
-            NOButton.gameObject.SetActive(false);
             isHammerBaseDamage = false;
-            ChangeableText.text = "What Kind of Glamour Do You Want?";
             HammerGlamourChoices.gameObject.SetActive(true);
         }
+
+        if (isHammerBaseAttackSpeed == true)
+        {
+            isHammerBaseAttackSpeed = false;
+            HammerGlamourChoices.gameObject.SetActive(true);
+        }
+
+        if (isHammerBaseKnockback == true)
+        {
+            isHammerBaseKnockback = false;
+            HammerGlamourChoices.gameObject.SetActive(true);
+        }
+
+        ChangeableText.text = "What Kind of Glamour Do You Want?";
+        OKButton.gameObject.SetActive(false);
+        NOButton.gameObject.SetActive(false);
     }
 
     public void HammerGlamour()
@@ -55,9 +106,50 @@ public class UpgradeZone : MonoBehaviour
 
     public void HammerBaseDamage()
     {
-        HammerGlamourChoices.gameObject.SetActive(false);
-        isHammerBaseDamage = true;
-        SubMenuConfirm();
+        int requiredcoins = 100;
+
+        if (coins >= requiredcoins){
+            HammerGlamourChoices.gameObject.SetActive(false);
+            isHammerBaseDamage = true;
+            SubMenuConfirm();
+        }
+
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+
+    public void HammerBaseAttackSpeed()
+    {
+        int requiredcoins = 100;
+
+        if (coins >= requiredcoins){
+            HammerGlamourChoices.gameObject.SetActive(false);
+            isHammerBaseAttackSpeed = true;
+            SubMenuConfirm();
+        }
+
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+
+    public void HammerBaseKnockback()
+    {
+        int requiredcoins = 100;
+
+        if (coins >= requiredcoins){
+            HammerGlamourChoices.gameObject.SetActive(false);
+            isHammerBaseKnockback = true;
+            SubMenuConfirm();
+        }
+
+        else 
+        {
+            NotEnoughCoins();
+        }
     }
 
     public void SubMenuSuccessReturn()
@@ -72,5 +164,15 @@ public class UpgradeZone : MonoBehaviour
         ChangeableText.text = "Apply Glamour?";
         OKButton.gameObject.SetActive(true);
         NOButton.gameObject.SetActive(true);
+    }
+
+    public void NotEnoughCoins()
+    {
+        UpgradeAppliedText.text = "Not Enough Coins to Get the Glamour!";
+    }
+
+    public void CoinCount()
+    {
+        CoinCountText.text = "Coins: " + coins.ToString();
     }
 }
