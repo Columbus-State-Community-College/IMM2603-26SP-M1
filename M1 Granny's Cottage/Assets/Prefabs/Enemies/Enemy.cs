@@ -386,6 +386,11 @@ public class Enemy : MonoBehaviour
         stunRoutine = StartCoroutine(StunCoroutine(duration));
     }
 
+    public bool IsStunned()
+    {
+        return isStunned;
+    }
+
     private IEnumerator StunCoroutine(float duration)  
     {
         isStunned = true;

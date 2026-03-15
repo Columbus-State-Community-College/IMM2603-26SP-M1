@@ -442,8 +442,9 @@ public class PlayerController : MonoBehaviour
         {
             slamCooldownTimer -= Time.deltaTime;  
 
-            // (Cooldown Feedback)
-            if (!slamCooldownFeedbackTriggered)
+            
+            // (Cooldown Feedback) — play when cooldown finishes
+            if (slamCooldownTimer <= 0f && !slamCooldownFeedbackTriggered)
             {
                 slamCooldownFeedbackTriggered = true;
 
@@ -452,7 +453,7 @@ public class PlayerController : MonoBehaviour
                     activeCooldownParticles = Instantiate(
                         slamCooldownParticles,
                         transform.position,
-                        Quaternion.identity
+                    Quaternion.identity
                     );
 
                     activeCooldownParticles.transform.SetParent(transform);

@@ -48,14 +48,18 @@ public class PlayerHitbox : MonoBehaviour
     }
 
     // CHANGED from OnTriggerStay to OnTriggerEnter
-    private void OnTriggerEnter(Collider other)  
-    {
+    private void OnTriggerEnter(Collider other) 
+    { 
         if (damageCooldownTimer > 0f) return;
 
         Enemy enemy = other.GetComponentInParent<Enemy>();
 
         if (enemy != null)
         {
+            // NEW — prevent stunned enemies from dealing damage
+            if (enemy.IsStunned())
+                return;
+
             damageCooldownTimer = damageCooldown;
 
             playerHealth.TakeDamage(enemy.damage);
