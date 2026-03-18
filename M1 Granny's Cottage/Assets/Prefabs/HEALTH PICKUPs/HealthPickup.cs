@@ -16,6 +16,9 @@ public class HealthPickup : MonoBehaviour
     [SerializeField] private float floatSpeed = 2f; // Speed of floating motion
     [SerializeField] private float floatHeight = 0.25f; // Height of floating motion
 
+    [Header("Idle Particle Effect")]
+    [SerializeField] private ParticleSystem idleEffect; // Constant looping particle effect while pickup exists
+
     [Header("Optional Audio / VFX")]
     [SerializeField] private AudioClip pickupSound; // Sound played when pickup is collected
     [SerializeField] private ParticleSystem pickupEffect; // Particle effect played when collected
@@ -46,6 +49,11 @@ public class HealthPickup : MonoBehaviour
         pickupCollider = GetComponent<Collider>(); // Get collider used for pickup detection
 
         SpawnIndicator(); // Create the ground indicator if one is assigned
+
+        if (idleEffect != null)
+        {
+            idleEffect.Play();
+        }
 
         //Debug.Log("[HEALTH PICKUP] Ready. Heal Amount: " + healAmount);
     }
@@ -180,6 +188,18 @@ public class HealthPickup : MonoBehaviour
             r.enabled = state;
         }
 
+        if (idleEffect != null)
+        {
+            if (state)
+            {
+                idleEffect.Play();
+            }
+            else
+            {
+                idleEffect.Stop();
+            }
+        }
+
         // Also toggle the ground indicator
         if (activeIndicator != null)
         {
@@ -205,7 +225,7 @@ public class HealthPickup : MonoBehaviour
             pos,
             Quaternion.identity
         );
-        
+
         activeIndicator.transform.localScale = new Vector3(
             indicatorRadius,
             indicatorThickness,
