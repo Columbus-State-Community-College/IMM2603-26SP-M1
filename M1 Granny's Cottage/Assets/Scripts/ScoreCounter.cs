@@ -2,13 +2,15 @@ using UnityEngine;
 using System.IO;
 using TMPro;
 
-public class ScoreCounter : MonoBehaviour
+public class ScoreCounter : MonoBehaviour, IDataPersistence
 {
     public int totalScore = 0;
+    public int highScore;
+    public int pointBank;
     public TMP_Text scoreCounter;
     public TMP_Text overallScoreText;
     public TMP_Text highScoreText;
-    private string scoreFile = "HighScore.txt";
+    //private string scoreFile = "HighScore.txt";
 
     void Start()
     {
@@ -22,7 +24,13 @@ public class ScoreCounter : MonoBehaviour
         overallScoreText.text = "Overall Score: " + totalScore.ToString();
     }
 
-    public void startFileWrite()
+    public void GameOverProcess()
+    {
+        this.highScore = (this.totalScore > this.highScore) ? this.highScore : this.totalScore; 
+        this.pointBank += this.totalScore;
+        UpdateHighScoreText();
+    }
+    /* public void startFileWrite()
     {
         string filePath = Path.Combine(Application.persistentDataPath, scoreFile);
         if (File.Exists(filePath))
@@ -50,7 +58,7 @@ public class ScoreCounter : MonoBehaviour
             string path = Path.Combine(Application.persistentDataPath, scoreFile);
             WriteToFile(path, totalScore.ToString());
         }
-    }
+    } */
 
     public void WriteToFile(string path, string content)
     {
@@ -64,20 +72,23 @@ public class ScoreCounter : MonoBehaviour
             Debug.LogError("Error writing to file: " + ex.Message);
         }
 
-        ReadFile();
+        UpdateHighScoreText();
     }
 
-    public void ReadFile()
+    public void UpdateHighScoreText()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, scoreFile);
-        if (File.Exists(filePath))
-        {
-            string fileContents = File.ReadAllText(filePath);
-            highScoreText.text = "High Score: " + fileContents;
-        }
-        else
-        {
-            Debug.LogError("File not found at: " + filePath);
-        }
+        highScoreText.text = "High Score: " + this.highScore;   
+    }
+
+    public void LoadData(GameData data)
+    {
+        this.highScore = data.highScore;
+        this.pointBank = data.pointBank;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.highScore = this.highScore;
+        data.pointBank = this.pointBank;
     }
 }

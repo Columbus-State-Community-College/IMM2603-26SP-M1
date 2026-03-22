@@ -111,7 +111,7 @@ public class PlayerHealth : MonoBehaviour
             ScoreCounter scoreScript = playerObject.GetComponent<ScoreCounter>();
             if (scoreScript != null)
             {
-                scoreScript.startFileWrite();
+                scoreScript.GameOverProcess();
             }
         }
     }

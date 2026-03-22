@@ -46,6 +46,8 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.LoadData(gameData);
         }
 
+        Debug.Log("Loaded High Score = " + gameData.highScore);
+
     }
 
     public void SaveGame()
@@ -56,6 +58,7 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.SaveData(ref gameData);
         }
 
+        Debug.Log("Saved High Score = " + gameData.highScore);
         // TODO - save that data to a file using the data handler
     }
 
