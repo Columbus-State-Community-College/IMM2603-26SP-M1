@@ -121,7 +121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3808041164987757753
 Transform:
   m_ObjectHideFlags: 0
@@ -246,6 +246,7 @@ Transform:
   - {fileID: 1856547341627743054}
   - {fileID: 7994932669948850113}
   - {fileID: 3178895799133769977}
+  - {fileID: 8448875970236404619}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &6694505512792254467
@@ -307,7 +308,7 @@ MonoBehaviour:
     mesh: {fileID: 1091288656810828338}
     damage: 15
     moveSpeed: 5
-    role: 1
+    role: 2
   - name: Yokai
     mesh: {fileID: 4661438985726913640}
     damage: 20
@@ -317,6 +318,10 @@ MonoBehaviour:
   surroundRadius: 3
   separationRadius: 1.5
   separationStrength: 2
+  projectilePrefab: {fileID: 4936146522751298227, guid: 451fccad99fa0824686b188a8ecccdd2, type: 3}
+  firePoint: {fileID: 8448875970236404619}
+  attackCooldown: 4
+  attackRange: 30
 --- !u!65 &8381160669612720715
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -587,6 +592,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 351dcecf5428f3742ad71d698d638666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitbox
+--- !u!1 &8701093524543044642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8448875970236404619}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8448875970236404619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8701093524543044642}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.48, y: 1.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4077217590332255144}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7642287594759845979
 PrefabInstance:
   m_ObjectHideFlags: 0

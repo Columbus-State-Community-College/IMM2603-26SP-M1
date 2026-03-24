@@ -85,6 +85,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float separationRadius = 1.5f;
     [SerializeField] private float separationStrength = 2f;
 
+    [Header("Ranged Attack")]
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform firePoint;
+    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private float attackRange = 10f;
+
+    private float attackTimer;
+
     public void SetPool(IObjectPool<Enemy> pool)
     {
         enemyPool = pool;
@@ -119,7 +127,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case EnemyRole.Ranged:
-                //HandleRangedBehavior();
+                HandleRangedBehavior();
                 return;
         }
 
@@ -305,6 +313,52 @@ public class Enemy : MonoBehaviour
             {
                 Die();
             }
+        }
+    }
+
+    // instantiates projectile, identifies target and direction
+    private void Shoot()
+    {
+        if (projectilePrefab == null || firePoint == null) return;
+
+        Vector3 target = player.position + Vector3.up * 1.2f;
+        Vector3 dir = (target - firePoint.position).normalized;
+
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+        EnemyProjectile p = proj.GetComponent<EnemyProjectile>();
+
+        if (p != null)
+            p.Initialize(dir, GetComponent<Collider>());
+    }
+
+    //behavior for ranged enemy, looks at player, shoots
+    private void HandleRangedBehavior()
+    {
+        if (player == null) return;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        attackTimer -= Time.deltaTime;
+
+        Vector3 lookDir = player.position - transform.position;
+        lookDir.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookDir);
+
+        if (distance <= attackRange)
+        {
+            navMeshAgent.isStopped = true;
+
+            if (attackTimer <= 0f)
+            {
+                Shoot();
+                attackTimer = attackCooldown;
+            }
+        }
+        else
+        {
+            navMeshAgent.isStopped = false;
+            navMeshAgent.SetDestination(player.position);
         }
     }
 
