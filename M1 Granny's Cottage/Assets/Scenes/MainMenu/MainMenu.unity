@@ -2846,6 +2846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c82ea896cb0c54bbec97a005ae169a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DataPersistenceManager
+  fileName: data.game
 --- !u!4 &998813617
 Transform:
   m_ObjectHideFlags: 0
