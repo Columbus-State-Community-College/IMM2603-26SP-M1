@@ -65,6 +65,9 @@ public class SceneLoader : MonoBehaviour
         //        Debug.Log("Nothing to worry about here in this scene...");
         //    }
         //}
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void LoadScene(string sceneName)
@@ -86,6 +89,8 @@ public class SceneLoader : MonoBehaviour
         isPaused = true;
         PauseScreen.gameObject.SetActive(true);
         Time.timeScale = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void UnPause()
@@ -93,6 +98,8 @@ public class SceneLoader : MonoBehaviour
         isPaused = false;
         PauseScreen.gameObject.SetActive(false);
         Time.timeScale = 1;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void MainMenuClose()

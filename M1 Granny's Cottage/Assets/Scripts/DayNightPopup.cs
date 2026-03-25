@@ -40,6 +40,7 @@ public class DayNightPopup : MonoBehaviour
     private void OnEnable()
     {
         DayNightCycle.OnTimeChanged += ShowPopup;
+
     }
 
     private void OnDisable()
@@ -50,6 +51,8 @@ public class DayNightPopup : MonoBehaviour
     void ShowPopup(DayNightCycle.TimeOfDay time)
     {
         Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         popupPanel.SetActive(true);
         popupText.text = time == DayNightCycle.TimeOfDay.Day ? "DAYTIME" : "NIGHTFALL";
@@ -81,6 +84,9 @@ public class DayNightPopup : MonoBehaviour
 
         popupPanel.SetActive(false);
         Time.timeScale = 1f;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void ApplyPowerup(string powerup)
