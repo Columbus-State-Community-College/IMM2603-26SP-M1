@@ -72,6 +72,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject dayMesh;
     [SerializeField] private float dayDamage = 10f;
     [SerializeField] private float daySpeed = 4f;
+    [SerializeField] private EnemyRole dayRole = EnemyRole.Aggressor;
 
     [Header("Night Demon Types")]
     [SerializeField] private DemonType[] nightDemons;
@@ -489,6 +490,11 @@ public class Enemy : MonoBehaviour
 
         damage = dayDamage;
         navMeshAgent.speed = daySpeed;
+        role = dayRole;
+
+        navMeshAgent.isStopped = false;
+        navMeshAgent.ResetPath();
+
 
         GetMaterials();
     }
