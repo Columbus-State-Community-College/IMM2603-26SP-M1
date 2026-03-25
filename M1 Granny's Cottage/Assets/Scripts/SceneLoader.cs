@@ -9,6 +9,7 @@ public class SceneLoader : MonoBehaviour
 {
     public GameObject PauseScreen;
     public GameObject HowToPlayScreen;
+    public GameObject CreditsPage;
     public GameObject submenuScreen;
     public GameObject MainMenuPanel;
     public TMP_Text HowToPlayButtonText;
@@ -125,6 +126,26 @@ public class SceneLoader : MonoBehaviour
     public void HowToPlay()
     {
         HowToPlayScreen.gameObject.SetActive(true);
+    }
+
+    public void CreditsPageOpen()
+    {
+        CreditsPage.gameObject.SetActive(true);
+    }
+
+    public void CreditsPageClose()
+    {
+        CreditsPage.gameObject.SetActive(false);
+
+        if (MainMenuPanel != null)
+        {
+            MainMenuPanel.gameObject.SetActive(true);
+        }
+        
+        else 
+        {
+            Debug.Log("MainMenuPanel object is not assigned.");
+        }
     }
 
     public void HowToPlayMenuClose()
