@@ -8,6 +8,7 @@ public class EtcSounds : MonoBehaviour
     [Header("SFX Names (must match SoundManager list)")]
     public string upgradeSFX;
     public string switchSFX;
+    public string recordScratchSFX;
 
     [Header("Local Volume Settings (can exceed normal volume)")]
     [Range(0f, 5f)]
@@ -15,6 +16,9 @@ public class EtcSounds : MonoBehaviour
 
     [Range(0f, 5f)]
     public float switchVolume = 1f;
+
+    [Range(0f, 5f)]
+    public float recordScratchVolume = 1f;
 
     private void Awake()
     {
@@ -28,7 +32,7 @@ public class EtcSounds : MonoBehaviour
         var item = SoundManager.instance.sfxClips.Find(s => s.name == clipName);
         if (item == null)
         {
-            Debug.LogWarning("[Grannys Sounds] Missing clip: " + clipName);
+            Debug.LogWarning("[Etc Sounds] Missing clip: " + clipName);
             return null;
         }
         return item.clip;
@@ -55,5 +59,10 @@ public class EtcSounds : MonoBehaviour
     public void PlaySwitch()
     {
         PlayLocalClip(switchSFX, switchVolume);
+    }
+
+    public void PlayRecordScratch()
+    {
+        PlayLocalClip(recordScratchSFX, recordScratchVolume);
     }
 }

@@ -29,4 +29,15 @@ public class SceneMusicPlayer : MonoBehaviour
         else
             MusicManager.instance.PlayMusic(musicTrackName);
     }
+
+    public void NightTimeMusic()
+    {
+        // Debug.Log("It's nighttime! Time to Jam!");
+        MusicManager.instance.PlayMusic(musicTrackName = "POL-halloween-rnr-short");
+    }
+
+    public void DayTimeMusic()
+    {
+        MusicManager.instance.PlayMusic(musicTrackName = "Relaxing Interlude");
+    }
 }

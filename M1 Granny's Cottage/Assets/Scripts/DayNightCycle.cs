@@ -13,6 +13,9 @@ public class DayNightCycle : MonoBehaviour
     [Header("Sound Effect")]
     public EtcSounds etcSoundScript;
 
+    [Header("Day and Night Music Changer")]
+    public SceneMusicPlayer sceneMusicScript;
+
     float timer;
 
     public static event Action<TimeOfDay> OnTimeChanged;
@@ -54,11 +57,14 @@ public class DayNightCycle : MonoBehaviour
         {
             currentTime = TimeOfDay.Night;
             timer = nightDuration;
+            sceneMusicScript.NightTimeMusic();
         }
         else
         {
             currentTime = TimeOfDay.Day;
             timer = dayDuration;
+            etcSoundScript.PlayRecordScratch();
+            sceneMusicScript.DayTimeMusic();
         }
 
         OnTimeChanged?.Invoke(currentTime);
