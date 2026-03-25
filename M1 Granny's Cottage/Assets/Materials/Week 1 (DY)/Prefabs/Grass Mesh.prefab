@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.607475
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2135401
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.722324
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -59,6 +59,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5627355798327356222}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 81538667523736958}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5745215643004211799}
   m_SourcePrefab: {fileID: 100100000, guid: 9f5c0e8165323054e9f68ef2b44074dc, type: 3}
 --- !u!1 &7167860033635535707 stripped
 GameObject:
@@ -87,3 +93,36 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &81538667523736958
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167860033635535707}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.3235402, y: 1.6584373, z: 0.80138695}
+  m_Center: {x: 10.580868, y: 1.3433241, z: -0.027899835}
+--- !u!114 &5745215643004211799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167860033635535707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22c3e9b67b4b1594ead1d41272c0c25a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrassRustle
