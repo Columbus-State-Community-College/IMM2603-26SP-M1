@@ -264,6 +264,7 @@ MonoBehaviour:
   _verticalVelocity: 0
   isGrounded: 1
   maxJumpTime: 2
+  slamInvincibilityDuration: 1
   _currentJumpState: 0
   _playerCamera: {fileID: 0}
   _playerCameraScript: {fileID: 0}
@@ -296,6 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
   currentHealth: 0
+  scoreScript: {fileID: 0}
   hitbox: {fileID: 8132435451460904920}
   GameOverScreen: {fileID: 0}
   grannySoundScript: {fileID: 1002914071448429023}
@@ -313,7 +315,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
   PauseScreen: {fileID: 0}
   HowToPlayScreen: {fileID: 0}
+  CreditsPage: {fileID: 0}
+  submenuScreen: {fileID: 0}
+  MainMenuPanel: {fileID: 0}
   HowToPlayButtonText: {fileID: 0}
+  HighScoreText: {fileID: 0}
   HowToPlayButton: {fileID: 0}
 --- !u!114 &4042795981804938134
 MonoBehaviour:
@@ -344,6 +350,7 @@ MonoBehaviour:
   indicatorPrefab: {fileID: 7636873798645113123, guid: 74a7a64ceea946444a708d915774b84e, type: 3}
   maxRadius: 5
   hitboxPrefab: {fileID: 4317177190620310435, guid: b7457578de4448349b4989ee14b3ef5c, type: 3}
+  stunDuration: 2
 --- !u!114 &8393999397549388912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,9 +364,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundVolumeManager
   musicAudioSource: {fileID: 0}
-  soundEffectAudioSource: {fileID: 0}
+  grannyAudioSource: {fileID: 0}
+  enemyAudioSource: {fileID: 0}
+  etcAudioSource: {fileID: 0}
   musicVolumeText: {fileID: 0}
-  soundEffectVolumeText: {fileID: 0}
   etcSoundScript: {fileID: 0}
   musicVolDownButton: {fileID: 0}
   musicVolUpButton: {fileID: 0}
@@ -378,8 +386,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreCounter
   totalScore: 0
+  highScore: 0
+  pointBank: 0
   scoreCounter: {fileID: 0}
   overallScoreText: {fileID: 0}
+  highScoreText: {fileID: 0}
 --- !u!82 &8109714729136637722
 AudioSource:
   m_ObjectHideFlags: 0

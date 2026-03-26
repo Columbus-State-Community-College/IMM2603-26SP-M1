@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem groundAttackParticles;
 
     [Header("Ground Attack Cooldown")]
-    [SerializeField] private float slamCooldownDuration = 7f; // (adjustable in Inspector)
+    [SerializeField] private float slamCooldownDuration = .5f; // (adjustable in Inspector)
     private float slamCooldownTimer = 0f;
     [SerializeField] private bool showSlamCooldownDebug = false; // (toggle in Inspector)
     private float slamLogTimer = 0f; // (throttle timer)
@@ -434,6 +434,9 @@ public class PlayerController : MonoBehaviour
         yield break;
     }
 
+    // NEW — small delay so particles aren't destroyed same frame
+    private const float cooldownFinishBuffer = -0.1f;
+
     // This function manages the cooldown for the jump slam
     private void JumpSlamCooldownManager()
     {
@@ -441,30 +444,48 @@ public class PlayerController : MonoBehaviour
         if (_currentJumpState == JumpState.JUMP_ON_COOLDOWN)  
         {
             slamCooldownTimer -= Time.deltaTime;  
-
             
-            // (Cooldown Feedback) — play when cooldown finishes
-            if (slamCooldownTimer <= 0f && !slamCooldownFeedbackTriggered)
+            //  Spawn feedback ONCE when cooldown reaches 0
+            //  Spawn feedback ONCE when cooldown reaches 0
+    if (slamCooldownTimer <= 0f && !slamCooldownFeedbackTriggered)
+    {
+        slamCooldownFeedbackTriggered = true;
+
+        if (slamCooldownParticles != null)
+        {
+            // Spawn at player feet (ground position)
+            Vector3 spawnPos = _groundPosition.GroundPointTransform.position;
+            spawnPos += Vector3.up * 0.05f; // small offset to prevent clipping
+
+            activeCooldownParticles = Instantiate(
+                slamCooldownParticles,
+                spawnPos,
+                Quaternion.identity
+            );
+
+            // Attach to player so it follows movement
+            activeCooldownParticles.transform.SetParent(transform);
+
+            // CRITICAL — reset local transform (prevents drifting + rotation issues)
+            activeCooldownParticles.transform.localPosition = Vector3.zero;
+            activeCooldownParticles.transform.localRotation = Quaternion.identity;
+
+            // Play all particle systems (including children)
+            ParticleSystem[] systems = activeCooldownParticles.GetComponentsInChildren<ParticleSystem>();
+
+            foreach (ParticleSystem ps in systems)
             {
-                slamCooldownFeedbackTriggered = true;
-
-                if (slamCooldownParticles != null)
-                {
-                    activeCooldownParticles = Instantiate(
-                        slamCooldownParticles,
-                        transform.position,
-                    Quaternion.identity
-                    );
-
-                    activeCooldownParticles.transform.SetParent(transform);
-                    activeCooldownParticles.Play();
-                }
-
-                if (slamOnCooldownSound != null && audioSource != null)
-                {
-                    audioSource.PlayOneShot(slamOnCooldownSound, volume);
-                }
+                ps.Play();
             }
+
+            Debug.Log("[SLAM DEBUG] Spawned cooldown particles at: " + spawnPos);
+        }
+
+        if (slamOnCooldownSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(slamOnCooldownSound, volume);
+        }
+    }
 
             if (showSlamCooldownDebug)
             {
@@ -477,12 +498,13 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if (slamCooldownTimer <= 0f)  
+            // Cleanup AFTER small buffer delay
+            if (slamCooldownTimer <= cooldownFinishBuffer)  
             {
                 // (Cooldown Feedback) — stop particles
                 if (activeCooldownParticles != null)
                 {
-                    Destroy(activeCooldownParticles.gameObject);
+                    Destroy(activeCooldownParticles.gameObject, 0.5f); // small delay so effect finishes
                     activeCooldownParticles = null;
                 }
 
@@ -492,11 +514,8 @@ public class PlayerController : MonoBehaviour
                 slamCooldownTimer = 0f;  
                 slamLogTimer = 0f;  
                 
-
-                 
                 if (showSlamCooldownDebug)
                 {    
-                     
                     Debug.Log("[SLAM] Cooldown finished");  
                 }
             }
