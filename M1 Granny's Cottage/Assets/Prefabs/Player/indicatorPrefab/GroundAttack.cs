@@ -3,24 +3,29 @@ using UnityEngine;
 public class GroundAttack : MonoBehaviour
 {
     [Header("Indicator Settings")]
-    [SerializeField] private GameObject indicatorPrefab; // visual-only flat cylinder
+    [SerializeField] private GameObject indicatorPrefab; // NOW slam ring
     [SerializeField] private float maxRadius = 5f; // maximum AOE preview size
-
+   
     [Header("Hitbox Settings")]
     [SerializeField] private GameObject hitboxPrefab; // AOE trigger prefab
 
     [Header("Stun Settings")]
     [SerializeField] private float stunDuration = 2f;
 
-    // Upgrade flag
+     // Upgrade flag
     private bool canDealDamage = false;
 
     private GameObject activeIndicator; // currently spawned indicator
     private float maxChargeTime; // hover duration passed in
     private float currentChargeTime; // runtime charge timer
     private bool isCharging; // indicator active flag
+
     private CharacterController characterController;
     private GroundBelowPlayer _groundPosition; // the same position the camera follows
+
+    // NEW — store original prefab scale so scaling behaves correctly
+    private Vector3 indicatorBaseScale;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -33,7 +38,7 @@ public class GroundAttack : MonoBehaviour
         canDealDamage = true;
     }
 
-    // Called when player hover begins
+    // START CHARGE
     public void StartCharge(Vector3 playerPosition, float hoverMaxTime)
     {
         if (indicatorPrefab == null)
@@ -48,17 +53,21 @@ public class GroundAttack : MonoBehaviour
         currentChargeTime = 0f;
         isCharging = true;
 
-        Vector3 spawnPos = _groundPosition.GroundPointTransform.position;//GetGroundPosition(playerPosition); // changr from groundPos
+        Vector3 spawnPos = _groundPosition.GroundPointTransform.position;
+        spawnPos.y += 0.01f; // NEW - prevent clipping
 
-        activeIndicator = Instantiate(indicatorPrefab, spawnPos, Quaternion.identity);
+        // NEW - force correct rotation
+        activeIndicator = Instantiate(
+            indicatorPrefab,
+            spawnPos,
+            Quaternion.Euler(90f, 0f, 0f)
+        );
 
-        // Ensure indicator is visible on spawn
-        activeIndicator.transform.localScale =
-            new Vector3(0.5f, 0.02f, 0.5f);
-
-        //Debug.Log("[GROUND ATTACK] Charge started — indicator spawned", activeIndicator);
+        // NEW — store base scale of prefab
+        indicatorBaseScale = activeIndicator.transform.localScale;
     }
 
+    // NEW UPDATE CHARGE
     // Called every frame while hovering
     public void UpdateCharge(Vector3 playerPosition)
     {
@@ -71,16 +80,23 @@ public class GroundAttack : MonoBehaviour
 
         // Normalize progress
         float t = Mathf.Clamp01(currentChargeTime / maxChargeTime);
+        t = Mathf.Pow(t, 2f);
 
         // Calculate current radius
         float radius = Mathf.Lerp(0.5f, maxRadius, t);
 
-        activeIndicator.transform.position =
-            _groundPosition.GroundPointTransform.position;//GetGroundPosition(playerPosition);
-        // Scale visual (scale uses diameter, so radius * 2)
+        Debug.Log("[GROUND ATTACK DEBUG] Current Radius: " + radius);
 
-        activeIndicator.transform.localScale =
-            new Vector3(radius * 2f, 0.02f, radius * 2f);
+        Vector3 pos = _groundPosition.GroundPointTransform.position;
+        pos.y += 0.01f; // NEW
+        activeIndicator.transform.position = pos;
+
+        // NEW — scale relative to prefab base size
+        activeIndicator.transform.localScale = new Vector3(
+            indicatorBaseScale.x * (radius * 2f),
+            indicatorBaseScale.y * (radius * 2f),
+            indicatorBaseScale.z
+        );
 
         if (currentChargeTime >= maxChargeTime)
         {
@@ -90,51 +106,52 @@ public class GroundAttack : MonoBehaviour
         }
     }
 
-    // Called when hover ends or is cancelled
+    // STOP CHARGE
     public void StopCharge()
-{
-    if (!isCharging)
-        return;
-
-    isCharging = false;
-
-    // NEW — calculate current radius based on charge progress
-    float t = Mathf.Clamp01(currentChargeTime / maxChargeTime);
-    float radius = Mathf.Lerp(0.5f, maxRadius, t);
-
-    if (activeIndicator != null)
     {
-        Vector3 slamPosition = activeIndicator.transform.position;
+        if (!isCharging)
+            return;
 
-        // NEW — execute slam when player releases early
-        ExecuteGroundAttack(slamPosition, radius);
-        Debug.Log("[GROUND SLAM] Slam executed from early release. Radius: " + radius);
+        isCharging = false;
 
-        Destroy(activeIndicator);
-        activeIndicator = null;
+        // calculate current radius based on charge progress
+        float t = Mathf.Clamp01(currentChargeTime / maxChargeTime);
+        float radius = Mathf.Lerp(0.5f, maxRadius, t);
+
+        if (activeIndicator != null)
+        {
+            Vector3 slamPosition = activeIndicator.transform.position;
+
+            // execute slam when player releases early
+            ExecuteGroundAttack(slamPosition, radius);
+            Debug.Log("[GROUND SLAM] Slam executed. Radius: " + radius);
+
+            Destroy(activeIndicator);
+            activeIndicator = null;
+        }
     }
-    }
 
+    // EXECUTE ATTACK
     private void ExecuteGroundAttack(Vector3 center, float radius)
     {
         if (hitboxPrefab == null)
             //Debug.LogWarning("[GROUND ATTACK] No hitbox prefab assigned");
             return;
 
+        // EXISTING hitbox spawn
         GameObject hitbox = Instantiate(hitboxPrefab, center, Quaternion.identity);
 
         SphereCollider sphere = hitbox.GetComponent<SphereCollider>();
         if (sphere != null)
         {
-            sphere.radius = radius; // match indicator radius
+               sphere.radius = radius;
         }
 
-        // Apply damage only if upgraded
         GroundAttackHitbox slamHitbox = hitbox.GetComponent<GroundAttackHitbox>();
 
         if (slamHitbox != null)
         {
-            // NEW — pass stun duration from GroundAttack to the hitbox
+            // pass stun duration from GroundAttack to the hitbox
             slamHitbox.SetStunDuration(stunDuration);
 
             if (canDealDamage)
