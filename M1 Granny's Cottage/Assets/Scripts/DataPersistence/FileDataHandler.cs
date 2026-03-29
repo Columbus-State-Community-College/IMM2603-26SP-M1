@@ -10,7 +10,7 @@ public class FileDataHandler
     public FileDataHandler(string dataDirPath, string dataFileName)
     {
         this.dataDirPath = dataDirPath;
-        this.dataDirPath = dataFileName;
+        this.dataFileName = dataFileName;
     }
 
     public GameData Load()
