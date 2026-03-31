@@ -638,6 +638,16 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
             Debug.Log("[POWERUP] groundAttack AOE Size Increase upgraded.");
     }
 
+    public float GetSlamCooldownTimer()
+    {
+        return slamCooldownTimer;
+    }
+
+    public float GetSlamCooldownDuration()
+    {
+        return slamCooldownDuration;
+    }
+
     public void LoadData(GameData data)
     {
         throw new NotImplementedException();
