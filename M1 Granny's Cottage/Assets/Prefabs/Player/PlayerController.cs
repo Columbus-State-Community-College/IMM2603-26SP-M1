@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour,  IDataPersistence
 {
     [Header("Player Movement")]
     [SerializeField] private float runSpeed = 10f;
@@ -636,5 +636,15 @@ public class PlayerController : MonoBehaviour
             groundAttack.IncreaseAOESize(2f);
 
             Debug.Log("[POWERUP] groundAttack AOE Size Increase upgraded.");
-    } 
+    }
+
+    public void LoadData(GameData data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        throw new NotImplementedException();
+    }
 }
