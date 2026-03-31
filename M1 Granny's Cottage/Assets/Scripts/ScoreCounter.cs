@@ -10,7 +10,6 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
     public TMP_Text scoreCounter;
     public TMP_Text overallScoreText;
     public TMP_Text highScoreText;
-    //private string scoreFile = "HighScore.txt";
 
     void Start()
     {
@@ -30,50 +29,7 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
         this.pointBank += this.totalScore;
         UpdateHighScoreText();
     }
-    /* public void startFileWrite()
-    {
-        string filePath = Path.Combine(Application.persistentDataPath, scoreFile);
-        if (File.Exists(filePath))
-        {
-            string fileContent = File.ReadAllText(filePath);
-            if (int.TryParse(fileContent, out int result))
-            {
-                Debug.Log("Parsed Integer: " + result);
 
-                if (totalScore >= result)
-                {
-                    string path = Path.Combine(Application.persistentDataPath, scoreFile);
-                    WriteToFile(path, totalScore.ToString());
-                }
-
-                else 
-                {
-                    ReadFile();
-                }
-            }
-        }
-
-        else
-        {
-            string path = Path.Combine(Application.persistentDataPath, scoreFile);
-            WriteToFile(path, totalScore.ToString());
-        }
-    } */
-
-    public void WriteToFile(string path, string content)
-    {
-        try
-        {
-            File.WriteAllText(path, content + System.Environment.NewLine);
-            Debug.Log("Successfully wrote to file at: " + path);
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError("Error writing to file: " + ex.Message);
-        }
-
-        UpdateHighScoreText();
-    }
 
     public void UpdateHighScoreText()
     {
@@ -83,6 +39,7 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         this.highScore = data.highScore;
+        UpdateHighScoreText();
         this.pointBank = data.pointBank;
     }
 
