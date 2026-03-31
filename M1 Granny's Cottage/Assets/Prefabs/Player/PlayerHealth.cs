@@ -100,6 +100,10 @@ public class PlayerHealth : MonoBehaviour
         //Debug.Log("[PLAYER] Player Died");
 
         GameOverScreen.gameObject.SetActive(true);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         if (grannySoundScript != null)
         {
             grannySoundScript.PlayScream();
