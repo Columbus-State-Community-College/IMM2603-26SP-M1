@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
     [SerializeField] private ParticleSystem slamCooldownParticles;
     [SerializeField] private AudioClip slamOnCooldownSound;
     [SerializeField] private AudioClip slamImpactSound;
+    [SerializeField] private JumpCooldownUI jumpCooldownUI;
 
     private ParticleSystem activeCooldownParticles;
     private bool slamCooldownFeedbackTriggered = false;
@@ -135,6 +136,11 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
         currentJumpTime = maxJumpTime; // HOVER (initialize hover timer)
         //Debug.Log($"[HOVER] Initialized hover time: {currentHoverTime}"); // DEBUG
+
+        if (jumpCooldownUI != null)
+        {
+            jumpCooldownUI.SetReady(_currentJumpState == JumpState.READY_TO_JUMP);
+        }
     }
 
     private void OnEnable()
@@ -411,6 +417,11 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
         _verticalVelocity = 0.0f;
         _currentJumpState = JumpState.JUMP_ON_COOLDOWN;
 
+        if (jumpCooldownUI != null)
+        {
+            jumpCooldownUI.SetReady(false);
+        }
+
         // Play slam impact sound (MOVE IT HERE)
         if (slamImpactSound != null && audioSource != null)
         {
@@ -421,7 +432,7 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
         {
             currentJumpTime = maxJumpTime; // HOVER
             slamCooldownTimer = slamCooldownDuration;  
-            slamLogTimer = 0f;  
+            slamLogTimer = 0f;
 
             if (showSlamCooldownDebug)  
                 Debug.Log($"[SLAM] Cooldown started ({slamCooldownDuration:F1}s)");  
@@ -481,7 +492,7 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
             Debug.Log("[SLAM DEBUG] Spawned cooldown particles at: " + spawnPos);
         }
 
-        if (slamOnCooldownSound != null && audioSource != null)
+                if (slamOnCooldownSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(slamOnCooldownSound, volume);
         }
@@ -512,8 +523,13 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
                 _currentJumpState = JumpState.READY_TO_JUMP;
                 slamCooldownTimer = 0f;  
-                slamLogTimer = 0f;  
-                
+                slamLogTimer = 0f;
+
+                if (jumpCooldownUI != null)
+                {
+                    jumpCooldownUI.SetReady(true);
+                }
+
                 if (showSlamCooldownDebug)
                 {    
                     Debug.Log("[SLAM] Cooldown finished");  

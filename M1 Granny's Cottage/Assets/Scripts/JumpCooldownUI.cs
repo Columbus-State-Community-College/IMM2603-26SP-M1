@@ -5,6 +5,7 @@ public class JumpCooldownUI : MonoBehaviour
 {
     public PlayerController player;
     public Image cooldownRing;
+    public Animator animator;
 
     void Update()
     {
@@ -20,6 +21,14 @@ public class JumpCooldownUI : MonoBehaviour
         else
         {
             cooldownRing.fillAmount = 1f - (cooldown / maxCooldown);
+        }
+    }
+
+    public void SetReady(bool ready)
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isReady", ready);
         }
     }
 }
