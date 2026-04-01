@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.VFX;
 
-public class HammerAttack : MonoBehaviour
+public class HammerAttack : MonoBehaviour, IDataPersistence
 {
     [Header("Attack Settings")]
     public float damage = 10f;
@@ -174,5 +174,15 @@ public class HammerAttack : MonoBehaviour
     public void IncreaseKnockback()
     {
         knockbackMultiplier = 2f;
+    }
+
+    public void LoadData(GameData data)
+    {
+        // TODO: Implement data to be loaded
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        // TODO: Implement data to be saved
     }
 }

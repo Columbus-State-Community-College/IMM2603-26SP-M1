@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class UpgradeZone : MonoBehaviour
+public class UpgradeZone : MonoBehaviour, IDataPersistence
 {
     public GameObject OKButton;
     public GameObject NOButton;
@@ -174,5 +174,15 @@ public class UpgradeZone : MonoBehaviour
     public void CoinCount()
     {
         CoinCountText.text = "Coins: " + coins.ToString();
+    }
+
+    public void LoadData(GameData data)
+    {
+        // TODO: Implement data to be loaded
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        // TODO: Implement data to be saved
     }
 }

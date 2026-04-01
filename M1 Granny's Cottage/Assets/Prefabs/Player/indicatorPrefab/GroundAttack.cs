@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GroundAttack : MonoBehaviour
+public class GroundAttack : MonoBehaviour, IDataPersistence
 {
     [Header("Indicator Settings")]
     [SerializeField] private GameObject indicatorPrefab; // NOW slam ring
@@ -178,5 +178,15 @@ public class GroundAttack : MonoBehaviour
         maxRadius += amount;
 
         Debug.Log("[POWERUP] Slam AOE size increased to: " + maxRadius);
+    }
+
+    public void LoadData(GameData data)
+    {
+        // TODO: Implement data to be loaded
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        // TODO: Implement data to be saved
     }
 }

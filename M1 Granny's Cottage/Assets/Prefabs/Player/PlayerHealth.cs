@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDataPersistence
 {
     public float maxHealth = 100f;
     public float currentHealth;
@@ -118,5 +118,15 @@ public class PlayerHealth : MonoBehaviour
                 scoreScript.GameOverProcess();
             }
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        // TODO: Implement data to be loaded
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        // TODO: Implement data to be saved
     }
 }
