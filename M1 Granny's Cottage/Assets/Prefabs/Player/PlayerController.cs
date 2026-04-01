@@ -71,17 +71,13 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
     // (Cooldown Feedback)
     [Header("Ground Attack Cooldown Feedback")]
     [SerializeField] private ParticleSystem slamCooldownParticles;
-    [SerializeField] private AudioClip slamOnCooldownSound;
-    [SerializeField] private AudioClip slamImpactSound;
     [SerializeField] private JumpCooldownUI jumpCooldownUI;
 
     private ParticleSystem activeCooldownParticles;
     private bool slamCooldownFeedbackTriggered = false;
 
     [Header("Player Action Sounds")]
-    public AudioSource audioSource;
     public GrannysSounds grannySoundScript;
-    public float volume = 0.5f;
 
     [Header("Animation")]
     [SerializeField] public Animator animator;
@@ -423,9 +419,9 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
         }
 
         // Play slam impact sound (MOVE IT HERE)
-        if (slamImpactSound != null && audioSource != null)
+        if (grannySoundScript != null)
         {
-            audioSource.PlayOneShot(slamImpactSound, volume);
+            grannySoundScript.PlaySlamImpact();
         }
 
         // this code block helps reset 
@@ -492,11 +488,11 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
             Debug.Log("[SLAM DEBUG] Spawned cooldown particles at: " + spawnPos);
         }
 
-                if (slamOnCooldownSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(slamOnCooldownSound, volume);
-        }
-    }
+                if (grannySoundScript != null)
+                {
+                    grannySoundScript.PlayCooldownFinished();
+                }
+            }
 
             if (showSlamCooldownDebug)
             {

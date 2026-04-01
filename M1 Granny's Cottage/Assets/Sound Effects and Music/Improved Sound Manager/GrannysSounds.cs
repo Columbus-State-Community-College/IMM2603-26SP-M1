@@ -12,6 +12,8 @@ public class GrannysSounds : MonoBehaviour
     public string healSFX;
     public string hpLostSFX;
     public string screamSFX;
+    public string cooldownFinishedSFX;
+    public string slamImpactSFX;
 
     [Header("Local Volume Settings (can exceed normal volume)")]
     [Range(0f, 5f)]
@@ -31,6 +33,12 @@ public class GrannysSounds : MonoBehaviour
 
     [Range(0f, 5f)]
     public float screamVolume = 1f;
+
+    [Range(0f, 5f)]
+    public float cooldownFinishedVolume = 1f;
+
+    [Range(0f, 5f)]
+    public float slamImpactVolume = 1f;
 
     private void Awake()
     {
@@ -94,5 +102,15 @@ public class GrannysSounds : MonoBehaviour
     public void PlayScream()
     {
         PlayLocalClip(screamSFX, screamVolume, 1f);
+    }
+
+    public void PlayCooldownFinished()
+    {
+        PlayLocalClip(cooldownFinishedSFX, cooldownFinishedVolume, 1f);
+    }
+
+    public void PlaySlamImpact()
+    {
+        PlayLocalClip(slamImpactSFX, slamImpactVolume, 1f);
     }
 }
