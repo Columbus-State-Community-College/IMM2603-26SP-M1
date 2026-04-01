@@ -25,27 +25,38 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
 
     public void GameOverProcess()
     {
-        this.highScore = (this.totalScore > this.highScore) ? this.highScore : this.totalScore; 
-        this.pointBank += this.totalScore;
+        if (totalScore > highScore)
+        {
+            highScore = totalScore;
+        }
+
         UpdateHighScoreText();
+
+        DataPersistenceManager.instance.SaveGame();
     }
 
 
     public void UpdateHighScoreText()
     {
-        highScoreText.text = "High Score: " + this.highScore;   
+        if (highScoreText != null)
+        {
+            highScoreText.text = "High Score: " + highScore;
+        }
     }
 
     public void LoadData(GameData data)
     {
-        this.highScore = data.highScore;
+        highScore = data.highScore;
         UpdateHighScoreText();
-        this.pointBank = data.pointBank;
     }
 
     public void SaveData(ref GameData data)
     {
-        data.highScore = this.highScore;
-        data.pointBank = this.pointBank;
+        if (totalScore > highScore)
+        {
+            highScore = totalScore;
+        }
+
+        data.highScore = highScore;
     }
 }

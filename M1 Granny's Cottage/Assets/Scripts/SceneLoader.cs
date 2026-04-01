@@ -21,54 +21,21 @@ public class SceneLoader : MonoBehaviour
 
     void Start()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, scoreFile);
-
-        if (!File.Exists(filePath))
-        {
-            File.WriteAllText(filePath, "0");
-            Debug.Log("High score file created.");
-        }
-
-        string fileContents = File.ReadAllText(filePath);
-
-        if (HighScoreText != null)
-        {
-            HighScoreText.text = "High Score: " + fileContents;
-        }
-        //string filePath = Path.Combine(Application.persistentDataPath, scoreFile);
-        //if (File.Exists(filePath))
-        //{
-        //    string fileContents = File.ReadAllText(filePath);
-
-        //    if (HighScoreText != null)
-        //    {
-        //        HighScoreText.text = "High Score: " + fileContents;
-        //    }
-
-        //    else 
-        //    {
-        //        Debug.Log("Nothing to worry about here in this scene...");
-        //    }
-        //}
-
-        //else
-        //{
-        //    Debug.LogError("File not found at: " + filePath);
-
-        //    if (HighScoreText != null)
-        //    {
-        //        HighScoreText.text = "High Score: 0";
-        //    }
-
-        //    else 
-        //    {
-
-        //        Debug.Log("Nothing to worry about here in this scene...");
-        //    }
-        //}
-
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (HighScoreText != null && DataPersistenceManager.instance != null)
+        {
+            GameData data = DataPersistenceManager.instance.GameData;
+            if (data != null)
+            {
+                HighScoreText.text = "High Score: " + data.highScore;
+            }
+            else
+            {
+                HighScoreText.text = "High Score: 0";
+            }
+        }
     }
 
     public void LoadScene(string sceneName)

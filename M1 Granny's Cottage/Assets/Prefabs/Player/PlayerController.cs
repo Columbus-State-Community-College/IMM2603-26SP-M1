@@ -666,11 +666,11 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
     public void LoadData(GameData data)
     {
-        throw new NotImplementedException();
+        // empty for now
     }
 
     public void SaveData(ref GameData data)
     {
-        throw new NotImplementedException();
+        // empty for now
     }
 }
