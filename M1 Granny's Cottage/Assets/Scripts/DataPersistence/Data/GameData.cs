@@ -66,9 +66,21 @@ public class GameData
     public float maxHealth;
 
 
-    // Game volume
-    private const float d_volume = 0.5f;
-    public float volume;
+    // Game music volume
+    private const float d_musicVolume = 0.5f;
+    public float musicVolume;
+
+    // Granny sound volume
+    private const float d_grannyVolume = 0.5f;
+    public float grannyVolume;
+
+    // Enemy sound volume
+    private const float d_enemyVolume = 0.5f;
+    public float enemyVolume;
+
+    // ETC sound volume
+    private const float d_etcVolume = 0.5f;
+    public float etcVolume;
     
 
     /* 
@@ -89,7 +101,10 @@ public class GameData
         this.hammerSwingKnockbackMultiplier = d_hammerSwingKnockbackMultiplier;
         this.hammerSwingAttackCooldown = d_hammerSwingAttackCooldown;
         this.maxHealth = d_maxHealth;
-        this.volume = d_volume;
+        this.musicVolume = d_musicVolume;
+        this.grannyVolume = d_grannyVolume;
+        this.enemyVolume = d_enemyVolume;
+        this.etcVolume = d_etcVolume;
     }
 
 }

@@ -1170,7 +1170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &353672830
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1186,11 +1186,11 @@ RectTransform:
   - {fileID: 615862416}
   - {fileID: 701404687}
   - {fileID: 1629798739}
-  - {fileID: 127514665}
   - {fileID: 342008746}
   - {fileID: 1748585863}
   - {fileID: 1257980714}
   - {fileID: 1103918756}
+  - {fileID: 127514665}
   - {fileID: 1687736072}
   m_Father: {fileID: 1627586300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4402,13 +4402,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
   PauseScreen: {fileID: 0}
-  HowToPlayScreen: {fileID: 0}
-  CreditsPage: {fileID: 0}
-  submenuScreen: {fileID: 0}
-  MainMenuPanel: {fileID: 0}
-  HowToPlayButtonText: {fileID: 0}
-  HighScoreText: {fileID: 0}
-  HowToPlayButton: {fileID: 0}
+  HowToPlayScreen: {fileID: 536632443}
+  CreditsPage: {fileID: 2120959319}
+  submenuScreen: {fileID: 353672829}
+  MainMenuPanel: {fileID: 1217482383}
+  HowToPlayButtonText: {fileID: 991553460}
+  HighScoreText: {fileID: 91028968}
+  HowToPlayButton: {fileID: 1752903529}
 --- !u!4 &1299952625
 Transform:
   m_ObjectHideFlags: 0
@@ -4436,18 +4436,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cab703aecc5b844498240f79c74d5ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeZone
-  OKButton: {fileID: 0}
-  NOButton: {fileID: 0}
-  WelcomeBackground: {fileID: 0}
-  HammerGlamourChoices: {fileID: 0}
-  HammerGlamourButton: {fileID: 0}
-  HammerBaseDamageButton: {fileID: 0}
-  HammerBaseAttackSpeedButton: {fileID: 0}
-  HammerBaseKnockbackButton: {fileID: 0}
-  ChangeableText: {fileID: 0}
-  OKButtonText: {fileID: 0}
-  UpgradeAppliedText: {fileID: 0}
-  CoinCountText: {fileID: 0}
+  OKButton: {fileID: 127514664}
+  NOButton: {fileID: 1687736071}
+  WelcomeBackground: {fileID: 1103918755}
+  HammerGlamourChoices: {fileID: 342008745}
+  HammerGlamourButton: {fileID: 615862417}
+  HammerBaseDamageButton: {fileID: 361659053}
+  HammerBaseAttackSpeedButton: {fileID: 1877917663}
+  HammerBaseKnockbackButton: {fileID: 1567325212}
+  ChangeableText: {fileID: 1748585864}
+  OKButtonText: {fileID: 250148529}
+  UpgradeAppliedText: {fileID: 1629798740}
+  CoinCountText: {fileID: 1257980715}
 --- !u!1 &1301909141
 GameObject:
   m_ObjectHideFlags: 0
