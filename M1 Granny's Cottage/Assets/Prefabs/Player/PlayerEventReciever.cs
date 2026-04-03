@@ -24,4 +24,14 @@ public class PlayerEventReciever : MonoBehaviour
             playerController.OnAirAttackStart();
         }
     }
+
+    public void StartTornadoSpin()
+    {
+        playerController.StartTornadoSpin();
+    }
+
+    public void EndTornadoSpin()
+    {
+        playerController.EndTornadoSpin();
+    }
 }

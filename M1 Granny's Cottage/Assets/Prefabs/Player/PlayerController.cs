@@ -167,9 +167,29 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
         if (isKnockedBack) return; // KNOCKBACK (disable control during knockback)
 
+        if (Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            if (hammerAttack != null && isGrounded)
+            {
+                hammerAttack.StartAttack(HammerAttack.AttackType.Tornado);
+            }
+        }
+
         ApplyRotation();
         ApplyMovement();
         UpdateAnimation();
+    }
+
+    public void StartTornadoSpin()
+    {
+        if (hammerAttack != null)
+            hammerAttack.StartTornadoSpin();
+    }
+
+    public void EndTornadoSpin()
+    {
+        if (hammerAttack != null)
+            hammerAttack.EndTornadoSpin();
     }
 
     // Attack callback (Pure New Input System)

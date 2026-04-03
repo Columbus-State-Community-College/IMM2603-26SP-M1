@@ -2,9 +2,19 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.VFX;
+using static HammerAttack;
+
 
 public class HammerAttack : MonoBehaviour, IDataPersistence
 {
+    public enum AttackType
+    {
+        NormalSwing,
+        Tornado
+    }
+
+    private AttackType currentAttack;
+
     [Header("Attack Settings")]
     public float damage = 10f;
     public float attackDuration = 0.5f;
@@ -29,6 +39,11 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
     [SerializeField] private Animator animator;
     [SerializeField] private TrailRenderer trail;
 
+    [Header("Tornado Settings")]
+    [SerializeField] private float tornadoMoveSpeed = 6f;
+    [SerializeField] private float tornadoSpinSpeed = 720f;
+    private bool isSpinning = false;
+
     private bool attackActive = false;
     private Collider hitbox;
 
@@ -45,6 +60,19 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
         hitbox.enabled = false;
     }
 
+    void Update()
+    {
+        if (isSpinning && playerController != null)
+        {
+            CharacterController cc = playerController.GetComponent<CharacterController>();
+
+            Vector3 move = playerController.transform.forward * tornadoMoveSpeed * Time.deltaTime;
+            cc.Move(move);
+
+            playerController.transform.Rotate(0f, tornadoSpinSpeed * Time.deltaTime, 0f);
+        }
+    }
+
     // this ensures to hook in the hammerAttack to the PlayerController
     void OnEnable()
     {
@@ -53,9 +81,11 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
     }
 
     // Called by PlayerController
-    public void StartAttack()
+    public void StartAttack(AttackType attackType = AttackType.NormalSwing)
     {
         if (attackActive || !canAttack) return; // include cooldown check
+
+        currentAttack = attackType;
 
         //Debug.Log("[HAMMER] Attack START");
         StartCoroutine(AttackRoutine());
@@ -105,8 +135,16 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
     {
         canAttack = false; // start cooldown lock
 
-        animator.ResetTrigger("isSwinging");
-        animator.SetTrigger("isSwinging");
+        if (currentAttack == AttackType.NormalSwing)
+        {
+            animator.ResetTrigger("isSwinging");
+            animator.SetTrigger("isSwinging");
+        }
+        else if (currentAttack == AttackType.Tornado)
+        {
+            animator.ResetTrigger("isWindingUp");
+            animator.SetTrigger("isWindingUp");
+        }
 
         // fixes taking input before animation is finished
         yield return new WaitForSeconds(attackDuration);
@@ -174,6 +212,24 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
     public void IncreaseKnockback()
     {
         knockbackMultiplier = 2f;
+    }
+
+    public void StartTornadoSpin()
+    {
+        animator.ResetTrigger("isSpinning");
+        animator.SetTrigger("isSpinning");
+
+        EnableHitbox();
+        isSpinning = true;
+    }
+
+    public void EndTornadoSpin()
+    {
+        DisableHitbox();
+        isSpinning = false;
+
+        animator.ResetTrigger("isRecovering");
+        animator.SetTrigger("isRecovering");
     }
 
     public void LoadData(GameData data)
