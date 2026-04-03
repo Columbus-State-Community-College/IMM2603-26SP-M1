@@ -69,7 +69,7 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
             Vector3 move = playerController.transform.forward * tornadoMoveSpeed * Time.deltaTime;
             cc.Move(move);
 
-            playerController.transform.Rotate(0f, tornadoSpinSpeed * Time.deltaTime, 0f);
+            playerController.transform.Rotate(0f, -tornadoSpinSpeed * Time.deltaTime, 0f);
         }
     }
 
