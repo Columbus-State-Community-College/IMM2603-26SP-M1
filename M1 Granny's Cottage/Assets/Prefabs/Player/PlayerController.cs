@@ -8,7 +8,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour,  IDataPersistence
 {
     [Header("Player Movement")]
-    [SerializeField] private float runSpeed = 10f;
+    [SerializeField] private float runSpeed;
     [SerializeField] private float turnSpeed = 1920f;
     [SerializeField] private float _verticalVelocity;
 
@@ -682,11 +682,21 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
     public void LoadData(GameData data)
     {
-        // empty for now
+        // Granny's Base Run Speed
+        this.runSpeed = data.runSpeed;
+
+        // TODO: load other data
     }
 
     public void SaveData(ref GameData data)
     {
         // empty for now
+        /* 
+            Note from Jonathan:
+            I can't think of too many/any of the variables within this script that we would need to 
+            save from this script, moreso that this script will need to load a lot of variables. We 
+            have to ensure that we're not upgrading Granny in a run using Gifts, then carrying over those upgrades, 
+            just the Glamours.
+        */
     }
 }
