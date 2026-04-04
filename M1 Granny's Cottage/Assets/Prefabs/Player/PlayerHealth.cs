@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDataPersistence
 {
-    public float maxHealth = 100f;
+    public float maxHealth;
     public float currentHealth;
     public ScoreCounter scoreScript;
 
@@ -122,11 +122,15 @@ public class PlayerHealth : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        // TODO: Implement data to be loaded
+        this.maxHealth = data.maxHealth;
     }
 
     public void SaveData(ref GameData data)
     {
-        // TODO: Implement data to be saved
+        /* 
+            The scope of this script largely seems to concern itself with in-run health, 
+            which is not where upgrades to maxHealth should be implemented, and therefore not saved.
+        */
     }
+           
 }
