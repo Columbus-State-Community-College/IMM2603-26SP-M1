@@ -52,6 +52,9 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
+        // add run score to pointBank
+        data.pointBank += totalScore;
+
         if (totalScore > highScore)
         {
             highScore = totalScore;

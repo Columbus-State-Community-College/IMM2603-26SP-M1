@@ -16,7 +16,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public TMP_Text OKButtonText;
     public TMP_Text UpgradeAppliedText;
     public TMP_Text CoinCountText;
-    private int coins = 200;
+    private int pointBank;
     private bool isFirstTime = true;
     private bool isHammerBaseDamage;
     private bool isHammerBaseAttackSpeed;
@@ -24,7 +24,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
     void Start ()
     {
-        CoinCountText.text = "Coins: " + coins.ToString();
+        CoinCountText.text = "\"Trespassing\" Fines Collected: $" + pointBank.ToString();
     }
 
 
@@ -44,7 +44,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             isHammerBaseDamage = false;
             HammerGlamourButton.interactable = true;
             HammerBaseDamageButton.interactable = false;
-            coins -= 100;
+            pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
         }
@@ -55,7 +55,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             isHammerBaseAttackSpeed = false;
             HammerGlamourButton.interactable = true;
             HammerBaseAttackSpeedButton.interactable = false;
-            coins -= 100;
+            pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
         }
@@ -66,7 +66,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             isHammerBaseKnockback = false;
             HammerGlamourButton.interactable = true;
             HammerBaseKnockbackButton.interactable = false;
-            coins -= 100;
+            pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
         }
@@ -108,7 +108,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     {
         int requiredcoins = 100;
 
-        if (coins >= requiredcoins){
+        if (pointBank >= requiredcoins){
             HammerGlamourChoices.gameObject.SetActive(false);
             isHammerBaseDamage = true;
             SubMenuConfirm();
@@ -124,7 +124,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     {
         int requiredcoins = 100;
 
-        if (coins >= requiredcoins){
+        if (pointBank >= requiredcoins){
             HammerGlamourChoices.gameObject.SetActive(false);
             isHammerBaseAttackSpeed = true;
             SubMenuConfirm();
@@ -140,7 +140,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     {
         int requiredcoins = 100;
 
-        if (coins >= requiredcoins){
+        if (pointBank >= requiredcoins){
             HammerGlamourChoices.gameObject.SetActive(false);
             isHammerBaseKnockback = true;
             SubMenuConfirm();
@@ -168,21 +168,29 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
     public void NotEnoughCoins()
     {
-        UpgradeAppliedText.text = "Not Enough Coins to Get the Glamour!";
+        UpgradeAppliedText.text = "Not Enough $$$ to get the Glamour!";
     }
 
     public void CoinCount()
     {
-        CoinCountText.text = "Coins: " + coins.ToString();
+        GlamourSaving();
+        CoinCountText.text = "\"Trespassing\" Fines Collected: $" + pointBank.ToString();
+        
     }
 
     public void LoadData(GameData data)
     {
-        // TODO: Implement data to be loaded
+        this.pointBank = data.pointBank;
     }
 
     public void SaveData(ref GameData data)
     {
-        // TODO: Implement data to be saved
+        data.pointBank = this.pointBank;
+    }
+
+    // This is a helper function to save the gamestate of the pointBank and other base variables.
+    private void GlamourSaving()
+    {
+        DataPersistenceManager.instance.SaveGame();
     }
 }
