@@ -500,13 +500,9 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
                 Quaternion.identity
             );
 
-            // Attach to player so it follows movement
-            activeCooldownParticles.transform.SetParent(transform);
-
-            // CRITICAL — reset local transform (prevents drifting + rotation issues)
-            activeCooldownParticles.transform.localPosition = Vector3.zero;
-            activeCooldownParticles.transform.localRotation = Quaternion.identity;
-
+            // NEW — keep particles in world space (DO NOT parent)
+            activeCooldownParticles.transform.SetParent(null);
+            
             // Play all particle systems (including children)
             ParticleSystem[] systems = activeCooldownParticles.GetComponentsInChildren<ParticleSystem>();
 
