@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 {
     [Header("Player Movement")]
     [SerializeField] private float runSpeed;
-    [SerializeField] private float turnSpeed = 1920f;
+    [SerializeField] private float turnSpeed = 10f;
     [SerializeField] private float _verticalVelocity;
 
     [Header("Player Status")]
@@ -212,27 +212,37 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
     // Turns the player towards the horizontal direction they are moving in.
     private void ApplyRotation()
     {
-        if (_moveInput == Vector3.zero) return;
+        //if (_moveInput == Vector3.zero) return;
 
-        Matrix4x4 isometricMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
-        Vector3 lookInput = isometricMatrix.MultiplyPoint3x4(_moveInput);
+        //Matrix4x4 isometricMatrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
+        //Vector3 lookInput = isometricMatrix.MultiplyPoint3x4(_moveInput);
 
-        Quaternion rotation = Quaternion.LookRotation(lookInput, Vector3.up);
+        //Quaternion rotation = Quaternion.LookRotation(lookInput, Vector3.up);
 
-        // IMPORTANT: This line locks the playerParent rotation to the horizontal plane only. 
-        rotation.Set(0.0f, rotation.y, 0.0f, rotation.w);
+        //// IMPORTANT: This line locks the playerParent rotation to the horizontal plane only. 
+        //rotation.Set(0.0f, rotation.y, 0.0f, rotation.w);
 
-        transform.rotation = Quaternion.RotateTowards(
-            transform.rotation,
-            rotation,
-            turnSpeed * Time.deltaTime
-        );
+        //transform.rotation = Quaternion.RotateTowards(
+        //    transform.rotation,
+        //    rotation,
+        //    turnSpeed * Time.deltaTime
+        //);
+
+        Vector3 horizontalInput = _moveInput;
+        if (horizontalInput.sqrMagnitude < 0.01f) return;
+
+        Matrix4x4 isoMatrix = Matrix4x4.Rotate(Quaternion.Euler(0f, 45f, 0f));
+        Vector3 lookInput = isoMatrix.MultiplyPoint3x4(horizontalInput);
+
+        Quaternion targetRotation = Quaternion.LookRotation(lookInput, Vector3.up);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
     }
 
     public void Move(InputAction.CallbackContext callbackContext)
     {
         Vector2 moveInput = callbackContext.ReadValue<Vector2>();
-        _moveInput = new Vector3(moveInput.x, _verticalVelocity, moveInput.y);
+        _moveInput = new Vector3(moveInput.x, 0f, moveInput.y);
     }
 
     private void ApplyMovement()
