@@ -15,9 +15,12 @@ public class SceneLoader : MonoBehaviour
     public TMP_Text HowToPlayButtonText;
     public TMP_Text HighScoreText;
     public Button HowToPlayButton;
+    public GameObject DifficultyPanel;
     private string scoreFile = "HighScore.txt";
     private bool isPaused;
     private int isSubScreenEnabled = 0;
+
+    public string GameSceneName = "Granny'sProperty";
 
     void Start()
     {
@@ -41,6 +44,12 @@ public class SceneLoader : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void PlayGame()
+    {
+        MainMenuPanel.SetActive(false);
+        DifficultyPanel.SetActive(true);
     }
 
     public void OnPause(InputAction.CallbackContext context)
@@ -98,6 +107,33 @@ public class SceneLoader : MonoBehaviour
     public void CreditsPageOpen()
     {
         CreditsPage.gameObject.SetActive(true);
+    }
+
+    public void SetEasy()
+    {
+        DifficultyManager.Instance.ApplyDifficulty(DifficultyManager.Difficulty.Easy);
+        Debug.Log("Difficulty: " + DifficultyManager.Instance.currentDifficulty);
+        SceneManager.LoadScene(GameSceneName);
+    }
+
+    public void SetNormal()
+    {
+        DifficultyManager.Instance.ApplyDifficulty(DifficultyManager.Difficulty.Normal);
+        Debug.Log("Difficulty: " + DifficultyManager.Instance.currentDifficulty);
+        SceneManager.LoadScene(GameSceneName);
+    }
+
+    public void SetHard()
+    {
+        DifficultyManager.Instance.ApplyDifficulty(DifficultyManager.Difficulty.Hard);
+        Debug.Log("Difficulty: " + DifficultyManager.Instance.currentDifficulty);
+        SceneManager.LoadScene(GameSceneName);
+    }
+
+    public void BackToMenu()
+    {
+        DifficultyPanel.SetActive(false);
+        MainMenuPanel.SetActive(true);
     }
 
     public void CreditsPageClose()

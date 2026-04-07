@@ -137,6 +137,11 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
         {
             jumpCooldownUI.SetReady(_currentJumpState == JumpState.READY_TO_JUMP);
         }
+
+        if (DifficultyManager.Instance != null)
+        {
+            slamCooldownDuration *= DifficultyManager.Instance.playerCooldownMultiplier;
+        }
     }
 
     private void OnEnable()
