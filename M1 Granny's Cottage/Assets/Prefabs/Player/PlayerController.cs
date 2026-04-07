@@ -688,21 +688,31 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
     public void LoadData(GameData data)
     {
-        // Granny's Base Run Speed
         this.runSpeed = data.runSpeed;
-
-        // TODO: load other data
+        this.maxJumpTime = data.maxJumpTime;
+        this.slamCooldownDuration = data.jumpSlamCooldown;
     }
 
     public void SaveData(ref GameData data)
     {
+        data.runSpeed = this.runSpeed;
+        data.maxJumpTime = this.maxJumpTime;
+        data.jumpSlamCooldown = this.slamCooldownDuration;
+
         // empty for now
-        /* 
-            Note from Jonathan:
-            I can't think of too many/any of the variables within this script that we would need to 
-            save from this script, moreso that this script will need to load a lot of variables. We 
-            have to ensure that we're not upgrading Granny in a run using Gifts, then carrying over those upgrades, 
-            just the Glamours.
-        */
+    /* 
+        Note from Jonathan:
+        I can't think of too many/any of the variables within this script that we would need to 
+        save from this script, moreso that this script will need to load a lot of variables. We 
+        have to ensure that we're not upgrading Granny in a run using Gifts, then carrying over those upgrades, 
+        just the Glamours.
+
+        NEW (Thomas) — Added data persistence support for player glamour stats
+        Saving and loading:
+        - runSpeed
+        - maxJumpTime
+        - slamCooldownDuration (jumpSlamCooldown in GameData)
+        These values are treated as Glamour upgrades and persist between runs.
+    */
     }
 }

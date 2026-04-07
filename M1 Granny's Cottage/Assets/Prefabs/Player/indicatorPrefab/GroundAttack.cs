@@ -182,11 +182,13 @@ public class GroundAttack : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        // TODO: Implement data to be loaded
+        stunDuration = data.jumpSlamStunDuration;
+        maxRadius = data.jumpSlamMaxRadius;
     }
 
     public void SaveData(ref GameData data)
     {
-        // TODO: Implement data to be saved
+        data.jumpSlamStunDuration = stunDuration;
+        data.jumpSlamMaxRadius = maxRadius;
     }
 }
