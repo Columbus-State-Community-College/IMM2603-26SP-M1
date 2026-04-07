@@ -106,6 +106,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
+
         currentHealth = maxHealth;
     }
 
@@ -134,6 +135,20 @@ public class Enemy : MonoBehaviour
 
         targetPosition += GetSeparationOffset();
         navMeshAgent.SetDestination(targetPosition);
+    }
+
+    public void ApplyDifficultyMultipliers()
+    {
+        if (DifficultyManager.Instance == null) return;
+
+        maxHealth *= DifficultyManager.Instance.enemyHealthMultiplier;
+        damage *= DifficultyManager.Instance.enemyDamageMultiplier;
+        navMeshAgent.speed *= DifficultyManager.Instance.enemySpeedMultiplier;
+
+        Debug.Log("[ENEMY] Difficulty applied:");
+        Debug.Log("Health: " + maxHealth);
+        Debug.Log("Damage: " + damage);
+        Debug.Log("Speed: " + navMeshAgent.speed);
     }
 
     // make sure enemies don't clump together
@@ -488,8 +503,8 @@ public class Enemy : MonoBehaviour
         if (dayMesh != null)
             dayMesh.SetActive(true);
 
-        damage = dayDamage;
-        navMeshAgent.speed = daySpeed;
+        damage = dayDamage * DifficultyManager.Instance.enemyDamageMultiplier;
+        navMeshAgent.speed = daySpeed * DifficultyManager.Instance.enemySpeedMultiplier;
         role = dayRole;
 
         navMeshAgent.isStopped = false;
@@ -520,6 +535,7 @@ public class Enemy : MonoBehaviour
         }
 
         GetMaterials();
+        ApplyDifficultyMultipliers();
     }
 
     private void Die()
