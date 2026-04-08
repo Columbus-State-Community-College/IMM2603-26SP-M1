@@ -503,9 +503,18 @@ public class Enemy : MonoBehaviour
         if (dayMesh != null)
             dayMesh.SetActive(true);
 
-        damage = dayDamage * DifficultyManager.Instance.enemyDamageMultiplier;
-        navMeshAgent.speed = daySpeed * DifficultyManager.Instance.enemySpeedMultiplier;
-        role = dayRole;
+        if (DifficultyManager.Instance != null)
+        {
+            damage = dayDamage * DifficultyManager.Instance.enemyDamageMultiplier;
+            navMeshAgent.speed = daySpeed * DifficultyManager.Instance.enemySpeedMultiplier;
+            role = dayRole;
+        } else
+        {
+            damage = dayDamage;
+            navMeshAgent.speed = daySpeed;
+            role = dayRole;
+        }
+
 
         navMeshAgent.isStopped = false;
         navMeshAgent.ResetPath();
@@ -535,7 +544,11 @@ public class Enemy : MonoBehaviour
         }
 
         GetMaterials();
-        ApplyDifficultyMultipliers();
+
+        if (DifficultyManager.Instance != null) {
+            ApplyDifficultyMultipliers();
+        }
+        
     }
 
     private void Die()
