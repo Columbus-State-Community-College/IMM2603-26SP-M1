@@ -80,7 +80,12 @@ public class Spawner : MonoBehaviour
         enemy.transform.position = randomSpawnPoint.position;
         enemy.player = GameObject.FindGameObjectWithTag("Player").transform;
         enemy.ResetEnemy();
-        enemy.ApplyDifficultyMultipliers();
+
+        if (DifficultyManager.Instance != null)
+        {
+            enemy.ApplyDifficultyMultipliers();
+        }
+        
         if (enemySoundScript != null)
         {
             enemySoundScript.PlayMonsterSpawn();
