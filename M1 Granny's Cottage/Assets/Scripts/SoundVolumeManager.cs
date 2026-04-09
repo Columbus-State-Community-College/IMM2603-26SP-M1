@@ -8,7 +8,6 @@ public class SoundVolumeManager : MonoBehaviour, IDataPersistence
     public AudioSource grannyAudioSource;
     public AudioSource enemyAudioSource;
     public AudioSource etcAudioSource;
-    public TMP_Text musicVolumeText;
     public EtcSounds etcSoundScript;
     public Button musicVolDownButton;
     public Button musicVolUpButton;
@@ -21,14 +20,20 @@ public class SoundVolumeManager : MonoBehaviour, IDataPersistence
 
     void Start()
     {
-        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
+        musicVolDownButton.interactable = true;
+        
+        if(musicAudioSource.volume == 0f){
+            musicVolDownButton.interactable = false;
+        }
+        etcSoundScript.musicVolumeChangeVolume = musicAudioSource.volume;
     }
 
     public void MusicVolumeDown()
     {
         musicAudioSource.volume -=0.1f;
-        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
         SavedSettings();
+        etcSoundScript.PlayMusicVolumeChange();
+        etcSoundScript.musicVolumeChangeVolume -=0.1f;
 
         if(musicAudioSource.volume == 0f){
             musicVolDownButton.interactable = false;
@@ -42,8 +47,9 @@ public class SoundVolumeManager : MonoBehaviour, IDataPersistence
     public void MusicVolumeUp()
     {
         musicAudioSource.volume +=0.1f;
-        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
         SavedSettings();
+        etcSoundScript.PlayMusicVolumeChange();
+        etcSoundScript.musicVolumeChangeVolume +=0.1f;
 
         if(musicAudioSource.volume >= 0f){
             musicVolDownButton.interactable = true;
@@ -107,7 +113,6 @@ public class SoundVolumeManager : MonoBehaviour, IDataPersistence
         grannyAudioSource.volume = data.grannyVolume;
         enemyAudioSource.volume = data.enemyVolume;
         etcAudioSource.volume = data.etcVolume;
-        musicVolumeText.text = "Music Volume: " + musicAudioSource.volume.ToString();
     }
 
     public void SaveData(ref GameData data)

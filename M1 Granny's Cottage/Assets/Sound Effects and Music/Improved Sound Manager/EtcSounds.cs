@@ -9,6 +9,7 @@ public class EtcSounds : MonoBehaviour
     public string upgradeSFX;
     public string switchSFX;
     public string recordScratchSFX;
+    public string musicVolumeChangeSFX;
 
     [Header("Local Volume Settings (can exceed normal volume)")]
     [Range(0f, 5f)]
@@ -19,6 +20,10 @@ public class EtcSounds : MonoBehaviour
 
     [Range(0f, 5f)]
     public float recordScratchVolume = 1f;
+
+    [Range(0f, 1f)]
+    public float musicVolumeChangeVolume = 1f;
+    
 
     private void Awake()
     {
@@ -64,5 +69,10 @@ public class EtcSounds : MonoBehaviour
     public void PlayRecordScratch()
     {
         PlayLocalClip(recordScratchSFX, recordScratchVolume);
+    }
+
+    public void PlayMusicVolumeChange()
+    {
+        PlayLocalClip(musicVolumeChangeSFX, musicVolumeChangeVolume);
     }
 }
