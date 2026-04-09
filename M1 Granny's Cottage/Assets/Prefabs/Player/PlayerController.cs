@@ -664,6 +664,12 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
             Debug.Log("[POWERUP] Hammer knockback upgraded.");
     }
 
+    // NEW — expose invincibility state
+    public bool IsInvincible()
+    {
+        return isInvincible;
+    }
+
     public void ApplyJumpDurationUpgrade()
     {
         maxJumpTime += 1f;

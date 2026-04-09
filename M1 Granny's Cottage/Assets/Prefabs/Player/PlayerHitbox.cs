@@ -56,7 +56,13 @@ public class PlayerHitbox : MonoBehaviour
 
         if (enemy != null)
         {
-            // NEW — prevent stunned enemies from dealing damage
+            // NEW — block damage if player is invincible
+            if (playerController != null && playerController.IsInvincible())
+            {
+                return;
+            }
+            
+            // prevent stunned enemies from dealing damage
             if (enemy.IsStunned())
                 return;
 
