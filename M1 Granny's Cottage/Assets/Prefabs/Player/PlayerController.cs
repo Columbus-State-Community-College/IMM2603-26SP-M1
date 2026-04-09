@@ -482,47 +482,53 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
     // This function manages the cooldown for the jump slam
     private void JumpSlamCooldownManager()
     {
-         
         if (_currentJumpState == JumpState.JUMP_ON_COOLDOWN)  
         {
             slamCooldownTimer -= Time.deltaTime;  
             
             //  Spawn feedback ONCE when cooldown reaches 0
             //  Spawn feedback ONCE when cooldown reaches 0
-    if (slamCooldownTimer <= 0f && !slamCooldownFeedbackTriggered)
-    {
-        slamCooldownFeedbackTriggered = true;
-
-        if (slamCooldownParticles != null)
-        {
-            // Spawn at player feet (ground position)
-            Vector3 spawnPos = _groundPosition.GroundPointTransform.position;
-            spawnPos += Vector3.up * 0.05f; // small offset to prevent clipping
-
-            activeCooldownParticles = Instantiate(
-                slamCooldownParticles,
-                spawnPos,
-                Quaternion.identity
-            );
-
-            // NEW — keep particles in world space (DO NOT parent)
-            activeCooldownParticles.transform.SetParent(null);
-            
-            // Play all particle systems (including children)
-            ParticleSystem[] systems = activeCooldownParticles.GetComponentsInChildren<ParticleSystem>();
-
-            foreach (ParticleSystem ps in systems)
+            if (slamCooldownTimer <= 0f && !slamCooldownFeedbackTriggered)
             {
-                ps.Play();
-            }
+                slamCooldownFeedbackTriggered = true;
 
-            Debug.Log("[SLAM DEBUG] Spawned cooldown particles at: " + spawnPos);
-        }
-
-                if (grannySoundScript != null)
+                if (slamCooldownParticles != null)
                 {
-                    grannySoundScript.PlayCooldownFinished();
+                    // Spawn at player feet (ground position)
+                    Vector3 spawnPos = _groundPosition.GroundPointTransform.position;
+                    spawnPos += Vector3.up * 0.05f; // small offset to prevent clipping
+
+                    activeCooldownParticles = Instantiate(
+                        slamCooldownParticles,
+                        spawnPos,
+                        Quaternion.identity
+                    );
+
+                    // NEW — parent to ground so it follows player correctly
+                    if (_groundPosition != null && _groundPosition.GroundPointTransform != null)
+                    {
+                        activeCooldownParticles.transform.SetParent(_groundPosition.GroundPointTransform);
+                        activeCooldownParticles.transform.localPosition = Vector3.zero;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("[SLAM DEBUG] GroundPointTransform missing — particles not parented.");
+                    }
+            
+                    // Play all particle systems (including children)
+                    ParticleSystem[] systems = activeCooldownParticles.GetComponentsInChildren<ParticleSystem>();
+
+                    foreach (ParticleSystem ps in systems)
+                    {
+                        ps.Play();
+                    }
+
+                    Debug.Log("[SLAM DEBUG] Spawned cooldown particles at: " + spawnPos);
                 }
+                    if (grannySoundScript != null)
+                    {
+                        grannySoundScript.PlayCooldownFinished();
+                    }
             }
 
             if (showSlamCooldownDebug)
