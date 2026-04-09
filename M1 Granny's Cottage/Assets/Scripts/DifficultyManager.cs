@@ -13,6 +13,10 @@ public class DifficultyManager : MonoBehaviour
     public float playerDamageMultiplier = 1f;
     public float playerCooldownMultiplier = 1f;
 
+    [Header("Time of day Music Tracks")]
+    public int daytimeTrack;
+    public int nighttimeTrack;
+
     public enum Difficulty
     {
         Easy,
@@ -44,16 +48,22 @@ public class DifficultyManager : MonoBehaviour
                 enemyHealthMultiplier = 0.75f;
                 enemyDamageMultiplier = 0.75f;
                 enemySpeedMultiplier = 0.9f;
+                daytimeTrack = 1;
+                nighttimeTrack = 1;
                 break;
             case Difficulty.Normal:
                 enemyHealthMultiplier = 1f;
                 enemyDamageMultiplier = 1f;
                 enemySpeedMultiplier = 1f;
+                daytimeTrack = 2;
+                nighttimeTrack = 2;
                 break;
             case Difficulty.Hard:
                 enemyHealthMultiplier = 1.5f;
                 enemyDamageMultiplier = 1.5f;
                 enemySpeedMultiplier = 1.2f;
+                daytimeTrack = 3;
+                nighttimeTrack = 3;
                 break;
         }
     }

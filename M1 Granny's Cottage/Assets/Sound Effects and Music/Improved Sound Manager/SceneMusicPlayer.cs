@@ -15,6 +15,10 @@ public class SceneMusicPlayer : MonoBehaviour
     [Tooltip("Fade-in duration in seconds.")]
     public float fadeTime = 1.5f;
 
+    [Tooltip("Time of Day Song Number")]
+    public int daytimeSong;
+    public int nighttimeSong;
+
     private void Start()
     {
         if (!playOnStart) return;
@@ -27,17 +31,56 @@ public class SceneMusicPlayer : MonoBehaviour
         if (fadeIn)
             StartCoroutine(MusicManager.instance.FadeInMusic(musicTrackName, fadeTime));
         else
-            MusicManager.instance.PlayMusic(musicTrackName);
+            // MusicManager.instance.PlayMusic(musicTrackName);
+            DayTimeMusic();
     }
 
     public void NightTimeMusic()
     {
         // Debug.Log("It's nighttime! Time to Jam!");
-        MusicManager.instance.PlayMusic(musicTrackName = "POL-halloween-rnr-short");
+        if (DifficultyManager.Instance == null) return;
+        nighttimeSong = DifficultyManager.Instance.nighttimeTrack;
+
+        if (nighttimeSong == 1)
+        {
+            Debug.Log("This is the song that is played on the easy difficulty during the night.");
+            MusicManager.instance.PlayMusic(musicTrackName = "POL-halloween-rnr-short");
+        }
+
+        if (nighttimeSong == 2)
+        {
+            Debug.Log("This is the song that is played on the normal difficulty during the night.");
+            MusicManager.instance.PlayMusic(musicTrackName = "vampires_piano");
+        }
+
+        if (nighttimeSong == 3)
+        {
+            Debug.Log("This is the song that is played on the hard difficulty during the night.");
+            MusicManager.instance.PlayMusic(musicTrackName = "Monolith");
+        }
     }
 
     public void DayTimeMusic()
     {
-        MusicManager.instance.PlayMusic(musicTrackName = "Relaxing Interlude");
+        if (DifficultyManager.Instance == null) return;
+        daytimeSong = DifficultyManager.Instance.daytimeTrack;
+
+        if (daytimeSong == 1)
+        {
+            Debug.Log("This is the song that is played on the easy difficulty during the day.");
+            MusicManager.instance.PlayMusic(musicTrackName = "Relaxing Interlude");
+        }
+
+        if (daytimeSong == 2)
+        {
+            Debug.Log("This is the song that is played on the normal difficulty during the day.");
+            MusicManager.instance.PlayMusic(musicTrackName = "happy_plains_loop");
+        }
+
+        if (daytimeSong == 3)
+        {
+            Debug.Log("This is the song that is played on the hard difficulty during the day.");
+            MusicManager.instance.PlayMusic(musicTrackName = "lvl_3_the_grassland");
+        }
     }
 }
