@@ -26,6 +26,9 @@ public class GroundAttack : MonoBehaviour, IDataPersistence
     // NEW — store original prefab scale so scaling behaves correctly
     private Vector3 indicatorBaseScale;
 
+    private float radiusLogTimer = 0f;
+    private const float radiusLogInterval = 1f;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -43,7 +46,7 @@ public class GroundAttack : MonoBehaviour, IDataPersistence
     {
         if (indicatorPrefab == null)
         {
-            //Debug.LogWarning("[GROUND ATTACK] No indicator prefab assigned");
+            Debug.LogWarning("[GROUND ATTACK] No indicator prefab assigned");
             return;
         }
 
@@ -85,7 +88,13 @@ public class GroundAttack : MonoBehaviour, IDataPersistence
         // Calculate current radius
         float radius = Mathf.Lerp(0.5f, maxRadius, t);
 
-        Debug.Log("[GROUND ATTACK DEBUG] Current Radius: " + radius);
+        radiusLogTimer += Time.deltaTime;
+
+        if (radiusLogTimer >= radiusLogInterval)
+        {
+            Debug.Log("[GROUND ATTACK DEBUG] Current Radius: " + radius);
+            radiusLogTimer = 0f;
+        }
 
         Vector3 pos = _groundPosition.GroundPointTransform.position;
         pos.y += 0.01f; // NEW

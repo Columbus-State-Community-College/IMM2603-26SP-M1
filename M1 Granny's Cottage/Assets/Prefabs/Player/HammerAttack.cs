@@ -209,9 +209,16 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
     }
 
     // Powerup support
+    private bool hasKnockbackUpgrade = false;
+    
     public void IncreaseKnockback()
     {
+        if (hasKnockbackUpgrade) return;
+
         knockbackMultiplier = 2f;
+        hasKnockbackUpgrade = true;
+
+        Debug.Log("[POWERUP] Hammer knockback applied (one-time)");
     }
 
     public void StartTornadoSpin()

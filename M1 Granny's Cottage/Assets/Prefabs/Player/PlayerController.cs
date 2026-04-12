@@ -594,7 +594,6 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
             ps.Play();
             Destroy(ps.gameObject, ps.main.duration + ps.main.startLifetime.constantMax);
         }
-
     }
 
     private void UpdateAnimation()
@@ -610,30 +609,42 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
     // POWERUP METHODS
     private bool hasEmpoweredSlam = false;
 
-    public void ApplySpeedBoost()  
+    public void ApplySpeedBoost(int pickCount)  
     {
-        runSpeed += 3f;
+        float amount = 3f / (1f + ((pickCount - 1) * 0.5f));
+        runSpeed += amount;
+
+        Debug.Log("[POWERUP] Speed Boost +" + amount + " | Total Run Speed = " + runSpeed);
     }
 
-    public void ApplyExtraHealth()  
+    public void ApplyExtraHealth(int pickCount)  
     {
         PlayerHealth health = GetComponent<PlayerHealth>();
         if (health != null)
-            health.IncreaseMaxHealth(25f);
+        {
+            float amount = 25f / (1f + ((pickCount - 1) * 0.5f));
+            health.IncreaseMaxHealth(amount);
+
+            Debug.Log("[POWERUP] Extra Health +" + amount);
+        }
     }
 
-    public void ApplyGroundSmashUpgrade()  
+    public void ApplyGroundSmashUpgrade(int pickCount)  
     {
         slamCooldownDuration *= 0.5f;
+        Debug.Log("[POWERUP] Ground Smash applied (one-time)");
     }
 
-    public void ApplyQuickSwing()  
+    public void ApplyQuickSwing(int pickCount)  
     {
         if (hammerAttack != null)
+        {
             hammerAttack.ReduceCooldown(0.5f);
+            Debug.Log("[POWERUP] Quick Swing applied (one-time)");
+        }
     }
 
-    public void ApplyEmpoweredSlam()
+    public void ApplyEmpoweredSlam(int pickCount)
     {
         if (hasEmpoweredSlam) return;
 
@@ -646,22 +657,24 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
         }
     }
 
-    public void ApplyHammerDamage()
+    public void ApplyHammerDamage(int pickCount)
     {
         if (hammerAttack != null)
         {
-            hammerAttack.IncreaseDamage(5f);
+            float amount = 5f / (1f + ((pickCount - 1) * 0.5f));
+            hammerAttack.IncreaseDamage(amount);
 
-            Debug.Log("[POWERUP] hammerAttack upgraded.");
+            Debug.Log("[POWERUP] Hammer Damage +" + amount);
         }
     }
 
-    public void ApplyHammerKnockback()
+    public void ApplyHammerKnockback(int pickCount)
     {
         if (hammerAttack != null)
+        {
             hammerAttack.IncreaseKnockback();
-
             Debug.Log("[POWERUP] Hammer knockback upgraded.");
+        }
     }
 
     // NEW — expose invincibility state
@@ -670,27 +683,34 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
         return isInvincible;
     }
 
-    public void ApplyJumpDurationUpgrade()
+    public void ApplyJumpDurationUpgrade(int pickCount)
     {
-        maxJumpTime += 1f;
+        float amount = 1f / (1f + ((pickCount - 1) * 0.5f));
+        maxJumpTime += amount;
 
-        //Debug.Log("[POWERUP] Jump duration increased to: " + maxJumpTime); // power uplog
+        Debug.Log("[POWERUP] Jump Duration +" + amount + " | Total = " + maxJumpTime);
     }
 
-    public void ApplyJumpStunUpgrade()
+    public void ApplyJumpStunUpgrade(int pickCount)
     {
         if (groundAttack != null)
-            groundAttack.IncreaseStunDuration(1f);
+        {
+            float amount = 1f / (1f + ((pickCount - 1) * 0.5f));
+            groundAttack.IncreaseStunDuration(amount);
 
-            Debug.Log("[POWERUP] groundAttack StunDuration upgraded.");
+            Debug.Log("[POWERUP] Slam Stun Duration +" + amount);
+        }
     }  
 
-    public void ApplyJumpAOEUpgrade()
+    public void ApplyJumpAOEUpgrade(int pickCount)
     {
         if (groundAttack != null)
-            groundAttack.IncreaseAOESize(2f);
+        {
+            float amount = 2f / (1f + ((pickCount - 1) * 0.5f));
+            groundAttack.IncreaseAOESize(amount);
 
-            Debug.Log("[POWERUP] groundAttack AOE Size Increase upgraded.");
+            Debug.Log("[POWERUP] Slam AOE Size +" + amount);
+    }
     }
 
     public float GetSlamCooldownTimer()

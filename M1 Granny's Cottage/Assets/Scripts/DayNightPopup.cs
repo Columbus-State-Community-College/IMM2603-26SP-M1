@@ -24,6 +24,7 @@ public class DayNightPopup : MonoBehaviour
         "Quick Swing",
         "Empowered Slam",
         "Hammer Knockback",
+        "Smash Cooldown",
         "Jump Duration",
         "Jump Stun Duration",
         "Jump AOE Size",
@@ -48,6 +49,9 @@ public class DayNightPopup : MonoBehaviour
         DayNightCycle.OnTimeChanged -= ShowPopup;
     }
 
+    // NEW 
+    private Dictionary<string, int> powerupCounts = new Dictionary<string, int>();
+
     void ShowPopup(DayNightCycle.TimeOfDay time)
     {
         Time.timeScale = 0f;
@@ -57,14 +61,31 @@ public class DayNightPopup : MonoBehaviour
         popupPanel.SetActive(true);
         popupText.text = time == DayNightCycle.TimeOfDay.Day ? "DAYTIME" : "NIGHTFALL";
 
-        List<string> choices = allPowerups.OrderBy(x => Random.value).Take(powerupButtons.Length).ToList();
+        List<string> availablePowerups = allPowerups
+            .Where(CanPowerupAppear)
+            .OrderBy(x => Random.value)
+            .ToList();
+
+        List<string> choices = availablePowerups
+            .Take(powerupButtons.Length)
+            .ToList();
 
         for (int i = 0; i < powerupButtons.Length; i++)
         {
-            int index = i;
             string powerup = choices[i];
 
-            buttonTexts[i].text = powerup;
+            int count = GetPowerupCount(powerup); // NEW
+
+            if (count > 0)
+            {
+                buttonTexts[i].text = powerup + " (" + count + ")"; // NEW
+            }
+
+            else
+            {
+                buttonTexts[i].text = powerup;
+            }
+
             powerupButtons[i].gameObject.SetActive(true);
 
             powerupButtons[i].onClick.RemoveAllListeners();
@@ -72,11 +93,34 @@ public class DayNightPopup : MonoBehaviour
         }
     }
 
+    // NEW
+    private bool CanPowerupAppear(string powerup)
+    {
+        int count = GetPowerupCount(powerup);
+
+        switch (powerup)
+        {
+            case "Empowered Slam":
+            case "Hammer Knockback":
+            case "Quick Swing":
+            case "Smash Cooldown":
+                return count == 0; // one-time only
+
+            default:
+                return true; // can repeat (uses diminishing returns)
+        }
+}
+
     void SelectPowerup(string powerup)
     {
-        Debug.Log("Player chose: " + powerup);
+        RecordPowerupChoice(powerup);
 
-        ApplyPowerup(powerup);
+        int pickCount = GetPowerupCount(powerup);
+
+        Debug.Log("[POWERUP] Player chose: " + powerup + " | Times chosen: " + pickCount);
+
+        ApplyPowerup(powerup, pickCount);
+
         if (etcSoundScript != null)
         {
             etcSoundScript.PlayUpgrade();
@@ -89,7 +133,7 @@ public class DayNightPopup : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void ApplyPowerup(string powerup)
+    void ApplyPowerup(string powerup, int pickCount)
     {
         // Will add to these if game is chosen
         if (playerController == null) return;  
@@ -97,41 +141,63 @@ public class DayNightPopup : MonoBehaviour
         switch (powerup)
         {
             case "Speed Boost":
-                playerController.ApplySpeedBoost();  
+                playerController.ApplySpeedBoost(pickCount);  
                 break;
 
             case "Extra Health":
-                playerController.ApplyExtraHealth();  
+                playerController.ApplyExtraHealth(pickCount);  
                 break;
 
             case "Quick Swing":
-                playerController.ApplyQuickSwing();  
+                playerController.ApplyQuickSwing(pickCount);  
                 break;
 
             case "Empowered Slam":
-                playerController.ApplyEmpoweredSlam();
+                playerController.ApplyEmpoweredSlam(pickCount);
                 break;
 
             case "Hammer Damage":
-                playerController.ApplyHammerDamage();
+                playerController.ApplyHammerDamage(pickCount);
                 break;
 
             case "Hammer Knockback":
-                playerController.ApplyHammerKnockback();
+                playerController.ApplyHammerKnockback(pickCount);
                 break;
 
             case "Jump Duration":
-                playerController.ApplyJumpDurationUpgrade();
+                playerController.ApplyJumpDurationUpgrade(pickCount);
                 break;
 
             case "Jump Stun Duration":
-                playerController.ApplyJumpStunUpgrade();
+                playerController.ApplyJumpStunUpgrade(pickCount);
                 break;
 
             case "Jump AOE Size":
-                playerController.ApplyJumpAOEUpgrade();
+                playerController.ApplyJumpAOEUpgrade(pickCount);
+                break;
+
+            case "Smash Cooldown":
+                playerController.ApplyGroundSmashUpgrade(pickCount);
                 break;
         }
         
+    }
+
+    //NEW
+    private int GetPowerupCount(string powerup)
+    {
+        if (powerupCounts.ContainsKey(powerup))
+            return powerupCounts[powerup];
+
+        return 0;
+    }
+
+    //NEW
+    private void RecordPowerupChoice(string powerup)
+    {
+        if (!powerupCounts.ContainsKey(powerup))
+            powerupCounts[powerup] = 0;
+
+        powerupCounts[powerup]++;
     }
 }
