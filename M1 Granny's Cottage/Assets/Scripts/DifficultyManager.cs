@@ -8,6 +8,7 @@ public class DifficultyManager : MonoBehaviour
     public float enemyHealthMultiplier = 1f;
     public float enemyDamageMultiplier = 1f;
     public float enemySpeedMultiplier = 1f;
+    public float enemyPointMultiplier = 1f;
 
     [Header("Player Multipliers")]
     public float playerDamageMultiplier = 1f;
@@ -48,6 +49,7 @@ public class DifficultyManager : MonoBehaviour
                 enemyHealthMultiplier = 0.75f;
                 enemyDamageMultiplier = 0.75f;
                 enemySpeedMultiplier = 0.9f;
+                enemyPointMultiplier = 0.8f;
                 daytimeTrack = 1;
                 nighttimeTrack = 1;
                 break;
@@ -55,6 +57,7 @@ public class DifficultyManager : MonoBehaviour
                 enemyHealthMultiplier = 1f;
                 enemyDamageMultiplier = 1f;
                 enemySpeedMultiplier = 1f;
+                enemyPointMultiplier = 1f;
                 daytimeTrack = 2;
                 nighttimeTrack = 2;
                 break;
@@ -62,6 +65,7 @@ public class DifficultyManager : MonoBehaviour
                 enemyHealthMultiplier = 1.5f;
                 enemyDamageMultiplier = 1.5f;
                 enemySpeedMultiplier = 1.2f;
+                enemyPointMultiplier = 1.5f;
                 daytimeTrack = 3;
                 nighttimeTrack = 3;
                 break;

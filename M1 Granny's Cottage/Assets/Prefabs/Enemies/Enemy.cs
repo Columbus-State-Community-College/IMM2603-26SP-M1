@@ -570,10 +570,11 @@ public class Enemy : MonoBehaviour
             if (scoreScript != null)
             {
                 Debug.Log("NOOOOOOO");
-                scoreScript.addPoints(points);
+                scoreScript.addPoints(Mathf.RoundToInt(points * DifficultyManager.Instance.enemyPointMultiplier));
             }
         }
         isDead = true;
+        DataPersistenceManager.instance.GameData.totalEnemiesKilled++;
         //Debug.Log("[ENEMY] DIED");
 
         if (Spawner.Instance != null)

@@ -150,6 +150,11 @@ public class Spawner : MonoBehaviour
         }
 
         UpdateUI();
+
+        if (currentWave > DataPersistenceManager.instance.GameData.highestWave)
+        {
+            DataPersistenceManager.instance.GameData.highestWave = currentWave;
+        }
     }
 
 

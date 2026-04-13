@@ -21,6 +21,19 @@ public class GameData
     private const int d_highScore = 0;
     public int highScore;
 
+    // Stats
+    // Total Enemies Killed
+    private const int d_totalEnemiesKilled = 0;
+    public int totalEnemiesKilled;
+
+    // Highest Wave Reached
+    private const int d_highestWave = 0;
+    public int highestWave;
+
+    // Total Games Played
+    private const int d_totalRuns = 0;
+    public int totalRuns;
+
     // Glamour Bank Data
     private const int d_pointBank = 0;
     public int pointBank;
@@ -90,6 +103,9 @@ public class GameData
     public GameData()
     {
         this.highScore = d_highScore;
+        this.totalEnemiesKilled = d_totalEnemiesKilled;
+        this.highestWave = d_highestWave;
+        this.totalRuns = d_totalRuns;
         this.pointBank = d_pointBank;
         this.runSpeed = d_runSpeed;
         this.maxJumpTime = d_maxJumpTime;

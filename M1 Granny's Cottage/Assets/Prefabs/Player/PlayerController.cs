@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
         {
             slamCooldownDuration *= DifficultyManager.Instance.playerCooldownMultiplier;
         }
+
+        DataPersistenceManager.instance.GameData.totalRuns++;
     }
 
     private void OnEnable()
