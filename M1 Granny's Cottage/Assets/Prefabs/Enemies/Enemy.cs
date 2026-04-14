@@ -570,7 +570,15 @@ public class Enemy : MonoBehaviour
             if (scoreScript != null)
             {
                 Debug.Log("NOOOOOOO");
-                scoreScript.addPoints(Mathf.RoundToInt(points * DifficultyManager.Instance.enemyPointMultiplier));
+
+                if (DifficultyManager.Instance != null)
+                {
+                    scoreScript.addPoints(Mathf.RoundToInt(points * DifficultyManager.Instance.enemyPointMultiplier));
+                } else
+                {
+                    scoreScript.addPoints(points);
+                }
+                
             }
         }
         isDead = true;
