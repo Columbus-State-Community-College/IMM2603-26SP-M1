@@ -1,5 +1,7 @@
 using System;
+using UnityEditor;
 using UnityEngine;
+
 
 public class SceneryTransparency : MonoBehaviour
 {
@@ -7,9 +9,9 @@ public class SceneryTransparency : MonoBehaviour
     private Vector3 cameraPosition;
     private GameObject grannyObject;
     private Vector3 grannyPosition;
-    private Collider[] obstructingScenery = new Collider[200]; // arbitrary number picked for now
+    private Collider[] obstructingScenery;// = new SceneryObject[200]; // arbitrary number picked for now
     private LayerMask sceneryLayerMask;
-    public static Collider[] FullSceneryArray;
+    public static SceneryObject[] FullSceneryArray;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,7 +25,7 @@ public class SceneryTransparency : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         cameraPosition = gameCamera.transform.position;
         grannyPosition = grannyObject.transform.position;
@@ -33,27 +35,28 @@ public class SceneryTransparency : MonoBehaviour
     // 
     void DetectOverlap()
     {
-        if (Physics.OverlapCapsuleNonAlloc(cameraPosition,grannyPosition, 2.0f, obstructingScenery, sceneryLayerMask) 
+        /*foreach (SceneryObject potentialObstruction in FullSceneryArray)
+        {
+            potentialObstruction.obstructionState = SceneryObject.ObstructionState.NONBLOCKING;
+        }*/
+        
+        //ArrayUtility.Clear(ref obstructingScenery);
+
+        if (Physics.OverlapCapsuleNonAlloc(cameraPosition,grannyPosition, 4.0f, obstructingScenery, sceneryLayerMask) 
             > 0)
         {
+            
             foreach (Collider overlappingObject in obstructingScenery)
             {
-                overlappingObject.gameObject.SetActive(false);
+                Debug.Log(overlappingObject.gameObject);
+                StartCoroutine(SceneryObject.Transparify(overlappingObject));
+                //SceneryObject overlapSceneryOBJ = overlappingObject.componen//gameObject.GetComponent<SceneryObject>();
+                //Debug.Log(overlapSceneryOBJ);
+                //overlapSceneryOBJ.obstructionState = SceneryObject.ObstructionState.BLOCKING;
+                //overlapSceneryOBJ.Transparify();
             }
-        }
-        else
-        {
-            for (int i = 0; i < FullSceneryArray.Length; i++)
-            {
-                foreach (Collider overlappingObject in obstructingScenery)
-                {
-                    if (!Array.ReferenceEquals(FullSceneryArray[i], overlappingObject))
-                    {
-                        FullSceneryArray[i].gameObject.SetActive(true);
-                    }
-                }
-                
-            }
+
+
         }
 
     }
