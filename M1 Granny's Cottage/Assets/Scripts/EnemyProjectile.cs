@@ -13,7 +13,7 @@ public class EnemyProjectile : MonoBehaviour
     // initializes projectile
     public void Initialize(Vector3 dir, Collider enemyCollider)
     {
-        direction = dir.normalized;
+        direction = new Vector3(dir.x, 0f, dir.z).normalized;
         owner = enemyCollider;
 
         transform.forward = direction;
