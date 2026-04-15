@@ -12,6 +12,18 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public Button HammerBaseDamageButton;
     public Button HammerBaseAttackSpeedButton;
     public Button HammerBaseKnockbackButton;
+    public GameObject JumpGlamourChoices;
+    public Button JumpGlamourButton;
+    public Button BaseMaxJumpDurButton;
+    public Button BaseJumpStunDurButton;
+    public Button BaseJumpMaxAOEDurButton;
+    public GameObject StatusGlamourChoices;
+    public Button StatusGlamourButton;
+    public Button ScoreMultiplierButton;
+    public Button BaseHealthButton;
+    public Button DayDurationButton;
+    public Button NightDurationButton;
+    public Button MovementSpeedButton;
     public TMP_Text ChangeableText;
     public TMP_Text OKButtonText;
     public TMP_Text UpgradeAppliedText;
@@ -21,10 +33,27 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     private bool isHammerBaseDamage;
     private bool isHammerBaseAttackSpeed;
     private bool isHammerBaseKnockback;
+    private bool isJumpBaseMaxDur;
+    private bool isJumpBaseStunDur;
+    private bool isJumpBaseMaxAOEDur;
+    private bool isStatusBaseScoreMultiplier;
+    private bool isStatusBaseHealth;
+    private bool isStatusBaseDayDur;
+    private bool isStatusBaseNightDur;
+    private bool isStatusBaseMoveSpeed;
 
     void Start ()
     {
         CoinCountText.text = "\"Trespassing\" Fines Collected: $" + pointBank.ToString();
+
+        if (isFirstTime == true )
+        {
+            HammerGlamourButton.gameObject.SetActive(false);
+            JumpGlamourButton.gameObject.SetActive(false);
+            StatusGlamourButton.gameObject.SetActive(false);
+        }
+
+        
     }
 
 
@@ -36,6 +65,10 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             OKButtonText.text = "YES!";
             WelcomeBackground.gameObject.SetActive(false);
             isFirstTime = false;
+
+            HammerGlamourButton.gameObject.SetActive(true);
+            JumpGlamourButton.gameObject.SetActive(true);
+            StatusGlamourButton.gameObject.SetActive(true);
         }
 
         if (isHammerBaseDamage == true)
@@ -70,6 +103,94 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             SubMenuSuccessReturn();
             CoinCount();
         }
+
+        if (isJumpBaseMaxDur == true)
+        {
+            UpgradeAppliedText.text = "Max Jump Duration Glamour Applied!";
+            isJumpBaseMaxDur = false;
+            JumpGlamourButton.interactable = true;
+            BaseMaxJumpDurButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isJumpBaseStunDur == true)
+        {
+            UpgradeAppliedText.text = "Jump Stun Duration Glamour Applied!";
+            isJumpBaseStunDur = false;
+            JumpGlamourButton.interactable = true;
+            BaseJumpStunDurButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isJumpBaseMaxAOEDur == true)
+        {
+            UpgradeAppliedText.text = "Jump AOE Glamour Applied!";
+            isJumpBaseMaxAOEDur = false;
+            JumpGlamourButton.interactable = true;
+            BaseJumpMaxAOEDurButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isStatusBaseScoreMultiplier == true)
+        {
+            UpgradeAppliedText.text = "Score Multiplier Glamour Applied!";
+            isStatusBaseScoreMultiplier = false;
+            StatusGlamourButton.interactable = true;
+            ScoreMultiplierButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isStatusBaseHealth == true)
+        {
+            UpgradeAppliedText.text = "Base Health Glamour Applied!";
+            isStatusBaseHealth = false;
+            StatusGlamourButton.interactable = true;
+            BaseHealthButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isStatusBaseDayDur == true)
+        {
+            UpgradeAppliedText.text = "Day Duration Glamour Applied!";
+            isStatusBaseDayDur = false;
+            StatusGlamourButton.interactable = true;
+            DayDurationButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isStatusBaseNightDur == true)
+        {
+            UpgradeAppliedText.text = "Night Duration Glamour Applied!";
+            isStatusBaseNightDur = false;
+            StatusGlamourButton.interactable = true;
+            NightDurationButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
+
+        if (isStatusBaseMoveSpeed == true)
+        {
+            UpgradeAppliedText.text = "Movement Speed Glamour Applied!";
+            isStatusBaseMoveSpeed = false;
+            StatusGlamourButton.interactable = true;
+            MovementSpeedButton.interactable = false;
+            pointBank -= 100;
+            SubMenuSuccessReturn();
+            CoinCount();
+        }
     }
 
     public void NOButtonPress()
@@ -97,11 +218,26 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         NOButton.gameObject.SetActive(false);
     }
 
+    void OpenGlamourMenu(GameObject menu, Button button)
+    {
+        HammerGlamourChoices.SetActive(false);
+        JumpGlamourChoices.SetActive(false);
+        StatusGlamourChoices.SetActive(false);
+
+        HammerGlamourButton.interactable = true;
+        JumpGlamourButton.interactable = true;
+        StatusGlamourButton.interactable = true;
+
+        menu.SetActive(true);
+
+        button.interactable = false;
+
+        ChangeableText.text = "What Kind of Glamour Do You Want?";
+    }
+
     public void HammerGlamour()
     {
-        ChangeableText.text = "What Kind of Glamour Do You Want?";
-        HammerGlamourChoices.gameObject.SetActive(true);
-        HammerGlamourButton.interactable = false;
+        OpenGlamourMenu(HammerGlamourChoices, HammerGlamourButton);
     }
 
     public void HammerBaseDamage()
@@ -147,6 +283,141 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         }
 
         else 
+        {
+            NotEnoughCoins();
+        }
+    }
+
+    public void JumpGlamour()
+    {
+        OpenGlamourMenu(JumpGlamourChoices, JumpGlamourButton);
+    }
+
+    public void JumpBaseMaxDur()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            JumpGlamourChoices.gameObject.SetActive(false);
+            isJumpBaseMaxDur = true;
+            SubMenuConfirm();
+        }
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+
+    public void JumpBaseStunDur()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            JumpGlamourChoices.gameObject.SetActive(false);
+            isJumpBaseStunDur = true;
+            SubMenuConfirm();
+        }
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+
+    public void JumpBaseMaxAOEDur()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            JumpGlamourChoices.gameObject.SetActive(false);
+            isJumpBaseMaxAOEDur = true;
+            SubMenuConfirm();
+        }
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+
+    public void StatusGlamour()
+    {
+        OpenGlamourMenu(StatusGlamourChoices, StatusGlamourButton);
+    }
+
+    public void StatusScoreMultiplier()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            StatusGlamourChoices.gameObject.SetActive(false);
+            isStatusBaseScoreMultiplier = true;
+            SubMenuConfirm();
+        }
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+
+    public void StatusHealth()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            StatusGlamourChoices.gameObject.SetActive(false);
+            isStatusBaseHealth = true;
+            SubMenuConfirm();
+        }
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+    public void StatusDayDuration()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            StatusGlamourChoices.gameObject.SetActive(false);
+            isStatusBaseDayDur = true;
+            SubMenuConfirm();
+        }
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+    public void StatusNightDuration()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            StatusGlamourChoices.gameObject.SetActive(false);
+            isStatusBaseNightDur = true;
+            SubMenuConfirm();
+        }
+        else
+        {
+            NotEnoughCoins();
+        }
+    }
+    public void StatusMovementSpeed()
+    {
+        int requiredcoins = 100;
+
+        if (pointBank >= requiredcoins)
+        {
+            StatusGlamourChoices.gameObject.SetActive(false);
+            isStatusBaseMoveSpeed = true;
+            SubMenuConfirm();
+        }
+        else
         {
             NotEnoughCoins();
         }
