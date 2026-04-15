@@ -28,6 +28,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public TMP_Text OKButtonText;
     public TMP_Text UpgradeAppliedText;
     public TMP_Text CoinCountText;
+    public AudioClip GlamourGetSound;
+    public AudioSource soundEffectSource;
     private int pointBank;
     private bool isFirstTime = true;
     private bool isHammerBaseDamage;
@@ -80,6 +82,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isHammerBaseAttackSpeed == true)
@@ -91,6 +94,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isHammerBaseKnockback == true)
@@ -102,6 +106,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isJumpBaseMaxDur == true)
@@ -113,6 +118,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isJumpBaseStunDur == true)
@@ -124,6 +130,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isJumpBaseMaxAOEDur == true)
@@ -135,6 +142,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isStatusBaseScoreMultiplier == true)
@@ -146,6 +154,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isStatusBaseHealth == true)
@@ -157,6 +166,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isStatusBaseDayDur == true)
@@ -168,6 +178,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isStatusBaseNightDur == true)
@@ -179,6 +190,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
 
         if (isStatusBaseMoveSpeed == true)
@@ -190,6 +202,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             pointBank -= 100;
             SubMenuSuccessReturn();
             CoinCount();
+            GlamourGet();
         }
     }
 
@@ -440,6 +453,11 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public void NotEnoughCoins()
     {
         UpgradeAppliedText.text = "Not Enough $$$ to get the Glamour!";
+    }
+
+    public void GlamourGet()
+    {
+        soundEffectSource.PlayOneShot(GlamourGetSound);
     }
 
     public void CoinCount()
