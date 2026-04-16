@@ -17,18 +17,33 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
     private bool timeGoing = false;
     private IEnumerator timerCoroutine;
 
+    // NEW
+    private float scoreMultiplier = 1f;
+
     void Start()
     {
         scoreCounter.text = "Score: " + totalScore.ToString();
     }
 
+    // NEW
+    public void SetScoreMultiplier(float multiplierValue)
+    {
+        scoreMultiplier = multiplierValue;
+        Debug.Log("[SCORE COUNTER] Multiplier set to: " + scoreMultiplier);
+    }
+
     public void addPoints(int points)
     {
         PointsGotInstanceChecker();
-        totalScore += points;
+
+        // NEW: apply multiplier
+        int finalPoints = Mathf.RoundToInt(points * scoreMultiplier);
+
+        totalScore += finalPoints;
+
         scoreCounter.text = "Score: " + totalScore.ToString();
         overallScoreText.text = "Overall Score: " + totalScore.ToString();
-        pointsGotText.text += points.ToString() + " Points!" + "\n";
+        pointsGotText.text += finalPoints.ToString() + " Points!" + "\n";
     }
 
     public void PointsGotInstanceChecker()
@@ -89,7 +104,6 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
 
         DataPersistenceManager.instance.SaveGame();
     }
-
 
     public void UpdateHighScoreText()
     {
