@@ -46,15 +46,12 @@ public class ScoreMultiplier : MonoBehaviour
         if (player == null) return;
 
         ApplyMultiplier();
-
-        // FUTURE: Zombie spawn hook
-        /*
+        
         ScoreMultiplierZombie zombieScript = FindFirstObjectByType<ScoreMultiplierZombie>();
         if (zombieScript != null)
         {
             zombieScript.OnScoreMultiplierPickedUp();
         }
-        */
 
         Debug.Log("[SCORE MULTIPLIER] Pickup triggered");
 

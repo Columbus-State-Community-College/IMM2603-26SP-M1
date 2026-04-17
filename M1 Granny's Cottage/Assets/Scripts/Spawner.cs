@@ -107,6 +107,27 @@ public class Spawner : MonoBehaviour
         return enemy;
     }
 
+    // New
+    public void SpawnSingleEnemyAtPosition(Vector3 position)
+    {
+        Enemy enemy = enemyPool.Get();
+
+    // Set position
+    enemy.transform.position = position;
+
+    // match normal spawn behavior
+    enemy.player = GameObject.FindGameObjectWithTag("Player").transform;
+    enemy.ResetEnemy();
+
+    if (DifficultyManager.Instance != null)
+    {
+        enemy.ApplyDifficultyMultipliers();
+    }
+
+        enemiesSpawned++;
+        aliveEnemies++;
+    }
+
     // Handles incrementing/decrementing variables based on current wave state
     void Update()
     {
