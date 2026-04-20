@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1250912546687713330}
+  - component: {fileID: 4868202886701567506}
   m_Layer: 0
   m_Name: Willow single corrector
   m_TagString: Untagged
@@ -33,6 +34,19 @@ Transform:
   - {fileID: 4236482466980223011}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4868202886701567506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3629945387695484755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a91f7b8a642f24791a78e559c7be6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneryObject
+  obstructionState: 0
 --- !u!1001 &5362226991135509857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -150,10 +164,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3491721919888988997, guid: c0a8399968940f840af8efc5aa74ae37, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5573389981735763426}
   m_SourcePrefab: {fileID: 100100000, guid: c0a8399968940f840af8efc5aa74ae37, type: 3}
 --- !u!4 &1212424709472852493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5205481206594743720, guid: c0a8399968940f840af8efc5aa74ae37, type: 3}
   m_PrefabInstance: {fileID: 6408323523114448805}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7537872236861566176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3491721919888988997, guid: c0a8399968940f840af8efc5aa74ae37, type: 3}
+  m_PrefabInstance: {fileID: 6408323523114448805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5573389981735763426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7537872236861566176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a91f7b8a642f24791a78e559c7be6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneryObject
+  obstructionState: 0

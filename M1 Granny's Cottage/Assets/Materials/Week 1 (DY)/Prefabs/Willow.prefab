@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5205481206594743720}
+  - component: {fileID: 2456300132282742626}
   m_Layer: 0
   m_Name: Willow
   m_TagString: Untagged
@@ -38,6 +39,19 @@ Transform:
   - {fileID: 4269067451550777855}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2456300132282742626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016423502157757400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a91f7b8a642f24791a78e559c7be6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneryObject
+  obstructionState: 0
 --- !u!1001 &112514043279622071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -335,8 +349,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7549372149257290125, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 278027058476486000}
   m_SourcePrefab: {fileID: 100100000, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
+--- !u!1 &3491721919888988997 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7549372149257290125, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
+  m_PrefabInstance: {fileID: 6391126216360385224}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &278027058476486000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3491721919888988997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a91f7b8a642f24791a78e559c7be6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneryObject
+  obstructionState: 0
 --- !u!4 &4269067451550777855 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7173971784621169463, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
