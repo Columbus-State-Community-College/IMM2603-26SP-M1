@@ -92,7 +92,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float attackCooldown = 2f;
     [SerializeField] private float attackRange = 10f;
 
+    [Header("Melee Attack")]
+    [SerializeField] private float meleeAttackRange = 2f;
+    [SerializeField] private float meleeAttackCooldown = 0.2f;
+
+    private float meleeAttackTimer = 0f;
     private float attackTimer;
+    [SerializeField] private EnemyHitbox hitbox;
+
+    private Animator currentAnimator;
 
     public void SetPool(IObjectPool<Enemy> pool)
     {
@@ -114,7 +122,36 @@ public class Enemy : MonoBehaviour
     {
         if (isDead || isKnockedBack || isStunned) return; // add || isStunned
 
+        meleeAttackTimer -= Time.deltaTime;
+
         if (player ==  null) return;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        if (distance <= meleeAttackRange)
+        {
+            navMeshAgent.isStopped = true;
+
+            Vector3 lookDir = player.position - transform.position;
+            lookDir.y = 0;
+            transform.rotation = Quaternion.LookRotation(lookDir);
+
+            if (meleeAttackTimer <= 0f)
+            {
+                PlayAttackAnimation();
+                meleeAttackTimer = meleeAttackCooldown;
+            }
+
+            if (currentAnimator == null)
+            {
+                Debug.Log("Animator is NULL");
+                return;
+            }
+
+            return;
+        }
+
+        navMeshAgent.isStopped = false;
 
         Vector3 targetPosition = player.position;
 
@@ -135,6 +172,13 @@ public class Enemy : MonoBehaviour
 
         targetPosition += GetSeparationOffset();
         navMeshAgent.SetDestination(targetPosition);
+
+        bool isMoving =
+                navMeshAgent.enabled &&
+                navMeshAgent.hasPath &&
+                navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
+
+        currentAnimator.SetBool("Moving", isMoving);
     }
 
     public void ApplyDifficultyMultipliers()
@@ -500,8 +544,11 @@ public class Enemy : MonoBehaviour
                 demon.mesh.SetActive(false);
         }
 
-        if (dayMesh != null)
+        if (dayMesh != null) {
             dayMesh.SetActive(true);
+            currentAnimator = dayMesh.GetComponent<Animator>();
+            Debug.Log("Animator found: " + currentAnimator);
+        }
 
         if (DifficultyManager.Instance != null)
         {
@@ -538,6 +585,9 @@ public class Enemy : MonoBehaviour
         if (activeDemonType != null && activeDemonType.mesh != null)
         {
             activeDemonType.mesh.SetActive(true);
+
+            currentAnimator = activeDemonType.mesh.GetComponent<Animator>();
+
             damage = activeDemonType.damage;
             navMeshAgent.speed = activeDemonType.moveSpeed;
             role = activeDemonType.role;
@@ -550,6 +600,15 @@ public class Enemy : MonoBehaviour
         }
         
     }
+
+    private void PlayAttackAnimation()
+    {
+        if (currentAnimator != null)
+        {
+            currentAnimator.SetTrigger("Attack");
+        }
+    }
+
 
     private void Die()
     {
