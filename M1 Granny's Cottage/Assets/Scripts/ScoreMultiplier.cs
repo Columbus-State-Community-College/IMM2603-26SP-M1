@@ -30,7 +30,7 @@ public class ScoreMultiplier : MonoBehaviour
         DayNightCycle.OnTimeChanged -= HandleTimeChanged;
     }
 
-    private void Start()
+    private void Awake()
     {
         renderers = GetComponentsInChildren<Renderer>();
         pickupCollider = GetComponent<Collider>();

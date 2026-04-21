@@ -21,7 +21,14 @@ public class SceneryTransparency : MonoBehaviour
         gameCamera = FindAnyObjectByType<PlayerCameraScript>().gameObject;
         grannyObject = FindAnyObjectByType<PlayerController>().gameObject;
         sceneryLayerMask = LayerMask.GetMask("Scenery");
-        obstructingScenery = new Collider[FullSceneryArray.Length/4];
+        if (FullSceneryArray != null && FullSceneryArray.Length > 0)
+        {
+            obstructingScenery = new Collider[Mathf.Max(1, FullSceneryArray.Length / 4)];
+        }
+        else
+        {
+            obstructingScenery = new Collider[50];
+        }
     }
 
     // Update is called once per frame
@@ -48,6 +55,11 @@ public class SceneryTransparency : MonoBehaviour
             
             foreach (Collider overlappingObject in obstructingScenery)
             {
+                if (overlappingObject == null) continue;
+
+                SceneryObject scenery = overlappingObject.GetComponent<SceneryObject>();
+                if (scenery == null) continue;
+
                 Debug.Log(overlappingObject.gameObject);
                 StartCoroutine(SceneryObject.Transparify(overlappingObject));
                 //SceneryObject overlapSceneryOBJ = overlappingObject.componen//gameObject.GetComponent<SceneryObject>();

@@ -17,10 +17,21 @@ public class SceneryObject : MonoBehaviour
 
     public static IEnumerator Transparify(Collider collider)
     {
+        if (collider == null)
+            yield break;
+
         SceneryObject passedOBJ = collider.gameObject.GetComponent<SceneryObject>();
 
+        if (passedOBJ == null)
+            yield break;
+
         if (passedOBJ.obstructionState == ObstructionState.TRANSPARIFIED ||
-            passedOBJ.obstructionState == ObstructionState.NONBLOCKING) {yield return null;}
+            passedOBJ.obstructionState == ObstructionState.NONBLOCKING) {yield break;}
+        
+        MeshRenderer renderer = passedOBJ.GetComponentInChildren<MeshRenderer>();
+
+        if (renderer == null)
+             yield break;
 
         passedOBJ.obstructionState = ObstructionState.BLOCKING;
         Debug.Log(passedOBJ.gameObject.name);
