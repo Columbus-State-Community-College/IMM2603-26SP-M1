@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2072743308643389418}
   - component: {fileID: 4254418124719575317}
   - component: {fileID: 6579016380510889622}
+  - component: {fileID: 2283232591908299408}
   m_Layer: 0
   m_Name: ImpMesh
   m_TagString: Untagged
@@ -104,6 +105,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitbox
   hitCooldown: 0.5
+--- !u!95 &2283232591908299408
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042497297427913165}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1091288656810828338
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,6 +532,7 @@ GameObject:
   - component: {fileID: 4615293749636267763}
   - component: {fileID: 7412231369679281686}
   - component: {fileID: 1161485148674148736}
+  - component: {fileID: 4937786338105779692}
   m_Layer: 0
   m_Name: YokaiMesh
   m_TagString: Untagged
@@ -601,6 +625,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitbox
   hitCooldown: 0.5
+--- !u!95 &4937786338105779692
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661438985726913640}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8701093524543044642
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,6 +753,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 30615452835d29b4db464b009df808ef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7162978932508003298}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 30615452835d29b4db464b009df808ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7735011137374836339}
   m_SourcePrefab: {fileID: 100100000, guid: 30615452835d29b4db464b009df808ef, type: 3}
 --- !u!4 &1563585726411409324 stripped
 Transform:
@@ -731,6 +780,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitbox
   hitCooldown: 0.5
+--- !u!95 &7735011137374836339
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231859360918658326}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2534129441042734732
 PrefabInstance:
   m_ObjectHideFlags: 0
