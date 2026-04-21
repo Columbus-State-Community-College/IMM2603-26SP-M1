@@ -22,7 +22,7 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
 
     void Start()
     {
-        scoreCounter.text = "Score: " + totalScore.ToString();
+        scoreCounter.text = "Trespassing Fines: $" + totalScore.ToString();
     }
 
     // NEW
@@ -41,9 +41,9 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
 
         totalScore += finalPoints;
 
-        scoreCounter.text = "Score: " + totalScore.ToString();
-        overallScoreText.text = "Overall Score: " + totalScore.ToString();
-        pointsGotText.text += finalPoints.ToString() + " Points!" + "\n";
+        scoreCounter.text = "Trespassing Fines: $" + totalScore.ToString();
+        overallScoreText.text = "Today's Payout: $" + totalScore.ToString();
+        pointsGotText.text += "$" + finalPoints.ToString() + "\n";
     }
 
     public void PointsGotInstanceChecker()
@@ -109,7 +109,7 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
     {
         if (highScoreText != null)
         {
-            highScoreText.text = "High Score: " + highScore;
+            highScoreText.text = "Biggest Payday: $" + highScore;
         }
     }
 
