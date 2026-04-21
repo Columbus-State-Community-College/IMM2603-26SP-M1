@@ -5,7 +5,7 @@ public class ScoreMultiplierZombie : MonoBehaviour
     [Header("Multiplier Spawn Location")]
     [SerializeField] private Transform multiplierSpawnPoint;
 
-    private int dayCount = 0;
+    private int dayCount = 1;
 
     private void OnEnable()
     {
