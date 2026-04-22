@@ -14,16 +14,18 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public Button HammerBaseKnockbackButton;
     public GameObject JumpGlamourChoices;
     public Button JumpGlamourButton;
-    public Button BaseMaxJumpDurButton;
+    public Button BaseMaxJumpCooldownDurButton;
     public Button BaseJumpStunDurButton;
-    public Button BaseJumpMaxAOEDurButton;
+    public Button BaseJumpMaxAOEButton;
     public GameObject StatusGlamourChoices;
     public Button StatusGlamourButton;
-    public Button ScoreMultiplierButton;
     public Button BaseHealthButton;
     public Button DayDurationButton;
     public Button NightDurationButton;
     public Button MovementSpeedButton;
+    public GameObject HammerGlamourDescriptions;
+    public GameObject JumpGlamourDescriptions;
+    public GameObject StatusGlamourDescriptions;
     public TMP_Text ChangeableText;
     public TMP_Text OKButtonText;
     public TMP_Text UpgradeAppliedText;
@@ -35,10 +37,9 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     private bool isHammerBaseDamage;
     private bool isHammerBaseAttackSpeed;
     private bool isHammerBaseKnockback;
-    private bool isJumpBaseMaxDur;
+    private bool isJumpBaseMaxCooldownDur;
     private bool isJumpBaseStunDur;
-    private bool isJumpBaseMaxAOEDur;
-    private bool isStatusBaseScoreMultiplier;
+    private bool isJumpBaseMaxAOE;
     private bool isStatusBaseHealth;
     private bool isStatusBaseDayDur;
     private bool isStatusBaseNightDur;
@@ -75,11 +76,14 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isHammerBaseDamage == true)
         {
+            float increase = 20f;
             UpgradeAppliedText.text = "Base Damage Glamour Applied!";
             isHammerBaseDamage = false;
             HammerGlamourButton.interactable = true;
             HammerBaseDamageButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.hammerSwingDamage += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -87,11 +91,14 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isHammerBaseAttackSpeed == true)
         {
+            float decrease = 0.2f;
             UpgradeAppliedText.text = "Base Attack Speed Glamour Applied!";
             isHammerBaseAttackSpeed = false;
             HammerGlamourButton.interactable = true;
             HammerBaseAttackSpeedButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.hammerSwingAttackCooldown -= decrease;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -99,23 +106,29 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isHammerBaseKnockback == true)
         {
+            float increase = 2f;
             UpgradeAppliedText.text = "Base Knockback Glamour Applied!";
             isHammerBaseKnockback = false;
             HammerGlamourButton.interactable = true;
             HammerBaseKnockbackButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.hammerSwingKnockbackMultiplier += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
         }
 
-        if (isJumpBaseMaxDur == true)
+        if (isJumpBaseMaxCooldownDur == true)
         {
+            float decrease = 2f;
             UpgradeAppliedText.text = "Max Jump Duration Glamour Applied!";
-            isJumpBaseMaxDur = false;
+            isJumpBaseMaxCooldownDur = false;
             JumpGlamourButton.interactable = true;
-            BaseMaxJumpDurButton.interactable = false;
+            BaseMaxJumpCooldownDurButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.jumpSlamCooldown -= decrease;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -123,35 +136,29 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isJumpBaseStunDur == true)
         {
+            float increase = 2f;
             UpgradeAppliedText.text = "Jump Stun Duration Glamour Applied!";
             isJumpBaseStunDur = false;
             JumpGlamourButton.interactable = true;
             BaseJumpStunDurButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.jumpSlamStunDuration += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
         }
 
-        if (isJumpBaseMaxAOEDur == true)
+        if (isJumpBaseMaxAOE == true)
         {
+            float increase = 1f;
             UpgradeAppliedText.text = "Jump AOE Glamour Applied!";
-            isJumpBaseMaxAOEDur = false;
+            isJumpBaseMaxAOE = false;
             JumpGlamourButton.interactable = true;
-            BaseJumpMaxAOEDurButton.interactable = false;
+            BaseJumpMaxAOEButton.interactable = false;
             pointBank -= 100;
-            SubMenuSuccessReturn();
-            CoinCount();
-            GlamourGet();
-        }
-
-        if (isStatusBaseScoreMultiplier == true)
-        {
-            UpgradeAppliedText.text = "Score Multiplier Glamour Applied!";
-            isStatusBaseScoreMultiplier = false;
-            StatusGlamourButton.interactable = true;
-            ScoreMultiplierButton.interactable = false;
-            pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.jumpSlamMaxRadius += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -159,11 +166,14 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isStatusBaseHealth == true)
         {
+            float increase = 25f;
             UpgradeAppliedText.text = "Base Health Glamour Applied!";
             isStatusBaseHealth = false;
             StatusGlamourButton.interactable = true;
             BaseHealthButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.maxHealth += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -171,11 +181,14 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isStatusBaseDayDur == true)
         {
+            float increase = 20f;
             UpgradeAppliedText.text = "Day Duration Glamour Applied!";
             isStatusBaseDayDur = false;
             StatusGlamourButton.interactable = true;
             DayDurationButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.dayDuration += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -183,11 +196,14 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isStatusBaseNightDur == true)
         {
+            float increase = 20f;
             UpgradeAppliedText.text = "Night Duration Glamour Applied!";
             isStatusBaseNightDur = false;
             StatusGlamourButton.interactable = true;
             NightDurationButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.nightDuration += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -195,11 +211,14 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isStatusBaseMoveSpeed == true)
         {
+            float increase = 2f;
             UpgradeAppliedText.text = "Movement Speed Glamour Applied!";
             isStatusBaseMoveSpeed = false;
             StatusGlamourButton.interactable = true;
             MovementSpeedButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.runSpeed += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -231,7 +250,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         NOButton.gameObject.SetActive(false);
     }
 
-    void OpenGlamourMenu(GameObject menu, Button button)
+    void OpenGlamourMenu(GameObject menu, Button button, GameObject descriptions)
     {
         HammerGlamourChoices.SetActive(false);
         JumpGlamourChoices.SetActive(false);
@@ -241,16 +260,22 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         JumpGlamourButton.interactable = true;
         StatusGlamourButton.interactable = true;
 
+        HammerGlamourDescriptions.SetActive(false);
+        JumpGlamourDescriptions.SetActive(false);
+        StatusGlamourDescriptions.SetActive(false);
+
         menu.SetActive(true);
 
         button.interactable = false;
+
+        descriptions.SetActive(true);
 
         ChangeableText.text = "What Kind of Glamour Do You Want?";
     }
 
     public void HammerGlamour()
     {
-        OpenGlamourMenu(HammerGlamourChoices, HammerGlamourButton);
+        OpenGlamourMenu(HammerGlamourChoices, HammerGlamourButton, HammerGlamourDescriptions);
     }
 
     public void HammerBaseDamage()
@@ -259,6 +284,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (pointBank >= requiredcoins){
             HammerGlamourChoices.gameObject.SetActive(false);
+            HammerGlamourDescriptions.SetActive(false);
             isHammerBaseDamage = true;
             SubMenuConfirm();
         }
@@ -275,6 +301,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (pointBank >= requiredcoins){
             HammerGlamourChoices.gameObject.SetActive(false);
+            HammerGlamourDescriptions.SetActive(false);
             isHammerBaseAttackSpeed = true;
             SubMenuConfirm();
         }
@@ -291,6 +318,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (pointBank >= requiredcoins){
             HammerGlamourChoices.gameObject.SetActive(false);
+            HammerGlamourDescriptions.SetActive(false);
             isHammerBaseKnockback = true;
             SubMenuConfirm();
         }
@@ -303,7 +331,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
     public void JumpGlamour()
     {
-        OpenGlamourMenu(JumpGlamourChoices, JumpGlamourButton);
+        OpenGlamourMenu(JumpGlamourChoices, JumpGlamourButton, JumpGlamourDescriptions);
     }
 
     public void JumpBaseMaxDur()
@@ -313,7 +341,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (pointBank >= requiredcoins)
         {
             JumpGlamourChoices.gameObject.SetActive(false);
-            isJumpBaseMaxDur = true;
+            JumpGlamourDescriptions.SetActive(false);
+            isJumpBaseMaxCooldownDur = true;
             SubMenuConfirm();
         }
         else
@@ -329,6 +358,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (pointBank >= requiredcoins)
         {
             JumpGlamourChoices.gameObject.SetActive(false);
+            JumpGlamourDescriptions.SetActive(false);
             isJumpBaseStunDur = true;
             SubMenuConfirm();
         }
@@ -345,7 +375,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (pointBank >= requiredcoins)
         {
             JumpGlamourChoices.gameObject.SetActive(false);
-            isJumpBaseMaxAOEDur = true;
+            JumpGlamourDescriptions.SetActive(false);
+            isJumpBaseMaxAOE = true;
             SubMenuConfirm();
         }
         else
@@ -356,23 +387,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
     public void StatusGlamour()
     {
-        OpenGlamourMenu(StatusGlamourChoices, StatusGlamourButton);
-    }
-
-    public void StatusScoreMultiplier()
-    {
-        int requiredcoins = 100;
-
-        if (pointBank >= requiredcoins)
-        {
-            StatusGlamourChoices.gameObject.SetActive(false);
-            isStatusBaseScoreMultiplier = true;
-            SubMenuConfirm();
-        }
-        else
-        {
-            NotEnoughCoins();
-        }
+        OpenGlamourMenu(StatusGlamourChoices, StatusGlamourButton, StatusGlamourDescriptions);
     }
 
     public void StatusHealth()
@@ -382,6 +397,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (pointBank >= requiredcoins)
         {
             StatusGlamourChoices.gameObject.SetActive(false);
+            StatusGlamourDescriptions.SetActive(false);
             isStatusBaseHealth = true;
             SubMenuConfirm();
         }
@@ -397,6 +413,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (pointBank >= requiredcoins)
         {
             StatusGlamourChoices.gameObject.SetActive(false);
+            StatusGlamourDescriptions.SetActive(false);
             isStatusBaseDayDur = true;
             SubMenuConfirm();
         }
@@ -412,6 +429,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (pointBank >= requiredcoins)
         {
             StatusGlamourChoices.gameObject.SetActive(false);
+            StatusGlamourDescriptions.SetActive(false);
             isStatusBaseNightDur = true;
             SubMenuConfirm();
         }
@@ -427,6 +445,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (pointBank >= requiredcoins)
         {
             StatusGlamourChoices.gameObject.SetActive(false);
+            StatusGlamourDescriptions.SetActive(false);
             isStatusBaseMoveSpeed = true;
             SubMenuConfirm();
         }
