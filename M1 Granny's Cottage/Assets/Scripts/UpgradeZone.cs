@@ -23,6 +23,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public Button DayDurationButton;
     public Button NightDurationButton;
     public Button MovementSpeedButton;
+    public Button ScoreMultiplierButton;
     public GameObject HammerGlamourDescriptions;
     public GameObject JumpGlamourDescriptions;
     public GameObject StatusGlamourDescriptions;
@@ -44,6 +45,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     private bool isStatusBaseDayDur;
     private bool isStatusBaseNightDur;
     private bool isStatusBaseMoveSpeed;
+    private bool isStatusBaseScoreMultiplier;
 
     void Start ()
     {
@@ -157,6 +159,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             JumpGlamourButton.interactable = true;
             BaseJumpMaxAOEButton.interactable = false;
             pointBank -= 100;
+            GameData data = DataPersistenceManager.instance.GameData;
+            data.jumpSlamMaxRadius += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
@@ -169,8 +173,6 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
             StatusGlamourButton.interactable = true;
             ScoreMultiplierButton.interactable = false;
             pointBank -= 100;
-            GameData data = DataPersistenceManager.instance.GameData;
-            data.jumpSlamMaxRadius += increase;
             SubMenuSuccessReturn();
             CoinCount();
             GlamourGet();
