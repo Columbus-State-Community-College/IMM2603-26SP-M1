@@ -33,11 +33,11 @@ public class SceneLoader : MonoBehaviour
             GameData data = DataPersistenceManager.instance.GameData;
             if (data != null)
             {
-                HighScoreText.text = "High Score: " + data.highScore;
+                HighScoreText.text = "Biggest Payday: $" + data.highScore;
             }
             else
             {
-                HighScoreText.text = "High Score: 0";
+                HighScoreText.text = "Biggest Payday: $";
             }
         }
     }

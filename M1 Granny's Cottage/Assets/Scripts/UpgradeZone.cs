@@ -46,7 +46,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
     void Start ()
     {
-        CoinCountText.text = "\"Trespassing\" Fines Collected: $" + pointBank.ToString();
+        CoinCountText.text = "Total Trespassing Fines Collected: $" + pointBank.ToString();
 
         if (isFirstTime == true )
         {
@@ -147,7 +147,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
 
         if (isStatusBaseScoreMultiplier == true)
         {
-            UpgradeAppliedText.text = "Score Multiplier Glamour Applied!";
+            UpgradeAppliedText.text = "Fines Multiplier Glamour Applied!";
             isStatusBaseScoreMultiplier = false;
             StatusGlamourButton.interactable = true;
             ScoreMultiplierButton.interactable = false;
@@ -440,7 +440,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     {
         OKButton.gameObject.SetActive(false);
         NOButton.gameObject.SetActive(false);
-        ChangeableText.text = "Welcome To the Upgrade Zone!";
+        ChangeableText.text = "Welcome To the Glamour Shop!";
     }
 
     public void SubMenuConfirm()
@@ -463,7 +463,7 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public void CoinCount()
     {
         GlamourSaving();
-        CoinCountText.text = "\"Trespassing\" Fines Collected: $" + pointBank.ToString();
+        CoinCountText.text = "Trespassing Fines Collected: $" + pointBank.ToString();
         
     }
 

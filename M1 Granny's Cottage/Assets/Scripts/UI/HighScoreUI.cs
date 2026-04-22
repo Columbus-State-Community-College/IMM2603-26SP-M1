@@ -7,6 +7,6 @@ public class HighScoreUI : MonoBehaviour
 
     public void LoadData(GameData data)
     {
-        highScoreText.text = "High Score: " + data.highScore;
+        highScoreText.text = "Biggest Payday: $" + data.highScore;
     }
 }

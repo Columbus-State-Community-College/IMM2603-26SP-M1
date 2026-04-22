@@ -465,7 +465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'High Score:'
+  m_text: 'Biggest Payday: $'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -1005,7 +1005,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Base Max Jump Duration
+  m_text: Base Maximum Jump Duration
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -1290,7 +1290,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jump Glamours
+  m_text: Jump Slam Glamours
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -2059,7 +2059,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Base Damage Glamour
+  m_text: Base Damage Increase
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -3164,7 +3164,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score Multiplier
+  m_text: Fines Multiplier
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -5052,7 +5052,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Movement Speed
+  m_text: Movement Speed Increase
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -5588,7 +5588,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Base Jump Stun Duration
+  m_text: Base Jump Slam Stun Duration
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -5862,7 +5862,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: UPGRADE ZONE!
+  m_text: $ GLAMOURS $
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -5999,7 +5999,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Night Duration
+  m_text: Night Duration Increase
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -6136,7 +6136,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'High Score:'
+  m_text: 'Biggest Payday: $'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -7683,11 +7683,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is where Granny can receive hammer, jump, and status rounded glamours!
-    These are upgrades that will make the gameplay expereince a little more fun,
-    and will make earning a high score a lot easier. Once you get a glamour, you
-    get to keep it forever! (unless you delete the save of course...) Take your time
-    and have fun applying glamors!
+  m_text: 'Spend that well-earned settlement money on Glamours to upgrade Granny:
+    upgrade her hammer, health, knees, perception of time, and the fines she can
+    exact on greedy trespassers!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -8394,7 +8392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Base Jump Max AOE Size '
+  m_text: 'Base Jump Slam Maximum AOE Size '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -8891,7 +8889,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Base Attack Speed Glamour
+  m_text: Base Attack Speed Increase
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -10189,7 +10187,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit Upgrade Zone
+  m_text: Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -11220,7 +11218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Base Health
+  m_text: Base Health Increase
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -11635,7 +11633,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome To the Upgrade Zone!
+  m_text: Glamour Shop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -12353,7 +12351,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Day Duration
+  m_text: Day Duration Increase
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
@@ -12837,7 +12835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Base Knockback Glamour
+  m_text: Base Knockback Increase
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
   m_sharedMaterial: {fileID: -9053434952393099548, guid: 227e84dfdfdf5104ba492b1e5d0b14ba, type: 2}
