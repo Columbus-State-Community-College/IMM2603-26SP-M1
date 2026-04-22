@@ -94,7 +94,15 @@ public class GameData
     // ETC sound volume
     private const float d_etcVolume = 0.5f;
     public float etcVolume;
-    
+
+    // Day duration: Glamour
+    private const float d_dayDuration = 120f;
+    public float dayDuration;
+
+    // Night duration: Glamour
+    private const float d_nightDuration = 90f;
+    public float nightDuration;
+
 
     /* 
         This constructor initializes the New Game game data state. The saved 
@@ -121,6 +129,8 @@ public class GameData
         this.grannyVolume = d_grannyVolume;
         this.enemyVolume = d_enemyVolume;
         this.etcVolume = d_etcVolume;
+        this.dayDuration = d_dayDuration;
+        this.nightDuration = d_nightDuration;
     }
 
 }

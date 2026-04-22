@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 
-public class DayNightCycle : MonoBehaviour
+public class DayNightCycle : MonoBehaviour, IDataPersistence
 {
     public enum TimeOfDay {  Day, Night }
     public TimeOfDay currentTime;
 
-    [Header("Cycle Duration (seconds)")]
+    [Header("Default Values: Cycle Duration (seconds)")]
     public float dayDuration = 120f;
     public float nightDuration = 90f;
 
@@ -68,5 +68,17 @@ public class DayNightCycle : MonoBehaviour
         }
 
         OnTimeChanged?.Invoke(currentTime);
+    }
+
+    public void LoadData(GameData data)
+    {
+        dayDuration = data.dayDuration;
+        nightDuration = data.nightDuration;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.dayDuration = dayDuration;
+        data.nightDuration = nightDuration;
     }
 }
