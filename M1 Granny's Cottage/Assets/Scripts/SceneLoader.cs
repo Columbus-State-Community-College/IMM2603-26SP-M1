@@ -17,7 +17,7 @@ public class SceneLoader : MonoBehaviour
     public Button HowToPlayButton;
     public GameObject DifficultyPanel;
     public GameObject StatsPanel;
-    private string scoreFile = "HighScore.txt";
+    public GameObject StoryPanel;
     private bool isPaused;
     private int isSubScreenEnabled = 0;
 
@@ -145,6 +145,16 @@ public class SceneLoader : MonoBehaviour
     public void StatsMenuClose()
     {
         StatsPanel.SetActive(false);
+    }
+
+    public void StoryMenu()
+    {
+        StoryPanel.SetActive(true);
+    }
+
+    public void StoryMenuClose()
+    {
+        StoryPanel.SetActive(false);
     }
 
     public void CreditsPageClose()
