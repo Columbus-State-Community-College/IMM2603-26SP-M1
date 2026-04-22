@@ -19,6 +19,9 @@ public class SceneMusicPlayer : MonoBehaviour
     public int daytimeSong;
     public int nighttimeSong;
 
+    [Tooltip("Health Script Reader")]
+    public PlayerHealth grannysHealthScript;
+
     private void Start()
     {
         if (!playOnStart) return;
