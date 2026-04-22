@@ -38,6 +38,16 @@ public class SceneMusicPlayer : MonoBehaviour
             DayTimeMusic();
     }
 
+    private void Update()
+    {
+        if (grannysHealthScript.atGameOver == true)
+        {
+            // Debug.Log("Oh Noes!");
+            grannysHealthScript.atGameOver = false;
+            StopMusic();
+        }
+    }
+
     public void NightTimeMusic()
     {
         // Debug.Log("It's nighttime! Time to Jam!");
@@ -85,5 +95,10 @@ public class SceneMusicPlayer : MonoBehaviour
             Debug.Log("This is the song that is played on the hard difficulty during the day.");
             MusicManager.instance.PlayMusic(musicTrackName = "lvl_3_the_grassland");
         }
+    }
+
+    public void StopMusic()
+    {
+        MusicManager.instance.StopMusic();
     }
 }

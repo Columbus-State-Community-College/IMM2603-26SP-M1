@@ -4,6 +4,7 @@ public class PlayerHealth : MonoBehaviour, IDataPersistence
 {
     public float maxHealth;
     public float currentHealth;
+    public bool atGameOver = false;
     public ScoreCounter scoreScript;
 
     [Header("Health UI and Audio Elements")]
@@ -100,6 +101,7 @@ public class PlayerHealth : MonoBehaviour, IDataPersistence
         //Debug.Log("[PLAYER] Player Died");
 
         GameOverScreen.gameObject.SetActive(true);
+        atGameOver = true;
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
