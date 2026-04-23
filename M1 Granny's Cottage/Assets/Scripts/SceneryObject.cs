@@ -17,33 +17,69 @@ public class SceneryObject : MonoBehaviour
 
     public static IEnumerator Transparify(Collider collider)
     {
+        //Debug.Log("Transparify Coroutine reached for "+ collider.gameObject);
         if (collider == null)
             yield break;
 
         SceneryObject passedOBJ = collider.gameObject.GetComponent<SceneryObject>();
+        //Debug.Log("Transparify Coroutine reached for "+ passedOBJ);
 
         if (passedOBJ == null)
+        {    
             yield break;
+        }
 
-        if (passedOBJ.obstructionState == ObstructionState.TRANSPARIFIED ||
-            passedOBJ.obstructionState == ObstructionState.NONBLOCKING) {yield break;}
-        
-        MeshRenderer renderer = passedOBJ.GetComponentInChildren<MeshRenderer>();
+        if (passedOBJ.obstructionState == ObstructionState.TRANSPARIFIED) 
+        {
+            //Debug.Log(passedOBJ + " is transparified.");
+            yield break;
+        }
 
-        if (renderer == null)
-             yield break;
 
         passedOBJ.obstructionState = ObstructionState.BLOCKING;
-        Debug.Log(passedOBJ.gameObject.name);
-        Color matColor = passedOBJ.gameObject.GetComponent<MeshRenderer>().material.color;
-        Color OGColor = matColor;
-        matColor.a = 0.5f;
-        passedOBJ.gameObject.GetComponent<MeshRenderer>().material.SetColor("transparified", matColor);
-        passedOBJ.obstructionState = ObstructionState.TRANSPARIFIED; 
+        MeshRenderer[] renderers = passedOBJ.GetComponentsInChildren<MeshRenderer>();
+        
+
+        foreach (MeshRenderer renderer in renderers)
+        {
+            Debug.Log(renderer.name);
+            if (renderer == null)
+            {
+                Debug.Log(passedOBJ + "Produced null renderer");
+                yield break;
+            }
+            
+            
+            //Debug.Log(passedOBJ.gameObject.name);
+            Color matColor = renderer.material.color;
+            Color OGColor = matColor;
+            matColor.a = 0.5f;
+            renderer.material.SetColor("transparified", matColor);
+            passedOBJ.obstructionState = ObstructionState.TRANSPARIFIED; 
+        }
+
+        passedOBJ.obstructionState = ObstructionState.TRANSPARIFIED;
         yield return new WaitForSeconds(2);
-        passedOBJ.gameObject.GetComponent<MeshRenderer>().material.SetColor("normal", matColor);
+
+        foreach (MeshRenderer renderer in renderers)
+        {
+            if (renderer == null)
+            {
+                Debug.Log(passedOBJ + "Produced null renderer");
+                yield break;
+            }
+            
+            
+            //Debug.Log(passedOBJ.gameObject.name);
+            Color matColor = renderer.material.color;
+            Color OGColor = matColor;
+            matColor.a = 1.0f;
+            renderer.material.SetColor("normal", matColor);
+        }
+        
         passedOBJ.obstructionState = ObstructionState.NONBLOCKING; 
         yield return null;
+
     }
     
 }    

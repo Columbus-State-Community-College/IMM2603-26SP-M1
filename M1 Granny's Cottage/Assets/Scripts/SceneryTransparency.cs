@@ -60,7 +60,7 @@ public class SceneryTransparency : MonoBehaviour
                 SceneryObject scenery = overlappingObject.GetComponent<SceneryObject>();
                 if (scenery == null) continue;
 
-                Debug.Log(overlappingObject.gameObject);
+                //Debug.Log(overlappingObject.gameObject);
                 StartCoroutine(SceneryObject.Transparify(overlappingObject));
                 //SceneryObject overlapSceneryOBJ = overlappingObject.componen//gameObject.GetComponent<SceneryObject>();
                 //Debug.Log(overlapSceneryOBJ);

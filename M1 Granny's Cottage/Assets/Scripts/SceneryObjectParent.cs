@@ -9,7 +9,7 @@ public class SceneryObjectParent : MonoBehaviour
     {
         childObjects = GetComponentsInChildren<SceneryObject>();
         
-        Debug.Log("Number of Scenery Objects: " + childObjects.Length);
+        //Debug.Log("Number of Scenery Objects: " + childObjects.Length);
         SceneryTransparency.FullSceneryArray = childObjects;
     }
 

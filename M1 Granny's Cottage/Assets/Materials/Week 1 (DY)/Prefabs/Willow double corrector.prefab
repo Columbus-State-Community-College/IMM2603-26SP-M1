@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1091105797369669077}
   - component: {fileID: 6701821479228182377}
+  - component: {fileID: 4194571498005708600}
+  - component: {fileID: 6004084796645048064}
   m_Layer: 7
   m_Name: Willow double corrector
   m_TagString: Untagged
@@ -48,6 +50,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneryObject
   obstructionState: 0
+--- !u!136 &4194571498005708600
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276607887792169224}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.2972375
+  m_Height: 20.300161
+  m_Direction: 1
+  m_Center: {x: -0.034836292, y: 9.635861, z: 0.13518155}
+--- !u!135 &6004084796645048064
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276607887792169224}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5.110753
+  m_Center: {x: 0.9491906, y: 11.077632, z: 0.29911277}
 --- !u!1001 &1948696573726048502
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1902,6 +1948,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5977170066472616570, guid: 4edbf834449bc2241a5975befc636400, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7500655220546886447, guid: 4edbf834449bc2241a5975befc636400, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1913,6 +1963,10 @@ PrefabInstance:
     - target: {fileID: 8011116156671107769, guid: 4edbf834449bc2241a5975befc636400, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8899705927015870147, guid: 4edbf834449bc2241a5975befc636400, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9031185240405840421, guid: 4edbf834449bc2241a5975befc636400, type: 3}
       propertyPath: m_Layer
@@ -1938,7 +1992,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 762184425327763599}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8a91f7b8a642f24791a78e559c7be6b, type: 3}
   m_Name: 

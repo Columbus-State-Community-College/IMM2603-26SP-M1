@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5205481206594743720}
   - component: {fileID: 2456300132282742626}
+  - component: {fileID: 3392040915717760400}
+  - component: {fileID: 5037589977825092913}
   m_Layer: 0
   m_Name: Willow
   m_TagString: Untagged
@@ -52,6 +54,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneryObject
   obstructionState: 0
+--- !u!136 &3392040915717760400
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016423502157757400}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.2972375
+  m_Height: 20.300161
+  m_Direction: 1
+  m_Center: {x: -0.034836292, y: 9.635861, z: 0.13518155}
+--- !u!135 &5037589977825092913
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016423502157757400}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5.110753
+  m_Center: {x: 0.9491906, y: 11.077632, z: 0.29911277}
 --- !u!1001 &112514043279622071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -291,12 +337,20 @@ PrefabInstance:
       value: 5.110753
       objectReference: {fileID: 0}
     - target: {fileID: 1182219728075656413, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182219728075656413, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
       propertyPath: m_Center.y
       value: 11.077632
       objectReference: {fileID: 0}
     - target: {fileID: 4114356528044204132, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
       propertyPath: m_Height
       value: 20.300161
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114356528044204132, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4114356528044204132, guid: 8202c783a6a87f946b1b9e92feb871d8, type: 3}
       propertyPath: m_Center.y
@@ -366,7 +420,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3491721919888988997}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8a91f7b8a642f24791a78e559c7be6b, type: 3}
   m_Name: 
