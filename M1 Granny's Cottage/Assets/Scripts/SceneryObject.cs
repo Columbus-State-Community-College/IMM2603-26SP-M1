@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class SceneryObject : MonoBehaviour
 {
@@ -29,15 +30,18 @@ public class SceneryObject : MonoBehaviour
             yield break;
         }
 
-        if (passedOBJ.obstructionState == ObstructionState.TRANSPARIFIED) 
+        if (passedOBJ.obstructionState == ObstructionState.TRANSPARIFIED || passedOBJ.obstructionState == ObstructionState.NONBLOCKING) 
         {
             //Debug.Log(passedOBJ + " is transparified.");
             yield break;
         }
 
+        // uncomment the above nonblocking added to pass bugged current state
 
         passedOBJ.obstructionState = ObstructionState.BLOCKING;
         MeshRenderer[] renderers = passedOBJ.GetComponentsInChildren<MeshRenderer>();
+        Debug.Log("Renderers List: " + renderers);
+        Color[] colors = new Color[renderers.Length];
         
 
         foreach (MeshRenderer renderer in renderers)
@@ -52,29 +56,26 @@ public class SceneryObject : MonoBehaviour
             
             //Debug.Log(passedOBJ.gameObject.name);
             Color matColor = renderer.material.color;
-            Color OGColor = matColor;
-            matColor.a = 0.5f;
-            renderer.material.SetColor("transparified", matColor);
-            passedOBJ.obstructionState = ObstructionState.TRANSPARIFIED; 
+            colors.Append(matColor);
+            Color transparifiedColor = new Color(matColor.r, matColor.g, matColor.b, 0.1f);
+            renderer.material.SetColor("_BaseColor", transparifiedColor);
+            Debug.Log(renderer.material.color);
+            //passedOBJ.obstructionState = ObstructionState.TRANSPARIFIED; 
         }
 
+        //Debug.Log(passedOBJ + " Transparified for 2 seconds");
         passedOBJ.obstructionState = ObstructionState.TRANSPARIFIED;
         yield return new WaitForSeconds(2);
 
-        foreach (MeshRenderer renderer in renderers)
+        for (int i = 0; i < renderers.Length; i++)
         {
-            if (renderer == null)
+            if (renderers[i] == null)
             {
                 Debug.Log(passedOBJ + "Produced null renderer");
                 yield break;
             }
-            
-            
-            //Debug.Log(passedOBJ.gameObject.name);
-            Color matColor = renderer.material.color;
-            Color OGColor = matColor;
-            matColor.a = 1.0f;
-            renderer.material.SetColor("normal", matColor);
+
+            renderers[i].material.SetColor("_BaseColor", colors.ElementAt(i));
         }
         
         passedOBJ.obstructionState = ObstructionState.NONBLOCKING; 
