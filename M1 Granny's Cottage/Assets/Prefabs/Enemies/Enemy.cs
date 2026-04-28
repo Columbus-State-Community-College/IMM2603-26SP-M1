@@ -442,6 +442,11 @@ public class Enemy : MonoBehaviour
         if (knockbackRoutine != null)
             StopCoroutine(knockbackRoutine);
 
+        if (currentAnimator != null)
+        {
+            currentAnimator.SetTrigger("Knockback");
+        }
+
         //Debug.Log("[ENEMY] Knockback START");
         knockbackRoutine = StartCoroutine(KnockbackCoroutine(direction, distance, duration));
     }
@@ -452,6 +457,11 @@ public class Enemy : MonoBehaviour
 
         navMeshAgent.isStopped = true;
         navMeshAgent.ResetPath();
+
+        if (currentAnimator != null)
+        {
+            currentAnimator.SetBool("Moving", false);
+        }
 
         Vector3 start = transform.position;
         Vector3 target = start + direction * distance;
@@ -473,7 +483,12 @@ public class Enemy : MonoBehaviour
         navMeshAgent.isStopped = false;
         isKnockedBack = false;
         knockbackRoutine = null;
-        //Debug.Log("[ENEMY] Knockback END");   
+        //Debug.Log("[ENEMY] Knockback END");
+        //
+        if (currentAnimator != null)
+        {
+            currentAnimator.SetBool("Moving", true);
+        }
     }
 
     // Knockback for ground attack
@@ -512,6 +527,11 @@ public class Enemy : MonoBehaviour
         navMeshAgent.isStopped = true;
         navMeshAgent.ResetPath();
 
+        if (currentAnimator != null)
+        {
+            currentAnimator.speed = 0f;
+        }
+
         if (dizzyParticles != null) 
             dizzyParticles.Play();
 
@@ -519,6 +539,11 @@ public class Enemy : MonoBehaviour
 
         if (dizzyParticles != null) 
             dizzyParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        if (currentAnimator != null)
+        {
+            currentAnimator.speed = 1f;
+        }
 
         navMeshAgent.isStopped = false;
         isStunned = false;
