@@ -103,6 +103,10 @@ public class GameData
     private const float d_nightDuration = 90f;
     public float nightDuration;
 
+    // Score Multiplier : Glamour
+    private const float d_scoreMultiplier = 1f;
+    public float scoreMultiplier;
+
 
     /* 
         This constructor initializes the New Game game data state. The saved 
@@ -131,6 +135,7 @@ public class GameData
         this.etcVolume = d_etcVolume;
         this.dayDuration = d_dayDuration;
         this.nightDuration = d_nightDuration;
+        this.scoreMultiplier = d_scoreMultiplier;
     }
 
 }

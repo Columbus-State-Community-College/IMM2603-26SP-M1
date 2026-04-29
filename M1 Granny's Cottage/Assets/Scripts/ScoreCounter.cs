@@ -116,6 +116,7 @@ public class ScoreCounter : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         highScore = data.highScore;
+        scoreMultiplier = data.scoreMultiplier;
         UpdateHighScoreText();
     }
 
