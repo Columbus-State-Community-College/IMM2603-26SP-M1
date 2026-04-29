@@ -723,6 +723,13 @@ public class Enemy : MonoBehaviour
 
         isKnockedBack = false;
 
+        if (currentAnimator != null)
+        {
+            currentAnimator.speed = 1f;
+            currentAnimator.Rebind();
+            currentAnimator.Update(0f);
+        }
+
         // Forces enemies to have the right mesh on spawn
 
         if (currentTime == DayNightCycle.TimeOfDay.Night)
