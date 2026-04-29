@@ -13,6 +13,8 @@ public class ScoreMultiplier : MonoBehaviour
     [Header("Day/Night Behavior")]
     [SerializeField] private bool despawnOnNight = true;
 
+    [SerializeField] private GrannyGlow grannyGlow;
+
     private float currentMultiplier;
 
     private Renderer[] renderers;
@@ -89,9 +91,20 @@ public class ScoreMultiplier : MonoBehaviour
     {
         Debug.Log("[SCORE MULTIPLIER] Timer started: " + duration + " seconds");
 
+        if (grannyGlow != null)
+        {
+            grannyGlow.EnableGlow();
+        }
+
         yield return new WaitForSeconds(duration);
 
         scoreCounter.SetScoreMultiplier(1f);
+
+        if (grannyGlow != null)
+        {
+            grannyGlow.DisableGlow();
+        }
+
 
         Debug.Log("[SCORE MULTIPLIER] Multiplier expired, reset to 1x");
 
