@@ -411,7 +411,7 @@ public class Enemy : MonoBehaviour
 
             if (attackTimer <= 0f)
             {
-                Shoot();
+                StartCoroutine(RangedAttackRoutine());
                 attackTimer = attackCooldown;
             }
         }
@@ -420,6 +420,20 @@ public class Enemy : MonoBehaviour
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(player.position);
         }
+    }
+
+    private IEnumerator RangedAttackRoutine()
+    {
+        navMeshAgent.isStopped = true;
+
+        if (currentAnimator != null)
+        {
+            currentAnimator.SetTrigger("Attack");
+        }
+
+        yield return new WaitForSeconds(1.0f);
+
+        Shoot();
     }
 
     // Allows hammer powerups to modify enemy knockback strength
