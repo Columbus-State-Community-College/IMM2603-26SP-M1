@@ -19,8 +19,9 @@ public class SceneMusicPlayer : MonoBehaviour
     public int daytimeSong;
     public int nighttimeSong;
 
-    [Tooltip("Health Script Reader")]
+    [Tooltip("Script Readers")]
     public PlayerHealth grannysHealthScript;
+    public EtcSounds ambianceSoundsScript;
 
     private void Start()
     {
@@ -75,6 +76,7 @@ public class SceneMusicPlayer : MonoBehaviour
 
     public void DayTimeMusic()
     {
+        ambianceSoundsScript.PlayOutsideSounds();
         if (DifficultyManager.Instance == null) return;
         daytimeSong = DifficultyManager.Instance.daytimeTrack;
 

@@ -1,15 +1,22 @@
 using UnityEngine;
+using System.IO;
+using System.Collections;
 
 [RequireComponent(typeof(AudioSource))]
 public class EtcSounds : MonoBehaviour
 {
     private AudioSource audioSource;
+    private int daytimeSoundTimer;
+    public bool isDayTime = true;
+    private IEnumerator daytimerCoroutine;
 
     [Header("SFX Names (must match SoundManager list)")]
     public string upgradeSFX;
     public string switchSFX;
     public string recordScratchSFX;
     public string musicVolumeChangeSFX;
+    public string outdoorDaytimeSFX;
+    public string outdoorNighttimeSFX;
 
     [Header("Local Volume Settings (can exceed normal volume)")]
     [Range(0f, 5f)]
@@ -23,6 +30,12 @@ public class EtcSounds : MonoBehaviour
 
     [Range(0f, 1f)]
     public float musicVolumeChangeVolume = 1f;
+
+    [Range(0f, 1f)]
+    public float outdoorDaytimeVolume = 1f;
+
+    [Range(0f, 1f)]
+    public float outdoorNighttimeVolume = 1f;
     
 
     private void Awake()
@@ -74,5 +87,45 @@ public class EtcSounds : MonoBehaviour
     public void PlayMusicVolumeChange()
     {
         PlayLocalClip(musicVolumeChangeSFX, musicVolumeChangeVolume);
+    }
+
+    public void PlayOutsideSounds()
+    {
+
+        if (isDayTime == true)
+        {
+            PlayLocalClip(outdoorDaytimeSFX, outdoorDaytimeVolume);
+            daytimerCoroutine = InstanceTimer(1.0f);
+            StartCoroutine(daytimerCoroutine);
+        }
+
+        if (isDayTime == false)
+        {
+            PlayLocalClip(outdoorNighttimeSFX, outdoorNighttimeVolume);
+            daytimerCoroutine = InstanceTimer(1.0f);
+            StartCoroutine(daytimerCoroutine);
+        }
+
+        daytimeSoundTimer = 0;
+    }
+
+    IEnumerator InstanceTimer(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            print("Daytime Time: " + daytimeSoundTimer);
+            daytimeSoundTimer += 1;
+            DaytimeSoundChecker();
+        }
+    }
+
+    public void DaytimeSoundChecker()
+    {
+        if (daytimeSoundTimer == 18)
+        {
+            StopCoroutine(daytimerCoroutine);
+            PlayOutsideSounds();
+        }
     }
 }
