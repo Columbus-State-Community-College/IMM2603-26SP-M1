@@ -8,7 +8,8 @@ public class EtcSounds : MonoBehaviour
     private AudioSource audioSource;
     private int daytimeSoundTimer;
     public bool isDayTime = true;
-    private IEnumerator daytimerCoroutine;
+    private bool coroutineStart = false;
+    private IEnumerator dayCoroutine;
 
     [Header("SFX Names (must match SoundManager list)")]
     public string upgradeSFX;
@@ -91,22 +92,25 @@ public class EtcSounds : MonoBehaviour
 
     public void PlayOutsideSounds()
     {
-
+        daytimeSoundTimer = 0;
         if (isDayTime == true)
         {
             PlayLocalClip(outdoorDaytimeSFX, outdoorDaytimeVolume);
-            daytimerCoroutine = InstanceTimer(1.0f);
-            StartCoroutine(daytimerCoroutine);
+
+            if (coroutineStart == false)
+            {
+                coroutineStart = true;
+                dayCoroutine = InstanceTimer(1.0f);
+                StartCoroutine(dayCoroutine);
+            }
         }
 
         if (isDayTime == false)
         {
+            StopCoroutine(dayCoroutine);
             PlayLocalClip(outdoorNighttimeSFX, outdoorNighttimeVolume);
-            daytimerCoroutine = InstanceTimer(1.0f);
-            StartCoroutine(daytimerCoroutine);
+            coroutineStart = false;
         }
-
-        daytimeSoundTimer = 0;
     }
 
     IEnumerator InstanceTimer(float waitTime)
@@ -114,17 +118,20 @@ public class EtcSounds : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
-            print("Daytime Time: " + daytimeSoundTimer);
-            daytimeSoundTimer += 1;
-            DaytimeSoundChecker();
+
+            if (isDayTime == true)
+            {
+                print("Daytime Time: " + daytimeSoundTimer);
+                daytimeSoundTimer += 1;
+                DaytimeSoundChecker();
+            }
         }
     }
 
     public void DaytimeSoundChecker()
     {
-        if (daytimeSoundTimer == 18)
+        if (daytimeSoundTimer == 60)
         {
-            StopCoroutine(daytimerCoroutine);
             PlayOutsideSounds();
         }
     }

@@ -51,6 +51,13 @@ public class SceneMusicPlayer : MonoBehaviour
 
     public void NightTimeMusic()
     {
+        if (ambianceSoundsScript.isDayTime == true)
+        {
+            ambianceSoundsScript.isDayTime = false;
+        }
+        
+        ambianceSoundsScript.PlayOutsideSounds();
+
         // Debug.Log("It's nighttime! Time to Jam!");
         if (DifficultyManager.Instance == null) return;
         nighttimeSong = DifficultyManager.Instance.nighttimeTrack;
@@ -76,7 +83,13 @@ public class SceneMusicPlayer : MonoBehaviour
 
     public void DayTimeMusic()
     {
+        if (ambianceSoundsScript.isDayTime == false)
+        {
+            ambianceSoundsScript.isDayTime = true;
+        }
+
         ambianceSoundsScript.PlayOutsideSounds();
+
         if (DifficultyManager.Instance == null) return;
         daytimeSong = DifficultyManager.Instance.daytimeTrack;
 
