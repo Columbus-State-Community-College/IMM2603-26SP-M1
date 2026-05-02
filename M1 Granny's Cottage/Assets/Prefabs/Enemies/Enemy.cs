@@ -189,10 +189,12 @@ public class Enemy : MonoBehaviour
         damage *= DifficultyManager.Instance.enemyDamageMultiplier;
         navMeshAgent.speed *= DifficultyManager.Instance.enemySpeedMultiplier;
 
+        /*
         Debug.Log("[ENEMY] Difficulty applied:");
         Debug.Log("Health: " + maxHealth);
         Debug.Log("Damage: " + damage);
         Debug.Log("Speed: " + navMeshAgent.speed);
+        */
     }
 
     // make sure enemies don't clump together
@@ -586,7 +588,7 @@ public class Enemy : MonoBehaviour
         if (dayMesh != null) {
             dayMesh.SetActive(true);
             currentAnimator = dayMesh.GetComponent<Animator>();
-            Debug.Log("Animator found: " + currentAnimator);
+            //Debug.Log("Animator found: " + currentAnimator);
         }
 
         if (DifficultyManager.Instance != null)
@@ -667,7 +669,7 @@ public class Enemy : MonoBehaviour
             ScoreCounter scoreScript = playerObject.GetComponent<ScoreCounter>();
             if (scoreScript != null)
             {
-                Debug.Log("NOOOOOOO");
+                //Debug.Log("NOOOOOOO");
 
                 if (DifficultyManager.Instance != null)
                 {

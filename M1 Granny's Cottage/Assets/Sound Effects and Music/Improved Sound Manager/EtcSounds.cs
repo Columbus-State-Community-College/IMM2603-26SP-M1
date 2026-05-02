@@ -121,7 +121,7 @@ public class EtcSounds : MonoBehaviour
 
             if (isDayTime == true)
             {
-                print("Daytime Time: " + daytimeSoundTimer);
+                //print("Daytime Time: " + daytimeSoundTimer);
                 daytimeSoundTimer += 1;
                 DaytimeSoundChecker();
             }
