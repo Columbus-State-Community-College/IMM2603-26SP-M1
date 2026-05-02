@@ -16,6 +16,9 @@ public class DayNightCycle : MonoBehaviour, IDataPersistence
     [Header("Day and Night Music Changer")]
     public SceneMusicPlayer sceneMusicScript;
 
+    [Header("Night Lighting Hider")]
+    public GameObject LightCover;
+
     float timer;
 
     public static event Action<TimeOfDay> OnTimeChanged;
@@ -34,6 +37,9 @@ public class DayNightCycle : MonoBehaviour, IDataPersistence
         currentTime = TimeOfDay.Day;
         timer = dayDuration;
         OnTimeChanged?.Invoke(currentTime);
+        RenderSettings.fogColor = Color.blue;
+        RenderSettings.fogMode = FogMode.Exponential;
+        RenderSettings.fogDensity = 0.001f;
     }
 
     void Update()
@@ -58,6 +64,8 @@ public class DayNightCycle : MonoBehaviour, IDataPersistence
             currentTime = TimeOfDay.Night;
             timer = nightDuration;
             sceneMusicScript.NightTimeMusic();
+            LightCover.SetActive(true);
+            RenderSettings.fog = true;
         }
         else
         {
@@ -65,6 +73,8 @@ public class DayNightCycle : MonoBehaviour, IDataPersistence
             timer = dayDuration;
             etcSoundScript.PlayRecordScratch();
             sceneMusicScript.DayTimeMusic();
+            LightCover.SetActive(false);
+            RenderSettings.fog = false;
         }
 
         OnTimeChanged?.Invoke(currentTime);
