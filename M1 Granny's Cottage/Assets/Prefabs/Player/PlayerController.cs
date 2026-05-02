@@ -525,7 +525,7 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
                         ps.Play();
                     }
 
-                    Debug.Log("[SLAM DEBUG] Spawned cooldown particles at: " + spawnPos);
+                    //Debug.Log("[SLAM DEBUG] Spawned cooldown particles at: " + spawnPos);
                 }
                     if (grannySoundScript != null)
                     {
@@ -539,7 +539,7 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
                 if (slamLogTimer >= slamLogInterval)  
                 {
-                    Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s");  
+                    //Debug.Log($"[SLAM] Cooldown remaining: {slamCooldownTimer:F1}s");  
                     slamLogTimer = 0f;  
                 }
             }
@@ -567,7 +567,7 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
                 if (showSlamCooldownDebug)
                 {    
-                    Debug.Log("[SLAM] Cooldown finished");  
+                    //Debug.Log("[SLAM] Cooldown finished");  
                 }
             }
         }
@@ -734,9 +734,9 @@ public class PlayerController : MonoBehaviour,  IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        data.runSpeed = this.runSpeed;
-        data.maxJumpTime = this.maxJumpTime;
-        data.jumpSlamCooldown = this.slamCooldownDuration;
+        //data.runSpeed = this.runSpeed;
+        //data.maxJumpTime = this.maxJumpTime;
+        //data.jumpSlamCooldown = this.slamCooldownDuration;
 
         // empty for now
     /* 

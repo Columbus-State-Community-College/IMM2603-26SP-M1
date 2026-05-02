@@ -197,7 +197,7 @@ public class GroundAttack : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        data.jumpSlamStunDuration = stunDuration;
-        data.jumpSlamMaxRadius = maxRadius;
+        //data.jumpSlamStunDuration = stunDuration;
+        //data.jumpSlamMaxRadius = maxRadius;
     }
 }

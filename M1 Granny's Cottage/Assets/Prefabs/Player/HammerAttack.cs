@@ -248,8 +248,8 @@ public class HammerAttack : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        data.hammerSwingDamage = damage;
-        data.hammerSwingAttackCooldown = attackCooldown;
-        data.hammerSwingKnockbackMultiplier = knockbackMultiplier;
+        //data.hammerSwingDamage = damage;
+        //data.hammerSwingAttackCooldown = attackCooldown;
+        //data.hammerSwingKnockbackMultiplier = knockbackMultiplier;
     }
 }
