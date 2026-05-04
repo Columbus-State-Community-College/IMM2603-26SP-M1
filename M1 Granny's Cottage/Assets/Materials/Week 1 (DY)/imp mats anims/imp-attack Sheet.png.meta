@@ -194,7 +194,9 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 357b6e7ce5025a64a8d187d122bf789d, type: 3}
+      name: _imp_attack_emss
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
