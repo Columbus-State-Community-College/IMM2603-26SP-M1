@@ -423,6 +423,10 @@ public class Enemy : MonoBehaviour
         if (distance <= attackRange)
         {
             navMeshAgent.isStopped = true;
+            if (currentAnimator != null)
+            {
+                currentAnimator.SetBool("Moving", false);
+            }
 
             if (attackTimer <= 0f)
             {
@@ -434,6 +438,10 @@ public class Enemy : MonoBehaviour
         {
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(player.position);
+            if (currentAnimator != null)
+            {
+                currentAnimator.SetBool("Moving", true);
+            }
         }
     }
 
