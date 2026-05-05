@@ -595,17 +595,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5688215663569986965, guid: fe71ea260f625234890195e329eed82d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8820623137501129106, guid: fe71ea260f625234890195e329eed82d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.44035897
+      value: 0.30023676
       objectReference: {fileID: 0}
     - target: {fileID: 8820623137501129106, guid: fe71ea260f625234890195e329eed82d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.44035897
+      value: 0.30023676
       objectReference: {fileID: 0}
     - target: {fileID: 8820623137501129106, guid: fe71ea260f625234890195e329eed82d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.44035897
+      value: 0.30023676
       objectReference: {fileID: 0}
     - target: {fileID: 8820623137501129106, guid: fe71ea260f625234890195e329eed82d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -613,7 +617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8820623137501129106, guid: fe71ea260f625234890195e329eed82d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.23
+      value: 0.77697
       objectReference: {fileID: 0}
     - target: {fileID: 8820623137501129106, guid: fe71ea260f625234890195e329eed82d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -647,13 +651,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3276536852535472734, guid: fe71ea260f625234890195e329eed82d, type: 3}
+    - {fileID: 677722443201816151, guid: fe71ea260f625234890195e329eed82d, type: 3}
+    - {fileID: 5430839402359744896, guid: fe71ea260f625234890195e329eed82d, type: 3}
+    - {fileID: 4822193018611447231, guid: fe71ea260f625234890195e329eed82d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3890158076657168059, guid: fe71ea260f625234890195e329eed82d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 549006120057742125}
+    - targetCorrespondingSourceObject: {fileID: 3890158076657168059, guid: fe71ea260f625234890195e329eed82d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6150315740376335632}
+    - targetCorrespondingSourceObject: {fileID: 3890158076657168059, guid: fe71ea260f625234890195e329eed82d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5752722845860300482}
   m_SourcePrefab: {fileID: 100100000, guid: fe71ea260f625234890195e329eed82d, type: 3}
 --- !u!1 &4249791455530215877 stripped
 GameObject:
@@ -670,7 +684,7 @@ Animator:
   m_GameObject: {fileID: 4249791455530215877}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8ea203374b292fb4aa105269170fe63c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -682,6 +696,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6150315740376335632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249791455530215877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c97bd3ed7e07b49bc4573a424feb80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteBillboard
+  freezXZAxis: 0
+--- !u!114 &5752722845860300482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249791455530215877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e911e53dfb9dec45adca087b7ce7a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BillboardSprite2D
 --- !u!4 &8462249292684504812 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8820623137501129106, guid: fe71ea260f625234890195e329eed82d, type: 3}

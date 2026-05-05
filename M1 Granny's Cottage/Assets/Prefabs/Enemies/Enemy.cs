@@ -102,6 +102,9 @@ public class Enemy : MonoBehaviour
 
     private Animator currentAnimator;
 
+    private Transform billboardSpriteRoot;
+    private Vector3 billboardBaseScale;
+
     public void SetPool(IObjectPool<Enemy> pool)
     {
         enemyPool = pool;
@@ -127,6 +130,16 @@ public class Enemy : MonoBehaviour
         if (player ==  null) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
+
+        Vector3 dir = player.position - transform.position;
+
+        if (billboardSpriteRoot != null)
+        {
+            if (dir.x > 0.01f)
+                billboardSpriteRoot.localScale = new Vector3(Mathf.Abs(billboardBaseScale.x), billboardBaseScale.y, billboardBaseScale.z);
+            else if (dir.x < -0.01f)
+                billboardSpriteRoot.localScale = new Vector3(-Mathf.Abs(billboardBaseScale.x), billboardBaseScale.y, billboardBaseScale.z);
+        }
 
         if (distance <= meleeAttackRange)
         {
@@ -628,6 +641,14 @@ public class Enemy : MonoBehaviour
             activeDemonType.mesh.SetActive(true);
 
             currentAnimator = activeDemonType.mesh.GetComponent<Animator>();
+
+            BillboardSprite2D marker = activeDemonType.mesh.GetComponentInChildren<BillboardSprite2D>();
+
+            if (marker != null)
+            {
+                billboardSpriteRoot = marker.transform;
+                billboardBaseScale = billboardSpriteRoot.localScale;
+            }
 
             damage = activeDemonType.damage;
             navMeshAgent.speed = activeDemonType.moveSpeed;
