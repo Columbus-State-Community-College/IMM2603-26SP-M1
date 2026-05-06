@@ -11,52 +11,85 @@ public class SceneryObject : MonoBehaviour
     {
         NONBLOCKING,
         BLOCKING,
-        TRANSPARIFIED
+        TRANSPARIFIED,
+        RECENTLY_TRANSPARIFIED
     }
 
     public ObstructionState obstructionState = ObstructionState.NONBLOCKING;
+    public ObstructionState previousObstructionState;
 
     public Coroutine TransparifyCoroutine;
+
+    //public Coroutine FadeCoroutine;
+
+    public Coroutine OccludeCoroutine;
+
+    public WaitForSeconds waitForSeconds = new WaitForSeconds(3.5f);
+
+    public Renderer[] renderersArray;
+    public SceneryObject coroutineOBJ;
 
     // the below is for potential polish to fix the flicker
     //private SceneryObject passedOBJ;
 
-    /*
+    
     void Update()
     {
-        if (this.obstructionState == ObstructionState.NONBLOCKING)
+        /*
+        try
         {
+            foreach (Renderer renderer in renderersArray)
+            {
+                if (this.obstructionState == ObstructionState.NONBLOCKING 
+                && renderersArray[0].material.color.a == 0.15f)
+                {
+                    coroutineOBJ.Occlude(coroutineOBJ, renderersArray);
+                }
+                else if(this.obstructionState == ObstructionState.TRANSPARIFIED 
+                && renderersArray[0].material.color.a == 1.0f)
+                {
+                    coroutineOBJ.Fade(coroutineOBJ, renderersArray);
+                }
+            }
             
         }
-    }*/
+        catch (System.IndexOutOfRangeException)
+        {
+            // keep going.
+        }
+        */
+    }
     
 
     public static IEnumerator Transparify(Collider collider)
     {
 
         if (collider == null)
+        {
             yield break;
-
+        }
         // get the parent gameObject
         SceneryObject passedOBJ = collider.gameObject.GetComponent<SceneryObject>();
-
+        passedOBJ.coroutineOBJ = passedOBJ;
         if (passedOBJ == null)
         {    
             yield break;
         }
 
-        if (passedOBJ.obstructionState == ObstructionState.TRANSPARIFIED) 
+        if (passedOBJ.coroutineOBJ.obstructionState == ObstructionState.TRANSPARIFIED) 
         {
             yield break;
         }
 
-        passedOBJ.obstructionState = ObstructionState.BLOCKING;
+        passedOBJ.coroutineOBJ.obstructionState = ObstructionState.BLOCKING;
 
         // get ALL renderers of any type under the parent object
         Renderer[] renderers = passedOBJ.GetComponentsInChildren<Renderer>();
+        passedOBJ.renderersArray = renderers;
+        
+        passedOBJ.Fade(passedOBJ.coroutineOBJ, passedOBJ.renderersArray);
 
-        //Debug.Log("Renderers List: " + renderers);
-
+        /*
         // set the color of each object to what it already is, except with 0.15 alpha value
         foreach (Renderer renderer in renderers)
         {
@@ -72,11 +105,15 @@ public class SceneryObject : MonoBehaviour
             renderer.material.SetColor("_BaseColor", transparifiedColor);
  
         }
+        */
 
-        //Debug.Log(passedOBJ + " Transparified for 2 seconds");
-        passedOBJ.obstructionState = ObstructionState.TRANSPARIFIED;
-        yield return new WaitForSeconds(3.5f);
+        //Debug.Log(passedOBJ + " Transparified for ??? seconds");
+        passedOBJ.coroutineOBJ.obstructionState = ObstructionState.TRANSPARIFIED;
+        yield return passedOBJ.waitForSeconds;
 
+        passedOBJ.Occlude(passedOBJ.coroutineOBJ, passedOBJ.renderersArray);
+
+        /*
         // set the color of each object to what it already is, except with 1.0 alpha value
         foreach (Renderer renderer in renderers)
         {
@@ -93,6 +130,7 @@ public class SceneryObject : MonoBehaviour
             renderer.material.SetColor("_BaseColor", originalColor);
              
         }
+        */
 
         //passedOBJ.StartCoroutine(passedOBJ.Occlude(renderers));
         passedOBJ.obstructionState = ObstructionState.NONBLOCKING;
@@ -100,11 +138,45 @@ public class SceneryObject : MonoBehaviour
 
     }
 
-    /*
-    public IEnumerator Occlude(Renderer[] renderers)
+    
+    public void Fade(SceneryObject sceneOBJ, Renderer[] renderers)
     {
-        passedOBJ.obstructionState = ObstructionState.NONBLOCKING;
-        yield return null;
+        sceneOBJ.obstructionState = ObstructionState.NONBLOCKING;
+        // set the color of each object to what it already is, except with 0.15 alpha value
+        foreach (Renderer renderer in renderers)
+        {
+            //Debug.Log(renderer.name);
+            if (renderer == null)
+            {
+                Debug.Log(sceneOBJ + "Produced null renderer");
+                break;
+            }
+            
+            Color matColor = renderer.material.color;
+            Color transparifiedColor = new Color(matColor.r, matColor.g, matColor.b, 0.15f);
+            renderer.material.SetColor("_BaseColor", transparifiedColor);
+        }
+        //
     }
-    */
+
+    public void Occlude(SceneryObject sceneOBJ, Renderer[] renderers)
+    {
+        sceneOBJ.obstructionState = ObstructionState.NONBLOCKING;
+        // set the color of each object to what it already is, except with 0.15 alpha value
+        foreach (Renderer renderer in renderers)
+        {
+            //Debug.Log(renderer.name);
+            if (renderer == null)
+            {
+                Debug.Log(sceneOBJ + "Produced null renderer");
+                break;
+            }
+            
+            Color matColor = renderer.material.color;
+            Color transparifiedColor = new Color(matColor.r, matColor.g, matColor.b, 1.0f);
+            renderer.material.SetColor("_BaseColor", transparifiedColor);
+        }
+        //
+    }
+    
 }    

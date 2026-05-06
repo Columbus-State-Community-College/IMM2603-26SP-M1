@@ -47,7 +47,7 @@ public class SceneryTransparency : MonoBehaviour
     void DetectOverlap()
     {
 
-        if (Physics.OverlapCapsuleNonAlloc(cameraPosition,grannyPosition, DETECTION_CAPSULE_RADIUS, obstructingScenery, sceneryLayerMask) 
+        if (Physics.OverlapCapsuleNonAlloc(cameraPosition, grannyPosition, DETECTION_CAPSULE_RADIUS, obstructingScenery, sceneryLayerMask) 
             > 0)
         {
             
@@ -59,7 +59,9 @@ public class SceneryTransparency : MonoBehaviour
                 if (scenery == null) continue;
 
                 //Debug.Log(overlappingObject.gameObject);
-                StartCoroutine(SceneryObject.Transparify(overlappingObject));
+                //if (scenery.TransparifyCoroutine != null) StopCoroutine(scenery.TransparifyCoroutine);
+                
+                scenery.TransparifyCoroutine = StartCoroutine(SceneryObject.Transparify(overlappingObject));
                 
             }
 
