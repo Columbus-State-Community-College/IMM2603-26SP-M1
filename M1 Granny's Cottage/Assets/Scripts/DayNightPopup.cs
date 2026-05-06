@@ -5,6 +5,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class PowerupUIData
+{
+    public string powerupName;
+    public Sprite backgroundImage;
+}
+
 public class DayNightPopup : MonoBehaviour
 {
     [Header("UI Refs")]
@@ -36,7 +43,25 @@ public class DayNightPopup : MonoBehaviour
 
      
     [Header("Player Reference")]
-    [SerializeField] private PlayerController playerController;  
+    [SerializeField] private PlayerController playerController;
+
+    [Header("Powerup Visuals")]
+    public List<PowerupUIData> powerupUIDataList;
+
+    private Dictionary<string, Sprite> powerupSprites;
+
+    void Awake()
+    {
+        powerupSprites = new Dictionary<string, Sprite>();
+
+        foreach (var data in powerupUIDataList)
+        {
+            if (!powerupSprites.ContainsKey(data.powerupName))
+            {
+                powerupSprites.Add(data.powerupName, data.backgroundImage);
+            }
+        }
+    }
 
     private void OnEnable()
     {
@@ -84,6 +109,13 @@ public class DayNightPopup : MonoBehaviour
             else
             {
                 buttonTexts[i].text = powerup;
+            }
+
+            Image buttonImage = powerupButtons[i].GetComponent<Image>();
+
+            if (powerupSprites.ContainsKey(powerup))
+            {
+                buttonImage.sprite = powerupSprites[powerup];
             }
 
             powerupButtons[i].gameObject.SetActive(true);
