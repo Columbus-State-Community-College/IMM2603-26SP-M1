@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
 
 public class UpgradeZone : MonoBehaviour, IDataPersistence
 {
@@ -80,6 +81,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 20f;
             UpgradeAppliedText.text = "Base Damage Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isHammerBaseDamage = false;
             HammerGlamourButton.interactable = true;
             HammerBaseDamageButton.interactable = false;
@@ -95,6 +98,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float decrease = 0.2f;
             UpgradeAppliedText.text = "Base Attack Speed Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isHammerBaseAttackSpeed = false;
             HammerGlamourButton.interactable = true;
             HammerBaseAttackSpeedButton.interactable = false;
@@ -110,6 +115,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 2f;
             UpgradeAppliedText.text = "Base Knockback Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isHammerBaseKnockback = false;
             HammerGlamourButton.interactable = true;
             HammerBaseKnockbackButton.interactable = false;
@@ -125,6 +132,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float decrease = 2f;
             UpgradeAppliedText.text = "Max Jump Duration Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isJumpBaseMaxCooldownDur = false;
             JumpGlamourButton.interactable = true;
             BaseMaxJumpCooldownDurButton.interactable = false;
@@ -140,6 +149,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 2f;
             UpgradeAppliedText.text = "Jump Stun Duration Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isJumpBaseStunDur = false;
             JumpGlamourButton.interactable = true;
             BaseJumpStunDurButton.interactable = false;
@@ -155,6 +166,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 1f;
             UpgradeAppliedText.text = "Jump AOE Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isJumpBaseMaxAOE = false;
             JumpGlamourButton.interactable = true;
             BaseJumpMaxAOEButton.interactable = false;
@@ -169,6 +182,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         if (isStatusBaseScoreMultiplier == true)
         {
             UpgradeAppliedText.text = "Fines Multiplier Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isStatusBaseScoreMultiplier = false;
             StatusGlamourButton.interactable = true;
             ScoreMultiplierButton.interactable = false;
@@ -184,6 +199,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 25f;
             UpgradeAppliedText.text = "Base Health Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isStatusBaseHealth = false;
             StatusGlamourButton.interactable = true;
             BaseHealthButton.interactable = false;
@@ -199,6 +216,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 20f;
             UpgradeAppliedText.text = "Day Duration Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isStatusBaseDayDur = false;
             StatusGlamourButton.interactable = true;
             DayDurationButton.interactable = false;
@@ -214,6 +233,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 20f;
             UpgradeAppliedText.text = "Night Duration Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isStatusBaseNightDur = false;
             StatusGlamourButton.interactable = true;
             NightDurationButton.interactable = false;
@@ -229,6 +250,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         {
             float increase = 2f;
             UpgradeAppliedText.text = "Movement Speed Glamour Applied!";
+            StopAllCoroutines();
+            StartCoroutine(FadeUpgradeText());
             isStatusBaseMoveSpeed = false;
             StatusGlamourButton.interactable = true;
             MovementSpeedButton.interactable = false;
@@ -505,6 +528,8 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
     public void NotEnoughCoins()
     {
         UpgradeAppliedText.text = "Not Enough $$$ to get the Glamour!";
+        StopAllCoroutines();
+        StartCoroutine(FadeUpgradeText());
     }
 
     public void GlamourGet()
@@ -517,6 +542,31 @@ public class UpgradeZone : MonoBehaviour, IDataPersistence
         GlamourSaving();
         CoinCountText.text = "Trespassing Fines Collected: $" + pointBank.ToString();
         
+    }
+
+    IEnumerator FadeUpgradeText()
+    {
+        Color textColor = UpgradeAppliedText.color;
+        textColor.a = 1f;
+        UpgradeAppliedText.color = textColor;
+
+        yield return new WaitForSeconds(1.5f);
+
+        float fadeDuration = 1f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            textColor.a = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
+            UpgradeAppliedText.color = textColor;
+
+            yield return null;
+        }
+
+        textColor.a = 0f;
+        UpgradeAppliedText.color = textColor;
     }
 
     public void LoadData(GameData data)
