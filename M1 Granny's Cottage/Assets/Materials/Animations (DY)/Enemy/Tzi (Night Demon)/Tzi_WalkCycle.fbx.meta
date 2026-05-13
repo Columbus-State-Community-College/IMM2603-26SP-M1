@@ -3,7 +3,22 @@ guid: acf8cccb054ece548af6f0290107a058
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TziBodTextu
+    second: {fileID: 2100000, guid: a865f90969a8aa3479d6ae2eb0e9b6e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TziHeadTextu
+    second: {fileID: 2100000, guid: ff7585f5d53d6a348b39b2dc73ef92d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TziTongueTextu
+    second: {fileID: 2100000, guid: da3ce9f31b576c94cbebf9b35a45f1ba, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
